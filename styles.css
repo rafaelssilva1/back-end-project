@@ -55,11 +55,6 @@ a {
   text-decoration: none;
 }
 
-button {
-  cursor: pointer;
-  font-family: var(--main-font);
-}
-
 .container {
   max-width: 70%;
   height: auto;
@@ -184,10 +179,6 @@ button {
   }
 }
 
-@media screen and (max-width: 1024px) {
-
-}
-
 @media screen and (max-width: 768px) {
   .movie__grid {
       grid-template-columns: repeat(2, 1fr);
@@ -202,8 +193,9 @@ button {
   }
 }
 
-@media screen and (max-width: 480px) {
-
+.genres__title {
+  text-align: center;
+  margin-bottom: 2em;
 }
 
 /* Footer styles */
@@ -448,4 +440,53 @@ button {
   -moz-border-radius: 1em;
   -ms-border-radius: 1em;
   -o-border-radius: 1em;
+}
+
+/* Button styles */
+.button {
+  margin: 1.5em;
+  background-color: var(--color-yellow);
+  border: 1px solid black;
+  border-radius: 2em 2em;
+  padding: 1em 2em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  font-family: var(--main-font);
+}
+
+.button_div {
+  display: flex;
+  justify-content: center;
+}
+
+.button:hover {
+  box-shadow: 2px 2px 5px var(--color-yellow-shadow);
+}
+
+.button:active {
+  background-color: var(--color-yellow-2);
+}
+
+.genres__button {
+  width: 20%;
+}
+
+@media screen and (max-width: 1024px) {
+  .genres__button {
+      width: 30%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .genres__button {
+      width: 40%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .genres__button {
+      width: 50%;
+  }
 }

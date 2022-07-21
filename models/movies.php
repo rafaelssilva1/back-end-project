@@ -5,7 +5,7 @@
             $query = $this->db->prepare("
                 SELECT id, title, overview, poster_path, ROUND(AVG(votes.value), 1) as vote_avg
                 FROM movies
-                LEFT JOIN votes ON movies.id = votes.movie_id
+                JOIN votes ON movies.id = votes.movie_id
                 UNION
                 SELECT id, title, overview, poster_path, 
                     CASE
@@ -13,7 +13,8 @@
                     END as vote_avg
                 FROM movies
                 LEFT JOIN votes ON movies.id = votes.movie_id
-                WHERE votes.value IS NULL;
+                WHERE votes.value IS NULL
+                LIMIT 12;
             ");
             
             $query->execute();
