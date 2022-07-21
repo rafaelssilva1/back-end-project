@@ -20,7 +20,7 @@
                         <a href='/movies/". $movies[$key]["id"] ."'>
                             <div class='movie__link'>
                                 <picture class='movie__picture'>
-                                    <img class='movie__image' src='https://image.tmdb.org/t/p/w342/". $movies[$key]["poster_path"] ."' />        
+                                    <img class='movie__image' src='https://image.tmdb.org/t/p/w342". $movies[$key]["poster_path"] ."' />        
                                 </picture>
                                 <div class='movie__info'>
                                     <h2 class='movie__title'>". $movies[$key]["title"] ."</h2>

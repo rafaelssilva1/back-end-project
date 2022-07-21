@@ -63,7 +63,7 @@ button {
 .container {
   max-width: 70%;
   height: auto;
-  margin: 2em auto;
+  margin: 1em auto;
 }
 
 /* Movie results styles*/
@@ -129,7 +129,7 @@ button {
     justify-content: center;
     border-radius: 2em;
     max-width: 30%;
-    padding: 0.2em 0;
+    padding: 0.2em 0.5em;
     background-color: var(--color-yellow);
 }
 
@@ -388,7 +388,7 @@ button {
 }
 
 .card__year {
-
+  font-weight: bold;
 }
 
 .card__genreitem {
@@ -396,7 +396,7 @@ button {
 }
 
 .card__runtime {
-
+  font-weight: bold;
 }
 
 .card__truncate {
@@ -429,4 +429,23 @@ button {
       color: inherit;
       box-shadow: var(--shadow);
   }
+}
+
+/* Movie trailer styles */
+.trailer {
+  transform: translateY(0px);
+  -webkit-transform: translateY(0px);
+  -moz-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  -o-transform: translateY(0px);
+}
+
+.trailer__video {
+  aspect-ratio: 16/9;
+  margin: 2em 0;
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
 }

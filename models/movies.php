@@ -23,7 +23,7 @@
 
         public function getMovieById($id) {
             $query = $this->db->prepare("
-                SELECT id, title, overview, poster_path,
+                SELECT id, title, overview, poster_path, release_date, duration, trailer_link,
                     CASE
                         WHEN ROUND(AVG(votes.value), 1) IS NULL THEN 'N/A'
                         ELSE  ROUND(AVG(votes.value), 1)
