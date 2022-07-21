@@ -8,10 +8,14 @@ $resource = $parts[1] ;
 
 $id = $parts[2] ?? "";
 
-$controllers = ["movies", "login", "admin"];
+$controllers = ["", "movies", "login", "admin"];
 
 require_once("models/base.php");
 
-require("controllers/" .$resource. ".php");
+if(empty($resource)) {
+    require("controllers/movies.php");
+} else {
+    require("controllers/" .$resource. ".php");
+}
 
 ?>

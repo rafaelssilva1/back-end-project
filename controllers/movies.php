@@ -5,8 +5,12 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
     
-        $movies = $model->getAll();
-
-        require("views/movies.php");
+        if(!empty($id)) {
+            $movie = $model->getMovieById($id);
+            require("views/movieById.php");
+        } else {
+            $movies = $model->getAll();
+            require("views/movies.php");
+        }
     }
 ?>
