@@ -25,7 +25,7 @@
                                 <div class='movie__info'>
                                     <h2 class='movie__title'>". $movies[$key]["title"] ."</h2>
                                     <div class='movie__vote'>
-                                        <span>7.4</span>
+                                        <span>". $movies[$key]["vote_avg"]  ."</span>
                                         <span class='material-symbols-outlined'>
                                             star
                                         </span>

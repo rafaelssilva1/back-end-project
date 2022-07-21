@@ -133,6 +133,10 @@ button {
     background-color: var(--color-yellow);
 }
 
+.movie__vote > #vote_detail {
+    width: 35px;
+}
+
 .movie__vote > .material-symbols-outlined {
     font-size: 1em;
     color: var(--color-black);

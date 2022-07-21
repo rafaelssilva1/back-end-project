@@ -19,6 +19,12 @@
             </div>
             <div class="card__info">
                 <h1 class="card__title"><?php echo $movie["title"] ?></h1>
+                <div class="movie__vote">
+                    <span id="vote_detail"><?php echo $movie["vote_avg"] ?></span>
+                    <span class="material-symbols-outlined">
+                        star
+                    </span>
+                </div>
                 <div class="card__basicinfo">
                     <span class="card__year">1700</span>
                     <span class="card__runtime">200 mins</span>
