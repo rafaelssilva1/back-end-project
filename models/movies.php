@@ -3,17 +3,15 @@
     class Movie extends Base {
         public function getAll($offset) {
             $query = $this->db->prepare("
-                SELECT id, title, overview, poster_path, ROUND(AVG(votes.value), 1) as vote_avg
-                FROM movies
-                JOIN votes ON movies.id = votes.movie_id
-                UNION
-                SELECT id, title, overview, poster_path, 
+                SELECT id, title, overview, poster_path,
                     CASE
-                        WHEN votes.value IS NULL THEN 'N/A'
-                    END as vote_avg
+                        WHEN ROUND(AVG(COALESCE(votes.value, 0)), 1) = 0 THEN 'N/A'
+                        ELSE ROUND(AVG(COALESCE(votes.value, 0)), 1)
+                    END AS vote_avg
                 FROM movies
                 LEFT JOIN votes ON movies.id = votes.movie_id
-                WHERE votes.value IS NULL AND id > ?
+                WHERE id > ?
+                GROUP BY id
                 LIMIT 12;
             ");
             
