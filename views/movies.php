@@ -43,11 +43,29 @@
         </div>
     </div>
     <div class="container button_div">
-        <form clas="genres_button">
-            <input type="submit" value="Load More" class="button">
-        </form>
+        <?php
+            if(!$disablePrevious and !($_GET["page"] <= 1)) {
+                ?>
+                    <form clas="genres__button" method="GET">
+                        <input type="hidden" name="page" value="<?php echo $_GET["page"] - 1 ?>">
+                        <input type="submit" value="Previous Page" class="button">
+                    </form>
+                <?php
+            }
+        ?>
+        
+        <?php
+            if(!$disableNext) {
+                ?>
+                    <form clas="genres__button" method="GET">
+                        <input type="hidden" name="page" value="<?php echo $page ?>">
+                        <input type="submit" value="Next Page" class="button">
+                    </form>
+                <?php
+            }
+        ?>
     </div>
-    
+  
     <?php include("views/footer.php"); ?>
 </body>
 </html>

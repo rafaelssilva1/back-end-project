@@ -1,7 +1,7 @@
 <?php
 
     class Movie extends Base {
-        public function getAll() {
+        public function getAll($offset) {
             $query = $this->db->prepare("
                 SELECT id, title, overview, poster_path, ROUND(AVG(votes.value), 1) as vote_avg
                 FROM movies
@@ -13,11 +13,13 @@
                     END as vote_avg
                 FROM movies
                 LEFT JOIN votes ON movies.id = votes.movie_id
-                WHERE votes.value IS NULL
+                WHERE votes.value IS NULL AND id > ?
                 LIMIT 12;
             ");
             
-            $query->execute();
+            $query->execute([
+                $offset
+            ]);
             
             return $query->fetchAll();
         }
@@ -37,6 +39,17 @@
             $query->execute([
                 $id
             ]);
+            
+            return $query->fetch();
+        }
+
+        public function getMoviesCount() {
+            $query = $this->db->prepare("
+                SELECT COUNT(*) as count
+                FROM movies
+            ");
+            
+            $query->execute();
             
             return $query->fetch();
         }
