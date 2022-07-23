@@ -52,9 +52,6 @@
                     require("views/movies.php");
                 }
             }
-            if(isset($_GET["genres"])) {
-                echo "teste";
-            }
         }
     }
 ?>

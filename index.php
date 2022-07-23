@@ -13,7 +13,7 @@ $controllers = ["movies", "search", "login", "admin"];
 require_once("models/base.php");
 
 if(empty($resource)) {
-    require("controllers/movies.php");
+    require("controllers/home.php");
 } else {
     require("controllers/" .$resource. ".php");
 
