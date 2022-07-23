@@ -15,10 +15,13 @@
     
         if(!empty($id)) {
             $movie = $model->getMovieById($id);
+            $genres = $model->getGenres();
             require("views/movieById.php");
         } else {
             if(!isset($_GET["page"])) {
                 $movies = $model->getAll($offset);
+                shuffle($movies);
+                $genres = $model->getGenres();
                 $disablePrevious = true;
                 require("views/movies.php");
             } else {
@@ -34,6 +37,8 @@
                     $offset = $offset * ($page - 2);
                     $maxOffset = $offset + $targetOffset; 
                     $movies = $model->getAll($offset);
+                    shuffle($movies);
+                    $genres = $model->getGenres();
                     $disableNext = true;
                     require("views/movies.php");
                 } else {
@@ -42,12 +47,13 @@
                     $offset = $offset * ($page - 2);
                     $maxOffset = $offset + $targetOffset; 
                     $movies = $model->getAll($offset);
+                    shuffle($movies);
+                    $genres = $model->getGenres();
                     require("views/movies.php");
                 }
             }
-            if(isset($_GET["filter"])) {
-                $movies = $model->searchMovies($_GET["filter"]);
-                require("views/search.php");
+            if(isset($_GET["genres"])) {
+                echo "teste";
             }
         }
     }

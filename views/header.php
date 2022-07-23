@@ -5,7 +5,7 @@
         </div>
         <ul class="hamburguer">
             <form class="nav__form" method="GET" action="/search/">
-                <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here...">
+                <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here..." required>
                 <button type="submit" class="nav__button"><span class="material-symbols-outlined">search</span></button>
             </form>
         </ul>

@@ -53,26 +53,15 @@
             return $query->fetch();
         }
 
-        public function searchMovies($input) {
+        public function getGenres() {
             $query = $this->db->prepare("
-                SELECT id, title, overview, poster_path,
-                    CASE
-                        WHEN AVG(votes.value) IS NULL THEN 'N/A'
-                        ELSE ROUND(AVG(COALESCE(votes.value, 0)), 1)
-                    END AS vote_avg
-                FROM movies
-                LEFT JOIN votes ON movies.id = votes.movie_id
-                WHERE title LIKE ? OR overview LIKE ?
-                GROUP BY id
-                LIMIT 12;
+                SELECT id, name
+                FROM genres
             ");
             
-            $query->execute([
-                $input,
-                $input
-            ]);
+            $query->execute();
             
-            return $query->fetch();
+            return $query->fetchAll();
         }
     }
 
