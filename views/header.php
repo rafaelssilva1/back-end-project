@@ -4,13 +4,9 @@
             <a href="/"><img src="/assets/logo.svg"></a>
         </div>
         <ul class="hamburguer">
-            <form class="nav__form" onSubmit={redirectForm}>
-                <button class="nav__search">
-                <span class="material-symbols-outlined">
-                    search
-                </span>
-                </button>
-                <input type="text" id="navSearch" class="nav__input" placeholder="Find any movie..." />
+            <form class="nav__form" method="GET" action="/search/">
+                <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here...">
+                <button type="submit" class="nav__button"><span class="material-symbols-outlined">search</span></button>
             </form>
         </ul>
     </nav>

@@ -6,6 +6,7 @@
     $page = 2;
     $offset = 0;
     $maxOffset = 0;
+    $targetOffset = 12;
     $moviesCount = $model->getMoviesCount();
     $disableNext = false;
     $disablePrevious = false;
@@ -24,25 +25,29 @@
                 if($_GET["page"] <= 0) {
                     $_GET["page"] = 1;
                 }
-                if($_GET["page"] > ceil($moviesCount["count"] / 12)) {
-                    $_GET["page"]  = ceil($moviesCount["count"] / 12);
+                if($_GET["page"] > ceil($moviesCount["count"] / $targetOffset)) {
+                    $_GET["page"]  = ceil($moviesCount["count"] / $targetOffset);
                 }
-                if(ceil($moviesCount["count"] / 12) == ($_GET["page"])) {
+                if(ceil($moviesCount["count"] / $targetOffset) == ($_GET["page"])) {
                     $page = $_GET["page"] + 1;
-                    $offset = $offset + 12;
+                    $offset = $offset + $targetOffset;
                     $offset = $offset * ($page - 2);
-                    $maxOffset = $offset + 12; 
+                    $maxOffset = $offset + $targetOffset; 
                     $movies = $model->getAll($offset);
                     $disableNext = true;
                     require("views/movies.php");
                 } else {
                     $page = $_GET["page"] + 1;
-                    $offset = $offset + 12;
+                    $offset = $offset + $targetOffset;
                     $offset = $offset * ($page - 2);
-                    $maxOffset = $offset + 12; 
+                    $maxOffset = $offset + $targetOffset; 
                     $movies = $model->getAll($offset);
                     require("views/movies.php");
                 }
+            }
+            if(isset($_GET["filter"])) {
+                $movies = $model->searchMovies($_GET["filter"]);
+                require("views/search.php");
             }
         }
     }

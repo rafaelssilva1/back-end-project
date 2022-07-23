@@ -5,7 +5,7 @@
             $query = $this->db->prepare("
                 SELECT id, title, overview, poster_path,
                     CASE
-                        WHEN ROUND(AVG(COALESCE(votes.value, 0)), 1) = 0 THEN 'N/A'
+                        WHEN AVG(votes.value) IS NULL THEN 'N/A'
                         ELSE ROUND(AVG(COALESCE(votes.value, 0)), 1)
                     END AS vote_avg
                 FROM movies
@@ -31,7 +31,8 @@
                     END as vote_avg
                 FROM movies
                 LEFT JOIN votes ON movies.id = votes.movie_id 
-                WHERE id = ?;
+                WHERE id = ?
+                LIMIT 12;
             ");
             
             $query->execute([
@@ -48,6 +49,28 @@
             ");
             
             $query->execute();
+            
+            return $query->fetch();
+        }
+
+        public function searchMovies($input) {
+            $query = $this->db->prepare("
+                SELECT id, title, overview, poster_path,
+                    CASE
+                        WHEN AVG(votes.value) IS NULL THEN 'N/A'
+                        ELSE ROUND(AVG(COALESCE(votes.value, 0)), 1)
+                    END AS vote_avg
+                FROM movies
+                LEFT JOIN votes ON movies.id = votes.movie_id
+                WHERE title LIKE ? OR overview LIKE ?
+                GROUP BY id
+                LIMIT 12;
+            ");
+            
+            $query->execute([
+                $input,
+                $input
+            ]);
             
             return $query->fetch();
         }

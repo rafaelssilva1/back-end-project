@@ -261,54 +261,26 @@ a {
   cursor: pointer;
 }
 
-.nav__search {
-  width: 50px;
-  height: 50px;
-  border-style: none;
-  font-size: 1em;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 50%;
-  position: relative;
-  color: var(--color-black) ;
-  background-color:transparent;
-  pointer-events: painted;
-}
-
-.nav__search:focus ~ .nav__input {
-  width: 250px;
-  border-radius: 0px;
-  background-color: transparent;
-}
-
-.nav__input:focus {
-  width: 250px;
-  border-radius: 0px;
-  background-color: transparent;
-}
-
-.nav__search > .material-symbols-outlined {
-  font-size: 2em;
-  cursor: pointer;
+.nav__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav__input {
-  height: 50px;
-  width: 50px;
-  border-style: none;
-  padding: 10px;
-  font-size: 1em;
-  outline: none;
-  border-radius: 25px;
-  transition: all .5s ease-in-out;
-  background-color: var(--color-yellow);
-  padding-right: 40px;
+  border-radius: 2em;
+  padding: 1em 2em;
+  background-color: var(--color-white);
   color: var(--color-black);
+  border: none;
+  box-shadow: var(--shadow);
 }
 
-.nav__input::placeholder {
-  font-size: 1em;
-  font-weight: 500;
+.nav__button {
+  background-color: var(--color-yellow);
+  margin: 0.5em;
+  border: none;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1024px) {
