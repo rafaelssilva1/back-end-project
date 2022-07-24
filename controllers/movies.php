@@ -75,10 +75,35 @@
             $data = $model->postToWatchlist($data["movie_id"], $data["user_id"]);
             http_response_code(202);
             echo '{"Message":"Movie added to watchlist"}';
-            echo json_encode($data);
         } else {
-            http_response_code(202);
+            http_response_code(400);
             echo '{"Message":"Movie already exists in watchlist"}';
+        }
+    }
+
+    if( $_SERVER["REQUEST_METHOD"] === "DELETE" ) {
+        $body = file_get_contents("php://input");
+        $data = json_decode($body, true);
+
+        if(
+            empty($data) ||
+            !is_numeric($data["movie_id"]) ||
+            !is_numeric($data["user_id"])
+        ) {
+            http_response_code(400);
+            echo '{"Message":"Invalid information"}';
+            exit;
+        }
+
+        $saved = $model->searchWatchlist($data["movie_id"], $data["user_id"]);
+
+        if(!empty($saved)) {
+            $data = $model->deleteFromWatchlist($data["movie_id"], $data["user_id"]);
+            http_response_code(202);
+            echo '{"Message":"Movie deleted to watchlist"}';
+        } else {
+            http_response_code(400);
+            echo '{"Message":"Movie doesnt exist in watchlist"}';
         }
     }
 ?>

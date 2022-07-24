@@ -81,7 +81,7 @@
 
         public function searchWatchlist($movie_id, $user_id) {
             $query = $this->db->prepare("
-                SELECT movie_id , user_id
+                SELECT movie_id, user_id
                 FROM watchlist
                 WHERE movie_id = ? and user_id = ?
             ");
@@ -92,6 +92,19 @@
             ]);
             
             return $query->fetchAll();
+        }
+
+        public function deleteFromWatchlist($movie_id, $user_id) {
+            $query = $this->db->prepare("
+                DELETE FROM watchlist
+                WHERE movie_id = ? and user_id = ?
+            ");
+            
+            return $query->execute([
+                $movie_id,
+                $user_id
+            ]);
+            
         }
     }
 
