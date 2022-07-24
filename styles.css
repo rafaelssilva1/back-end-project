@@ -735,3 +735,34 @@ a {
       width: 100%;
   }
 }
+
+/* Watchlist styles */
+.watchlist {
+  text-align: center;
+}
+
+.watchlist__title {
+  padding: 1em;
+}
+
+.watchlist__notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+/* Watchlist button styles*/
+.watchlist__button {
+  position: absolute;
+  top: 2em;
+  right: 2em;
+  background-color: var(--color-white);
+  border: none;
+  cursor: pointer;
+}
+
+.watchlist__button > .material-icons-outlined {
+  font-size: 2em;
+}

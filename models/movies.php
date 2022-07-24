@@ -63,6 +63,36 @@
             
             return $query->fetchAll();
         }
+
+        public function postToWatchlist($movie_id, $user_id) {
+            $query = $this->db->prepare("
+                INSERT INTO watchlist
+                    (movie_id , user_id)
+                VALUES
+                    (?, ?);
+            ");
+            
+            $query->execute([
+                $movie_id,
+                $user_id
+            ]);
+            
+        }
+
+        public function searchWatchlist($movie_id, $user_id) {
+            $query = $this->db->prepare("
+                SELECT movie_id , user_id
+                FROM watchlist
+                WHERE movie_id = ? and user_id = ?
+            ");
+            
+            $query->execute([
+                $movie_id,
+                $user_id
+            ]);
+            
+            return $query->fetchAll();
+        }
     }
 
 ?>

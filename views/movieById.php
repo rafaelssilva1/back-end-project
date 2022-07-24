@@ -28,6 +28,15 @@
                 </picture>
             </div>
             <div class="card__info">
+                <button class="watchlist__button">
+                    <span class="material-icons-outlined" onclick="addToWatchlist()">
+                        <?php if(empty($heart)) { 
+                            echo "favorite_border";
+                        } else {
+                            echo "favorite";
+                        }; ?>
+                    </span>
+                </button>
                 <h1 class="card__title"><?php echo $movie["title"] ?></h1>
                 <div class="movie__vote">
                     <span id="vote_detail"><?php echo $movie["vote_avg"] ?></span>
@@ -47,5 +56,7 @@
     </div>
     
     <?php include("views/footer.php"); ?>
+
+    <script src="/index.js"></script>
 </body>
 </html>

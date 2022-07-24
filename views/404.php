@@ -12,7 +12,9 @@
 
     <div class="container notfound">
         <h1>Oops, the page you were looking for was not found...</h1>
-        <button class="button"><a href="/">Go to home page</a></button>
+        <a href="/">
+            <button class="button">Go to home page</button>
+        </a>
     </div>
 
     <?php require("views/footer.php"); ?>

@@ -60,7 +60,7 @@
         <?php
             if(!$disableNext) {
                 ?>
-                    <form clas="genres__button" method="GET">
+                    <form clas="genres__button" method="GET" action="/movies">
                         <input type="hidden" name="page" value="<?php echo $page ?>">
                         <input type="submit" value="Next Page" class="button">
                     </form>
