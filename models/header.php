@@ -5,11 +5,11 @@ class Movie extends Base {
         $query = $this->db->prepare("
             SELECT id, title, overview, poster_path,
                 CASE
-                    WHEN AVG(votes.value) IS NULL THEN 'N/A'
-                    ELSE ROUND(AVG(COALESCE(votes.value, 0)), 1)
+                    WHEN AVG(comments.rating) IS NULL THEN 'N/A'
+                    ELSE ROUND(AVG(COALESCE(comments.rating, 0)), 1)
                 END AS vote_avg
             FROM movies
-            LEFT JOIN votes ON movies.id = votes.movie_id
+            LEFT JOIN comments ON movies.id = comments.movie_id
             WHERE id > ?
             GROUP BY id
             LIMIT 12;

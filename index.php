@@ -17,6 +17,7 @@ if(empty($resource)) {
 } else if(isset($_GET["page"])) {
     require("controllers/movies.php");
 } else if(!in_array($resource, $controllers) and !isset($_GET["page"])) {
+    http_response_code(404);
     require("views/404.php");
 } else {
     require("controllers/" .$resource. ".php");

@@ -5,11 +5,11 @@
             $query = $this->db->prepare("
                 SELECT id, title, overview, poster_path,
                     CASE
-                        WHEN AVG(votes.value) IS NULL THEN 'N/A'
-                        ELSE ROUND(AVG(COALESCE(votes.value, 0)), 1)
+                        WHEN AVG(comments.rating) IS NULL THEN 'N/A'
+                        ELSE ROUND(AVG(COALESCE(comments.rating, 0)), 1)
                     END AS vote_avg
                 FROM movies
-                LEFT JOIN votes ON movies.id = votes.movie_id
+                LEFT JOIN comments ON movies.id = comments.movie_id
                 WHERE id > ?
                 GROUP BY id
                 LIMIT 12;
@@ -26,11 +26,11 @@
             $query = $this->db->prepare("
                 SELECT id, title, overview, poster_path, release_date, duration, trailer_link,
                     CASE
-                        WHEN ROUND(AVG(votes.value), 1) IS NULL THEN 'N/A'
-                        ELSE  ROUND(AVG(votes.value), 1)
+                        WHEN ROUND(AVG(comments.rating), 1) IS NULL THEN 'N/A'
+                        ELSE  ROUND(AVG(comments.rating), 1)
                     END as vote_avg
                 FROM movies
-                LEFT JOIN votes ON movies.id = votes.movie_id 
+                LEFT JOIN comments ON movies.id = comments.movie_id 
                 WHERE id = ?
                 LIMIT 12;
             ");
@@ -38,17 +38,6 @@
             $query->execute([
                 $id
             ]);
-            
-            return $query->fetch();
-        }
-
-        public function getMoviesCount() {
-            $query = $this->db->prepare("
-                SELECT COUNT(*) as count
-                FROM movies
-            ");
-            
-            $query->execute();
             
             return $query->fetch();
         }
@@ -103,6 +92,38 @@
             return $query->execute([
                 $movie_id,
                 $user_id
+            ]);
+            
+        }
+
+        public function getComments($id) {
+            $query = $this->db->prepare("
+                SELECT username, comment_text, created_at, rating
+                FROM comments
+                WHERE movie_id = ?
+            ");
+            
+            $query->execute([
+                $id
+            ]);
+            
+            return $query->fetchAll();
+        }
+
+        public function postComments($movie_id, $user_id, $username, $comment_text, $rating) {
+            $query = $this->db->prepare("
+                INSERT INTO comments
+                    (movie_id, user_id, username, comment_text, rating)
+                VALUES
+                    (?, ?, ?, ?, ?);
+            ");
+            
+            $query->execute([
+                $movie_id,
+                $user_id,
+                $username,
+                $comment_text,
+                $rating
             ]);
             
         }

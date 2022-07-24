@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdn.tiny.cloud/1/<?php echo (ENV["TINYMCE_KEY"]); ?>/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <title><?php echo $movie["title"] ?></title>
 </head>
 <body>
@@ -54,7 +55,79 @@
             </div>
         </div>
     </div>
-    
+
+    <div class="container relative">
+        <div class="movieslideshow__header">
+            <h2>Honest Reviews</h2>
+            <div class="movieslideshow__bar"></div>
+        </div>
+            <?php
+                if(!empty($comments)) {
+                    ?>
+                    <div class="reviews__grid">
+                        <?php
+                            foreach ($comments as $key => $value) {
+                                echo ("
+                                    <article class='reviews__article'>
+                                        <div class='reviews__author'>
+                                            <p class='reviews__name'>".$comments[$key]["username"]."</p>
+                                            <small>".$comments[$key]["created_at"]."</small>
+                                        </div>
+                                        <div class='reviews__stars'>
+                                            ".$comments[$key]["rating"]."
+                                        <span class='reviews__icon material-icons-outlined'>star</span>
+                                        </div>
+                                        <div class='reviews__truncate'>
+                                            <p>".$comments[$key]["comment_text"]."</p>
+                                        </div>
+                                    </article>
+                                ");
+                            }
+                        ?>
+                    </div>
+                <?php
+                } else {
+                    ?>
+                        <div class="reviews__noreviews">
+                            <p>No reviews so far! Be the first one!</p>
+                        </div>
+                    <?php
+                }
+            ?>
+        <div>
+            <form class="review__form" method="POST" action="/movies/">
+                <label for="comment_text">Write your review here:</label>
+                <textarea id="review__textarea" name="comment_text" max="20"></textarea>
+                <div id="character_count"></div>
+                <div class="review__rating">
+                    <p>Leave a rating here:</p>
+                    <input type="radio" id="1" name="rating" value="1" required/>
+                    <label for="1">1</label>
+                    <input type="radio" id="2" name="rating" value="2" />
+                    <label for="2">2</label>
+                    <input type="radio" id="3" name="rating" value="3" />
+                    <label for="3">3</label>
+                    <input type="radio" id="4" name="rating" value="4" />
+                    <label for="4">4</label>
+                    <input type="radio" id="5" name="rating" value="5" />
+                    <label for="5">5</label>
+                    <input type="radio" id="6" name="rating" value="6" />
+                    <label for="6">6</label>
+                    <input type="radio" id="7" name="rating" value="7" />
+                    <label for="7">7</label>
+                    <input type="radio" id="8" name="rating" value="8" />
+                    <label for="8">8</label>
+                    <input type="radio" id="9" name="rating" value="9" />
+                    <label for="9">9</label>
+                    <input type="radio" id="10" name="rating" value="10" />
+                    <label for="10">10</label>
+                </div>
+                <button type="submit" class="button review__submit">Submit review</button>
+            </form>
+        </div>
+        </div>
+    </div>
+
     <?php include("views/footer.php"); ?>
 
     <script src="/js/index.js"></script>

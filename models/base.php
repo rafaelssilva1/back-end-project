@@ -13,5 +13,15 @@
             $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         }
 
+        public function getMoviesCount() {
+            $query = $this->db->prepare("
+                SELECT COUNT(*) as count
+                FROM movies
+            ");
+            
+            $query->execute();
+            
+            return $query->fetch();
+        }
     }
 ?>

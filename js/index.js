@@ -3,7 +3,7 @@ const watchlistBtn = document.querySelector(".watchlist__button");
 let url = window.location.pathname;
 url = url.split("/");
 
-const addToWatchlist = (e) => {
+const addToWatchlist = () => {
     if(watchlistBtn.firstElementChild.innerText == "favorite") {
         try {
             const requestOptions = {
@@ -36,3 +36,14 @@ const addToWatchlist = (e) => {
         watchlistBtn.firstElementChild.textContent = "favorite";
     };
 };
+
+tinymce.init({
+    selector: 'textarea',
+    plugins: 'advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
+    toolbar: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    menubar: false,
+    content_style: '@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap");',
+    toolbar_mode: 'floating',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name'
+});
