@@ -63,14 +63,15 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
         if(isset($_POST["comment_text"]) and isset($_POST["rating"])) {
-            $body = json_encode($_POST);
-            $data = json_decode($body, true);
-            $data = $model->postComments(1, 3, "antonio", $data["comment_text"], $data["rating"]); // ATTENTION CHANGE LATER
+            $data = $model->postComments($_POST["movie_id"], 3, "antonio", $_POST["comment_text"], $_POST["rating"]); // ATTENTION CHANGE LATER
             http_response_code(202);
-            header('Location: /movies/'.$id);
-        } else {
-            $body = file_get_contents("php://input");
-            $data = json_decode($body, true);
+            header("Location: /movies/".$_POST["movie_id"]);
+        }
+
+        $body = file_get_contents("php://input");
+        $data = json_decode($body, true);
+        
+        if(isset($data["watchlist"])) {
             if(
                 empty($data) ||
                 !is_numeric($data["movie_id"]) ||

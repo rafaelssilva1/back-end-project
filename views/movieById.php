@@ -122,6 +122,7 @@
                     <input type="radio" id="10" name="rating" value="10" />
                     <label for="10">10</label>
                 </div>
+                <input type="hidden" name="movie_id" value="<?php echo $id ?>">
                 <button type="submit" class="button review__submit">Submit review</button>
             </form>
         </div>

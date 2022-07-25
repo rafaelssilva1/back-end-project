@@ -9,7 +9,7 @@ const addToWatchlist = () => {
             const requestOptions = {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ movie_id: url[url.length - 1], user_id: 1 })
+                body: JSON.stringify({ movie_id: url[url.length - 1], user_id: 1, watchlist: true})
             };
             
             fetch(`/movies`, requestOptions)
@@ -24,7 +24,7 @@ const addToWatchlist = () => {
             const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ movie_id: url[url.length - 1], user_id: 1 })
+                body: JSON.stringify({ movie_id: url[url.length - 1], user_id: 1, watchlist: true })
             };
             
             fetch(`/movies`, requestOptions)
@@ -39,8 +39,8 @@ const addToWatchlist = () => {
 
 tinymce.init({
     selector: 'textarea',
-    plugins: 'advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
-    toolbar: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    plugins: 'advcode casechange export formatpainter linkchecker autolink lists checklist permanentpen powerpaste table advtable tableofcontents tinycomments',
+    toolbar: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
     menubar: false,
     content_style: '@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap");',
     toolbar_mode: 'floating',
