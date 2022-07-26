@@ -6,7 +6,7 @@
                 SELECT id, title, overview, backdrop_path
                 FROM movies
                 ORDER BY RAND()
-                LIMIT 1;
+                LIMIT 5;
             ");
             
             $query->execute();

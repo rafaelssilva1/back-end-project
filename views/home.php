@@ -31,6 +31,16 @@
                 ');
             }
         ?>
+        <button class="hero__slidebutton hero__slidebutton--left">
+            <span class="material-icons-outlined hero__button_left">
+                keyboard_arrow_left
+            </span>
+        </button>
+        <button class="hero__slidebutton hero__slidebutton--right">
+            <span class="material-icons-outlined hero__button_right">
+                keyboard_arrow_right
+            </span>
+        </button>
     </div>
 
     <div class="container">
@@ -40,34 +50,44 @@
         </div>
         <div class="movieslideshow">
             <div class="movieslideshow__grid">
-                    <?php
-                        foreach ($popularMovies as $key => $value) {
-                            echo ('
-                                <article class="movieslideshow__article">
-                                    <a href="/movies/'.$popularMovies[$key]["id"].'">
-                                        <div class="movie__link">
-                                            <picture class="movie__picture">
-                                                <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$popularMovies[$key]["poster_path"].'" />
-                                            </picture>
-                                            <div class="movie__info">
-                                                <h2 class="movie__title">'.$popularMovies[$key]["title"].'</h2>
-                                                <div class="movie__vote">
-                                                    <span>'.$popularMovies[$key]["vote_avg"].'</span>
-                                                    <span class="material-icons-outlined">
-                                                        star
-                                                    </span>
-                                                </div>
-                                                <div class="movie__truncate">
-                                                    <p class="movie__description">'.$popularMovies[$key]["overview"].'</p>
-                                                </div>
+                <?php
+                    foreach ($popularMovies as $key => $value) {
+                        echo ('
+                            <article class="movieslideshow__article">
+                                <a href="/movies/'.$popularMovies[$key]["id"].'">
+                                    <div class="movie__link">
+                                        <picture class="movie__picture">
+                                            <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$popularMovies[$key]["poster_path"].'" />
+                                        </picture>
+                                        <div class="movie__info">
+                                            <h2 class="movie__title">'.$popularMovies[$key]["title"].'</h2>
+                                            <div class="movie__vote">
+                                                <span>'.$popularMovies[$key]["vote_avg"].'</span>
+                                                <span class="material-icons-outlined">
+                                                    star
+                                                </span>
+                                            </div>
+                                            <div class="movie__truncate">
+                                                <p class="movie__description">'.$popularMovies[$key]["overview"].'</p>
                                             </div>
                                         </div>
-                                    </a>
-                                </article>
-                            ');
-                        }
-                    ?>
+                                    </div>
+                                </a>
+                            </article>
+                        ');
+                    }
+                ?>
             </div>
+            <button class="movieslideshow__slidebutton movieslideshow__slidebutton--left">
+                <span class="material-icons-outlined">
+                    keyboard_arrow_left
+                </span>
+            </button>
+            <button class="movieslideshow__slidebutton movieslideshow__slidebutton--right">
+                <span class="material-icons-outlined">
+                    keyboard_arrow_right
+                </span>
+            </button>
         </div>
         <div class="movieslideshow__header">
                 <h2>Top Rated</h2>
@@ -75,34 +95,44 @@
         </div>
         <div class="movieslideshow">
             <div class="movieslideshow__grid">
-                    <?php
-                        foreach ($topRatedMovies as $key => $value) {
-                            echo ('
-                                <article class="movieslideshow__article">
-                                    <a href="/movies/'.$topRatedMovies[$key]["id"].'">
-                                        <div class="movie__link">
-                                            <picture class="movie__picture">
-                                                <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$topRatedMovies[$key]["poster_path"].'" />
-                                            </picture>
-                                            <div class="movie__info">
-                                                <h2 class="movie__title">'.$topRatedMovies[$key]["title"].'</h2>
-                                                <div class="movie__vote">
-                                                    <span>'.$topRatedMovies[$key]["vote_avg"].'</span>
-                                                    <span class="material-icons-outlined">
-                                                        star
-                                                    </span>
-                                                </div>
-                                                <div class="movie__truncate">
-                                                    <p class="movie__description">'.$topRatedMovies[$key]["overview"].'</p>
-                                                </div>
+                <?php
+                    foreach ($topRatedMovies as $key => $value) {
+                        echo ('
+                            <article class="movieslideshow__article">
+                                <a href="/movies/'.$topRatedMovies[$key]["id"].'">
+                                    <div class="movie__link">
+                                        <picture class="movie__picture">
+                                            <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$topRatedMovies[$key]["poster_path"].'" />
+                                        </picture>
+                                        <div class="movie__info">
+                                            <h2 class="movie__title">'.$topRatedMovies[$key]["title"].'</h2>
+                                            <div class="movie__vote">
+                                                <span>'.$topRatedMovies[$key]["vote_avg"].'</span>
+                                                <span class="material-icons-outlined">
+                                                    star
+                                                </span>
+                                            </div>
+                                            <div class="movie__truncate">
+                                                <p class="movie__description">'.$topRatedMovies[$key]["overview"].'</p>
                                             </div>
                                         </div>
-                                    </a>
-                                </article>
-                            ');
-                        }
-                    ?>
+                                    </div>
+                                </a>
+                            </article>
+                        ');
+                    }
+                ?>
             </div>
+            <button class="movieslideshow__slidebutton movieslideshow__slidebutton--left">
+                <span class="material-icons-outlined">
+                    keyboard_arrow_left
+                </span>
+            </button>
+            <button class="movieslideshow__slidebutton movieslideshow__slidebutton--right">
+                <span class="material-icons-outlined">
+                    keyboard_arrow_right
+                </span>
+            </button>
         </div>
         <div class="movieslideshow__header">
                 <h2>Upcoming</h2>
@@ -110,35 +140,47 @@
         </div>
         <div class="movieslideshow">
             <div class="movieslideshow__grid">
-                    <?php
-                        foreach ($upcomingMovies as $key => $value) {
-                            echo ('
-                                <article class="movieslideshow__article">
-                                    <a href="/movies/'.$upcomingMovies[$key]["id"].'">
-                                        <div class="movie__link">
-                                            <picture class="movie__picture">
-                                                <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$upcomingMovies[$key]["poster_path"].'" />
-                                            </picture>
-                                            <div class="movie__info">
-                                                <h2 class="movie__title">'.$upcomingMovies[$key]["title"].'</h2>
-                                                <div class="movie__vote">
-                                                    <span>'.$upcomingMovies[$key]["vote_avg"].'</span>
-                                                    <span class="material-icons-outlined">
-                                                        star
-                                                    </span>
-                                                </div>
-                                                <div class="movie__truncate">
-                                                    <p class="movie__description">'.$upcomingMovies[$key]["overview"].'</p>
-                                                </div>
+                <?php
+                    foreach ($upcomingMovies as $key => $value) {
+                        echo ('
+                            <article class="movieslideshow__article">
+                                <a href="/movies/'.$upcomingMovies[$key]["id"].'">
+                                    <div class="movie__link">
+                                        <picture class="movie__picture">
+                                            <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$upcomingMovies[$key]["poster_path"].'" />
+                                        </picture>
+                                        <div class="movie__info">
+                                            <h2 class="movie__title">'.$upcomingMovies[$key]["title"].'</h2>
+                                            <div class="movie__vote">
+                                                <span>'.$upcomingMovies[$key]["vote_avg"].'</span>
+                                                <span class="material-icons-outlined">
+                                                    star
+                                                </span>
+                                            </div>
+                                            <div class="movie__truncate">
+                                                <p class="movie__description">'.$upcomingMovies[$key]["overview"].'</p>
                                             </div>
                                         </div>
-                                    </a>
-                                </article>
-                            ');
-                        }
-                    ?>
+                                    </div>
+                                </a>
+                            </article>
+                        ');
+                    }
+                ?>
             </div>
+            <button class="movieslideshow__slidebutton movieslideshow__slidebutton--left">
+                <span class="material-icons-outlined">
+                    keyboard_arrow_left
+                </span>
+            </button>
+            <button class="movieslideshow__slidebutton movieslideshow__slidebutton--right">
+                <span class="material-icons-outlined">
+                    keyboard_arrow_right
+                </span>
+            </button>
         </div>
     </div>
+
+    <script src="/js/home.js"></script>
 </body>
 </html>
