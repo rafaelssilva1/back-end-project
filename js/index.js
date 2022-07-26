@@ -3,7 +3,7 @@ const watchlistBtn = document.querySelector(".watchlist__button");
 let url = window.location.pathname;
 url = url.split("/");
 
-const addToWatchlist = () => {
+watchlistBtn.addEventListener("click", (e) => {
     if(watchlistBtn.firstElementChild.innerText == "favorite") {
         try {
             const requestOptions = {
@@ -35,7 +35,21 @@ const addToWatchlist = () => {
     
         watchlistBtn.firstElementChild.textContent = "favorite";
     };
-};
+});
+
+const reviewsBtns = document.querySelectorAll(".reviews__button");
+
+reviewsBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        if(e.target.previousElementSibling.firstElementChild.hasAttribute("class", "reviews__content")) {
+            e.target.previousElementSibling.firstElementChild.removeAttribute("class", "reviews__content");
+            e.target.textContent = "Show less";
+        } else {
+            e.target.previousElementSibling.firstElementChild.setAttribute("class", "reviews__content");
+            e.target.textContent = "Show more";
+        }
+    });
+});
 
 tinymce.init({
     selector: 'textarea',

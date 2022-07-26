@@ -22,29 +22,29 @@
                     <div class="movie__grid">
                         <?php
                             foreach ($movies as $key => $value) {
-                                echo "
-                                    <article class='movie__article' data-movie='". $movies[$key]["id"] ."' >
-                                        <a href='/movies/". $movies[$key]["id"] ."'>
-                                            <div class='movie__link'>
-                                                <picture class='movie__picture'>
-                                                    <img class='movie__image' src='https://image.tmdb.org/t/p/w342". $movies[$key]["poster_path"] ."' />        
+                                echo ('
+                                    <article class="movie__article" data-movie="'. $movies[$key]["id"] .'" >
+                                        <a href="/movies/'. $movies[$key]["id"] .'">
+                                            <div class="movie__link">
+                                                <picture class="movie__picture">
+                                                    <img class="movie__image" src="https://image.tmdb.org/t/p/w342'. $movies[$key]["poster_path"] .'" />        
                                                 </picture>
-                                                <div class='movie__info'>
-                                                    <h2 class='movie__title'>". $movies[$key]["title"] ."</h2>
-                                                    <div class='movie__vote'>
-                                                        <span>". $movies[$key]["vote_avg"]  ."</span>
-                                                        <span class='material-symbols-outlined'>
+                                                <div class="movie__info">
+                                                    <h2 class="movie__title">'. $movies[$key]["title"] .'</h2>
+                                                    <div class="movie__vote">
+                                                        <span>'. $movies[$key]["vote_avg"]  .'</span>
+                                                        <span class="material-symbols-outlined">
                                                             star
                                                         </span>
                                                     </div>
-                                                    <div class='movie__truncate'>
-                                                        <p class='movie__description'>". $movies[$key]["overview"] ."</p>
+                                                    <div class="movie__truncate">
+                                                        <p class="movie__description">'. $movies[$key]["overview"] .'</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </a>
                                     </article>
-                                ";
+                                ');
                             }
                         ?>
                     </div>

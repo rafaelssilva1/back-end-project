@@ -30,7 +30,7 @@
             </div>
             <div class="card__info">
                 <button class="watchlist__button">
-                    <span class="material-icons-outlined" onclick="addToWatchlist()">
+                    <span class="material-icons-outlined watchlist__button-btn">
                         <?php if(empty($heart)) { 
                             echo "favorite_border";
                         } else {
@@ -67,22 +67,32 @@
                     <div class="reviews__grid">
                         <?php
                             foreach ($comments as $key => $value) {
-                                echo ("
-                                    <article class='reviews__article'>
-                                        <div class='reviews__author'>
-                                            <p class='reviews__name'>".$comments[$key]["username"]."</p>
-                                            <small>".$comments[$key]["created_at"]."</small>
+                                ?>
+                                
+                                    <article class="reviews__article">
+                                        <div class="reviews__author">
+                                            <p class="reviews__name"><?php echo $comments[$key]['username'] ?></p>
+                                            <small><?php echo $comments[$key]['created_at'] ?></small>
                                         </div>
-                                        <div class='reviews__stars'>
-                                            ".$comments[$key]["rating"]."
-                                        <span class='reviews__icon material-icons-outlined'>star</span>
+                                        <div class="reviews__stars">
+                                            <?php echo $comments[$key]['rating'] ?>
+                                        <span class="reviews__icon material-icons-outlined">star</span>
                                         </div>
-                                        <div class='reviews__truncate'>
-                                            <p>".$comments[$key]["comment_text"]."</p>
+                                        <div class="reviews__truncate">
+                                            <p class="reviews__content"><?php echo $comments[$key]['comment_text'] ?></p>
                                         </div>
+                                        <?php
+                                            if(strlen($comments[$key]['comment_text']) > 400) {
+                                                ?>
+                                                    <button class="reviews__button">
+                                                        Show more
+                                                    </button>
+                                                <?php
+                                            }
+                                        ?>
                                     </article>
-                                ");
-                            }
+                                <?php
+                            };
                         ?>
                     </div>
                 <?php

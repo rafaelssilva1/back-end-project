@@ -18,23 +18,23 @@
                     <div class="movie__grid">
                         <?php
                             foreach ($watchlist as $key => $value) {
-                                echo("
-                                    <article class='movie__article'>
-                                        <a href='/movies/".$watchlist[$key]["id"]."'>
-                                            <div class='movie__link'>
-                                                <picture class='movie__picture'>
-                                                    <img class='movie__image' src='https://image.tmdb.org/t/p/w342". $watchlist[$key]["poster_path"] ."'>
+                                echo('
+                                    <article class="movie__article">
+                                        <a href="/movies/'.$watchlist[$key]["id"].'">
+                                            <div class="movie__link">
+                                                <picture class="movie__picture">
+                                                    <img class="movie__image" src="https://image.tmdb.org/t/p/w342'. $watchlist[$key]["poster_path"] .'">
                                                 </picture>
-                                                <div class='movie__info'>
-                                                    <h2 class='movie__title'>".$watchlist[$key]["title"]."</h2>
-                                                    <div class='movie__truncate'>
-                                                        <p class='movie__description'>".$watchlist[$key]["overview"]."</p>
+                                                <div class="movie__info">
+                                                    <h2 class="movie__title">'.$watchlist[$key]["title"].'</h2>
+                                                    <div class="movie__truncate">
+                                                        <p class="movie__description">'.$watchlist[$key]["overview"].'</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </a>
                                     </article>
-                                ");
+                                ');
                             }
                         ?>
                     </div>
