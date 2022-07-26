@@ -13,6 +13,11 @@
             <li>
                 <a href="/watchlist">Watchlist</a>
             </li>
+            <li>
+                <a href="/login">
+                    <span class="material-symbols-outlined">login</span>
+                </a>
+            </li>
             <form class="nav__form" method="GET" action="/search/">
                 <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here..." required>
                 <button type="submit" class="nav__button"><span class="material-symbols-outlined">search</span></button>

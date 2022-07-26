@@ -87,7 +87,7 @@
                                             <div class='movie__info'>
                                                 <h2 class='movie__title'>".$topRatedMovies[$key]["title"]."</h2>
                                                 <div class='movie__vote'>
-                                                    <span>".$popularMovies[$key]["vote_avg"]."</span>
+                                                    <span>".$topRatedMovies[$key]["vote_avg"]."</span>
                                                     <span class='material-icons-outlined'>
                                                         star
                                                     </span>
@@ -122,7 +122,7 @@
                                             <div class='movie__info'>
                                                 <h2 class='movie__title'>".$upcomingMovies[$key]["title"]."</h2>
                                                 <div class='movie__vote'>
-                                                    <span>".$popularMovies[$key]["vote_avg"]."</span>
+                                                    <span>".$upcomingMovies[$key]["vote_avg"]."</span>
                                                     <span class='material-icons-outlined'>
                                                         star
                                                     </span>
