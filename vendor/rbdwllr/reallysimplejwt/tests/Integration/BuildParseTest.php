@@ -1,16 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Integration;
 
 use ReallySimpleJWT\Helper\Validator;
+use ReallySimpleJWT\Interfaces\Encode;
+use ReallySimpleJWT\Jwt;
 use ReallySimpleJWT\Build;
 use ReallySimpleJWT\Parse;
 use ReallySimpleJWT\Encoders\EncodeHS256;
-use ReallySimpleJWT\Encoders\EncodeHS256Strong;
 use ReallySimpleJWT\Decode;
-use ReallySimpleJWT\Exception\ParsedException;
+use ReallySimpleJWT\Secret;
+use ReallySimpleJWT\Exception\BuildException;
+use ReallySimpleJWT\Parsed;
+use ReallySimpleJWT\Exception\ParseException;
+//use ReallySimpleJWT\Interfaces\Decode;
+use ReallySimpleJWT\Helper\JsonEncoder;
 use PHPUnit\Framework\TestCase;
 
 class BuildParseTest extends TestCase
@@ -22,7 +26,8 @@ class BuildParseTest extends TestCase
         $build = new Build(
             self::TOKEN_TYPE,
             new Validator(),
-            new EncodeHS256('123abcDEF!$£%456')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration = time() + 10;
@@ -31,6 +36,7 @@ class BuildParseTest extends TestCase
 
         $token = $build->setContentType(self::TOKEN_TYPE)
             ->setHeaderClaim('info', 'Hello World')
+            ->setSecret('123abcDEF!$£%456')
             ->setIssuer('localhost')
             ->setSubject('users')
             ->setAudience('https://google.com')
@@ -45,6 +51,7 @@ class BuildParseTest extends TestCase
         $parsed = $parse->parse();
 
         $this->assertSame($token->getToken(), $parsed->getJwt()->getToken());
+        $this->assertSame($token->getSecret(), $parsed->getJwt()->getSecret());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getType());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getContentType());
         $this->assertSame('Hello World', $parsed->getHeader()['info']);
@@ -64,7 +71,8 @@ class BuildParseTest extends TestCase
         $build = new Build(
             self::TOKEN_TYPE,
             new Validator(),
-            new EncodeHS256Strong('456yuTu#!3456')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration = time() + 11;
@@ -72,6 +80,7 @@ class BuildParseTest extends TestCase
         $issuedAt = time();
 
         $token = $build->setContentType(self::TOKEN_TYPE)
+            ->setSecret('456yuTu#!3456')
             ->setAudience('https://amazon.com')
             ->setExpiration($expiration)
             ->setNotBefore($notBefore)
@@ -86,7 +95,8 @@ class BuildParseTest extends TestCase
         $build1 = new Build(
             self::TOKEN_TYPE,
             new Validator(),
-            new EncodeHS256('456zxHgEF!**217')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration1 = time() + 20;
@@ -95,6 +105,7 @@ class BuildParseTest extends TestCase
 
         $token1 = $build1->setContentType('JWE')
             ->setHeaderClaim('claim', 'FooBar')
+            ->setSecret('456zxHgEF!**217')
             ->setSubject('admins')
             ->setIssuer('facebook.com')
             ->setAudience(['https://maps.google.com', 'https://youtube.co.uk'])
@@ -112,6 +123,7 @@ class BuildParseTest extends TestCase
         $parsed = $parse->parse();
 
         $this->assertSame($token->getToken(), $parsed->getJwt()->getToken());
+        $this->assertSame($token->getSecret(), $parsed->getJwt()->getSecret());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getType());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getContentType());
         $this->assertSame($expiration, $parsed->getExpiration());
@@ -130,6 +142,7 @@ class BuildParseTest extends TestCase
         $parsed1 = $parse1->parse();
 
         $this->assertSame($token1->getToken(), $parsed1->getJwt()->getToken());
+        $this->assertSame($token1->getSecret(), $parsed1->getJwt()->getSecret());
         $this->assertSame(self::TOKEN_TYPE, $parsed1->getType());
         $this->assertSame('JWE', $parsed1->getContentType());
         $this->assertSame('FooBar', $parsed1->getHeader()['claim']);
@@ -152,7 +165,8 @@ class BuildParseTest extends TestCase
         $build = new Build(
             self::TOKEN_TYPE,
             new Validator(),
-            new EncodeHS256('55556kiOP!5555')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration = time() + 19;
@@ -160,6 +174,7 @@ class BuildParseTest extends TestCase
         $issuedAt = time();
 
         $token = $build->setContentType(self::TOKEN_TYPE)
+            ->setSecret('55556kiOP!5555')
             ->setHeaderClaim('info', 'carpark')
             ->setIssuer('thesite.com')
             ->setSubject('editors')
@@ -179,6 +194,7 @@ class BuildParseTest extends TestCase
             ->setJwtId('456HGF')
             ->setHeaderClaim('claim', 'FooBar')
             ->setContentType('JWE')
+            ->setSecret('456zxcYUT!$*0921')
             ->setIssuer('instagram.com')
             ->setSubject('admins')
             ->setAudience(['https://apple.com', 'https://duckduckgo.com'])
@@ -197,6 +213,7 @@ class BuildParseTest extends TestCase
         $this->assertSame(self::TOKEN_TYPE, $parsed->getType());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getContentType());
         $this->assertSame($token->getToken(), $parsed->getJwt()->getToken());
+        $this->assertSame($token->getSecret(), $parsed->getJwt()->getSecret());
         $this->assertSame('carpark', $parsed->getHeader()['info']);
         $this->assertSame('thesite.com', $parsed->getIssuer());
         $this->assertSame('editors', $parsed->getSubject());
@@ -212,6 +229,7 @@ class BuildParseTest extends TestCase
 
         $parsed1 = $parse1->parse();
 
+        $this->assertSame($token1->getSecret(), $parsed1->getJwt()->getSecret());
         $this->assertSame($token1->getToken(), $parsed1->getJwt()->getToken());
         $this->assertSame('JWE', $parsed1->getContentType());
         $this->assertSame(self::TOKEN_TYPE, $parsed1->getType());
@@ -230,12 +248,13 @@ class BuildParseTest extends TestCase
         $this->assertSame($issuedAt1, $parsed1->getIssuedAt());
     }
 
-    public function testMultipleTokensRemoveFields(): void
+    public function testMultipleTokensRemovedFields(): void
     {
         $build = new Build(
             self::TOKEN_TYPE,
             new Validator(),
-            new EncodeHS256('AHDJ989%653ads')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration = time() + 10;
@@ -243,6 +262,7 @@ class BuildParseTest extends TestCase
         $issuedAt = time();
 
         $token = $build->setContentType(self::TOKEN_TYPE)
+            ->setSecret('AHDJ989%653ads')
             ->setIssuer('twitter.com')
             ->setSubject('managers')
             ->setHeaderClaim('info', 'Star Wars')
@@ -257,13 +277,15 @@ class BuildParseTest extends TestCase
         $build1 = new Build(
             self::TOKEN_TYPE,
             new Validator(),
-            new EncodeHS256('983zxcDEF!$*8921')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration1 = time() + 20;
         $issuedAt1 = time() + 10;
 
         $token1 = $build1->setHeaderClaim('claim', 'FooBar')
+            ->setSecret('983zxcDEF!$*8921')
             ->setAudience(['https://imgur.com', 'https://youtube.com'])
             ->setIssuer('whatsapp.com')
             ->setExpiration($expiration1)
@@ -289,6 +311,7 @@ class BuildParseTest extends TestCase
         $this->assertSame(268, $parsed->getPayload()['uid']);
         $this->assertSame(explode('.', $token->getToken())[2], $parsed->getSignature());
         $this->assertSame($token->getToken(), $parsed->getJwt()->getToken());
+        $this->assertSame($token->getSecret(), $parsed->getJwt()->getSecret());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getType());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getContentType());
 
@@ -297,6 +320,7 @@ class BuildParseTest extends TestCase
         $parsed1 = $parse1->parse();
 
         $this->assertSame($token1->getToken(), $parsed1->getJwt()->getToken());
+        $this->assertSame($token1->getSecret(), $parsed1->getJwt()->getSecret());
         $this->assertSame(self::TOKEN_TYPE, $parsed1->getType());
         $this->assertSame('FooBar', $parsed1->getHeader()['claim']);
         $this->assertArrayNotHasKey('info', $parsed1->getHeader());
@@ -304,23 +328,14 @@ class BuildParseTest extends TestCase
         $this->assertSame('https://youtube.com', $parsed1->getAudience()[1]);
         $this->assertSame('https://imgur.com', $parsed1->getAudience()[0]);
         $this->assertSame($expiration1, $parsed1->getExpiration());
+        $this->assertSame(0, $parsed1->getNotBefore());
         $this->assertSame($issuedAt1, $parsed1->getIssuedAt());
         $this->assertSame('321jkl', $parsed1->getJwtId());
         $this->assertSame(5, $parsed1->getPayload()['user_id']);
         $this->assertArrayNotHasKey('uid', $parsed1->getPayload());
         $this->assertSame(explode('.', $token1->getToken())[2], $parsed1->getSignature());
-
-        $this->expectException(ParsedException::class);
-        $this->expectExceptionMessage('The payload claim nbf is not set.');
-        $parsed1->getNotBefore();
-
-        $this->expectException(ParsedException::class);
-        $this->expectExceptionMessage('The payload claim sub is not set.');
-        $parsed1->getSubject();
-
-        $this->expectException(ParsedException::class);
-        $this->expectExceptionMessage('The header claim cty is not set.');
-        $parsed1->getContentType();
+        $this->assertSame('', $parsed1->getSubject());
+        $this->assertSame('', $parsed1->getContentType());
     }
 
     public function testMultipleTokensWithResetRemoveFields(): void
@@ -328,7 +343,8 @@ class BuildParseTest extends TestCase
         $build = new Build(
             self::TOKEN_TYPE,
             new Validator(),
-            new EncodeHS256('HYjuI9o!ropP')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration = time() + 10;
@@ -342,6 +358,7 @@ class BuildParseTest extends TestCase
             ->setExpiration($expiration)
             ->setAudience('https://api.imgur.com')
             ->setNotBefore($notBefore)
+            ->setSecret('HYjuI9o!ropP')
             ->setIssuedAt($issuedAt)
             ->setJwtId('4567')
             ->setPayloadClaim('uid', 5232)
@@ -353,6 +370,7 @@ class BuildParseTest extends TestCase
         $token1 = $build->reset()
             ->setAudience(['https://keep.google.com', 'https://vimeo.com'])
             ->setHeaderClaim('claim', 'FooBar')
+            ->setSecret('456zxcDEF!$*0921')
             ->setSubject('admins')
             ->setExpiration($expiration1)
             ->setContentType('JWE')
@@ -370,6 +388,7 @@ class BuildParseTest extends TestCase
         $this->assertSame('users', $parsed->getSubject());
         $this->assertSame('https://api.imgur.com', $parsed->getAudience());
         $this->assertSame($token->getToken(), $parsed->getJwt()->getToken());
+        $this->assertSame($token->getSecret(), $parsed->getJwt()->getSecret());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getType());
         $this->assertSame(self::TOKEN_TYPE, $parsed->getContentType());
         $this->assertSame($expiration, $parsed->getExpiration());
@@ -388,24 +407,19 @@ class BuildParseTest extends TestCase
         $this->assertSame('JWE', $parsed1->getContentType());
         $this->assertSame('FooBar', $parsed1->getHeader()['claim']);
         $this->assertSame($token1->getToken(), $parsed1->getJwt()->getToken());
+        $this->assertSame($token1->getSecret(), $parsed1->getJwt()->getSecret());
         $this->assertSame(self::TOKEN_TYPE, $parsed1->getType());
         $this->assertArrayNotHasKey('info', $parsed1->getHeader());
+        $this->assertSame('', $parsed1->getIssuer());
         $this->assertSame('admins', $parsed1->getSubject());
         $this->assertSame($expiration1, $parsed1->getExpiration());
         $this->assertSame($notBefore1, $parsed1->getNotBefore());
         $this->assertSame('https://keep.google.com', $parsed1->getAudience()[0]);
         $this->assertSame('https://vimeo.com', $parsed1->getAudience()[1]);
+        $this->assertSame(0, $parsed1->getIssuedAt());
         $this->assertSame('45I9kl', $parsed1->getJwtId());
         $this->assertSame(5, $parsed1->getPayload()['user_id']);
         $this->assertArrayNotHasKey('uid', $parsed1->getPayload());
         $this->assertSame(explode('.', $token1->getToken())[2], $parsed1->getSignature());
-
-        $this->expectException(ParsedException::class);
-        $this->expectExceptionMessage('The payload claim iss is not set.');
-        $parsed1->getIssuer();
-
-        $this->expectException(ParsedException::class);
-        $this->expectExceptionMessage('The payload claim iat is not set.');
-        $parsed1->getIssuedAt();
     }
 }

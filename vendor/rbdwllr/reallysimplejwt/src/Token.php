@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace ReallySimpleJWT;
 
+use ReallySimpleJWT\Tokens;
+use ReallySimpleJWT\Build;
+use ReallySimpleJWT\Parse;
+use ReallySimpleJWT\Validate;
+
 /**
  * A simple Package for creating JSON Web Tokens that uses HMAC SHA256 to sign
  * signatures.
@@ -24,8 +29,9 @@ class Token
      * payload including issued at, expiration and issuer.
      *
      * @see Tokens::create()
+     * @param string|int $userId
      */
-    public static function create(string|int $userId, string $secret, int $expiration, string $issuer): string
+    public static function create($userId, string $secret, int $expiration, string $issuer): string
     {
         $tokens = new Tokens();
         return $tokens->create(
@@ -60,38 +66,38 @@ class Token
      * @see Tokens::getHeader()
      * @return mixed[]
      */
-    public static function getHeader(string $token): array
+    public static function getHeader(string $token, string $secret): array
     {
         $tokens = new Tokens();
-        return $tokens->getHeader($token);
+        return $tokens->getHeader($token, $secret);
     }
 
     /**
      * @see Tokens::getPayload()
      * @return mixed[]
      */
-    public static function getPayload(string $token): array
+    public static function getPayload(string $token, string $secret): array
     {
         $tokens = new Tokens();
-        return $tokens->getPayload($token);
+        return $tokens->getPayload($token, $secret);
     }
 
     /**
      * @see Tokens::builder()
      */
-    public static function builder(string $secret): Build
+    public static function builder(): Build
     {
         $tokens = new Tokens();
-        return $tokens->builder($secret);
+        return $tokens->builder();
     }
 
     /**
      * @see Tokens::parser()
      */
-    public static function parser(string $token): Parse
+    public static function parser(string $token, string $secret): Parse
     {
         $tokens = new Tokens();
-        return $tokens->parser($token);
+        return $tokens->parser($token, $secret);
     }
 
     /**
@@ -106,18 +112,18 @@ class Token
     /**
      * @see Tokens::validateExpiration()
      */
-    public static function validateExpiration(string $token): bool
+    public static function validateExpiration(string $token, string $secret): bool
     {
         $tokens = new Tokens();
-        return $tokens->validateExpiration($token);
+        return $tokens->validateExpiration($token, $secret);
     }
 
     /**
      * @see Tokens::validateNotBefore()
      */
-    public static function validateNotBefore(string $token): bool
+    public static function validateNotBefore(string $token, string $secret): bool
     {
         $tokens = new Tokens();
-        return $tokens->validateNotBefore($token);
+        return $tokens->validateNotBefore($token, $secret);
     }
 }

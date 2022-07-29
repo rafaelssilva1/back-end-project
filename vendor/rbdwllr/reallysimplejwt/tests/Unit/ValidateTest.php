@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use ReallySimpleJWT\Parsed;
+use ReallySimpleJWT\Parse;
 use ReallySimpleJWT\Helper\Validator;
 use ReallySimpleJWT\Encoders\EncodeHS256;
 use ReallySimpleJWT\Validate;
@@ -14,25 +12,72 @@ use Tests\Fixtures\Tokens;
 
 class ValidateTest extends TestCase
 {
+    public function testStructureSuccess(): void
+    {
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
+            ->method('getToken')
+            ->willReturn(Tokens::TOKEN);
+
+        $validator = $this->createMock(Validator::class);
+        $validator->expects($this->once())
+            ->method('structure')
+            ->with(Tokens::TOKEN)
+            ->willReturn(true);
+
+        $encode = $this->createMock(EncodeHS256::class);
+
+        $validate = new Validate($parse, $encode, $validator);
+
+        $this->assertInstanceOf(Validate::class, $validate->structure());
+    }
+
+    public function testStructureFail(): void
+    {
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
+            ->method('getToken')
+            ->willReturn('abc');
+
+        $validator = $this->createMock(Validator::class);
+        $validator->expects($this->once())
+            ->method('structure')
+            ->with('abc')
+            ->willReturn(false);
+
+        $encode = $this->createMock(EncodeHS256::class);
+
+        $validate = new Validate($parse, $encode, $validator);
+
+        $this->expectException(ValidateException::class);
+        $this->expectExceptionMessage('Token is invalid.');
+        $this->expectExceptionCode(1);
+        $validate->structure();
+    }
+
     public function testSignatureSuccess(): void
     {
-        $parsed = $this->createMock(Parsed::class);
+        $parse = $this->createMock(Parse::class);
 
-        $parsed->expects($this->once())
-            ->method('getHeader')
+        $parse->expects($this->once())
+            ->method('getDecodedHeader')
             ->willReturn(Tokens::DECODED_HEADER);
 
-        $parsed->expects($this->once())
-            ->method('getPayload')
+        $parse->expects($this->once())
+            ->method('getDecodedPayload')
             ->willReturn(Tokens::DECODED_PAYLOAD);
+
+        $parse->expects($this->once())
+            ->method('getSecret')
+            ->willReturn(Tokens::SECRET);
 
         $encode = $this->createMock(EncodeHS256::class);
         $encode->expects($this->once())
             ->method('signature')
-            ->with(Tokens::DECODED_HEADER, Tokens::DECODED_PAYLOAD)
+            ->with(Tokens::DECODED_HEADER, Tokens::DECODED_PAYLOAD, Tokens::SECRET)
             ->willReturn(Tokens::SIGNATURE);
 
-        $parsed->expects($this->once())
+        $parse->expects($this->once())
             ->method('getSignature')
             ->willReturn(Tokens::SIGNATURE);
 
@@ -42,30 +87,34 @@ class ValidateTest extends TestCase
             ->with(Tokens::SIGNATURE, Tokens::SIGNATURE)
             ->willReturn(true);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->assertInstanceOf(Validate::class, $validate->signature());
     }
 
     public function testSignatureFail(): void
     {
-        $parsed = $this->createMock(Parsed::class);
+        $parse = $this->createMock(Parse::class);
 
-        $parsed->expects($this->once())
-            ->method('getHeader')
+        $parse->expects($this->once())
+            ->method('getDecodedHeader')
             ->willReturn(Tokens::DECODED_HEADER);
 
-        $parsed->expects($this->once())
-            ->method('getPayload')
+        $parse->expects($this->once())
+            ->method('getDecodedPayload')
             ->willReturn(Tokens::DECODED_PAYLOAD);
+
+        $parse->expects($this->once())
+            ->method('getSecret')
+            ->willReturn('hello');
 
         $encode = $this->createMock(EncodeHS256::class);
         $encode->expects($this->once())
             ->method('signature')
-            ->with(Tokens::DECODED_HEADER, Tokens::DECODED_PAYLOAD)
+            ->with(Tokens::DECODED_HEADER, Tokens::DECODED_PAYLOAD, 'hello')
             ->willReturn('mX0_2dzFlPqR0fyh4J3PPmfQYBz9PlqUut5vXgJaSxY');
 
-        $parsed->expects($this->once())
+        $parse->expects($this->once())
             ->method('getSignature')
             ->willReturn(Tokens::SIGNATURE);
 
@@ -75,7 +124,7 @@ class ValidateTest extends TestCase
             ->with('mX0_2dzFlPqR0fyh4J3PPmfQYBz9PlqUut5vXgJaSxY', Tokens::SIGNATURE)
             ->willReturn(false);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->expectException(ValidateException::class);
         $this->expectExceptionMessage('Signature is invalid.');
@@ -85,8 +134,8 @@ class ValidateTest extends TestCase
 
     public function testValidateExpiration(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getExpiration')
             ->willReturn(1000);
 
@@ -98,15 +147,15 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->assertInstanceOf(Validate::class, $validate->expiration());
     }
 
     public function testValidateExpirationFail(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getExpiration')
             ->willReturn(-5);
 
@@ -118,7 +167,7 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->expectException(ValidateException::class);
         $this->expectExceptionMessage('Expiration claim has expired.');
@@ -128,8 +177,8 @@ class ValidateTest extends TestCase
 
     public function testValidateNotBefore(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getNotBefore')
             ->willReturn(-5);
 
@@ -141,15 +190,15 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->assertInstanceOf(Validate::class, $validate->notBefore());
     }
 
     public function testValidateNotBeforeFail(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getNotBefore')
             ->willReturn(500);
 
@@ -161,7 +210,7 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->expectException(ValidateException::class);
         $this->expectExceptionMessage('Not Before claim has not elapsed.');
@@ -171,8 +220,8 @@ class ValidateTest extends TestCase
 
     public function testValidateAudience(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getAudience')
             ->willReturn('site.com');
 
@@ -184,15 +233,15 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->assertInstanceOf(Validate::class, $validate->audience('site.com'));
     }
 
     public function testValidateAudienceFail(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getAudience')
             ->willReturn('other.site.com');
 
@@ -204,7 +253,7 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->expectException(ValidateException::class);
         $this->expectExceptionMessage('Audience claim does not contain provided StringOrURI.');
@@ -214,8 +263,8 @@ class ValidateTest extends TestCase
 
     public function testValidateAlgorithm(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getAlgorithm')
             ->willReturn('HS256');
 
@@ -227,15 +276,15 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->assertInstanceOf(Validate::class, $validate->algorithm(['HS256']));
     }
 
     public function testValidateAlgorithmFail(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getAlgorithm')
             ->willReturn('RS256');
 
@@ -247,18 +296,18 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->expectException(ValidateException::class);
         $this->expectExceptionMessage('Algorithm claim is not valid.');
-        $this->expectExceptionCode(10);
+        $this->expectExceptionCode(12);
         $validate->algorithm([]);
     }
 
     public function testValidateAlgorithmNotNone(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getAlgorithm')
             ->willReturn('HS256');
 
@@ -270,15 +319,15 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->assertInstanceOf(Validate::class, $validate->algorithmNotNone());
     }
 
     public function testValidateAlgorithmNotNoneFail(): void
     {
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getAlgorithm')
             ->willReturn('none');
 
@@ -290,11 +339,11 @@ class ValidateTest extends TestCase
 
         $encode = $this->createMock(EncodeHS256::class);
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->expectException(ValidateException::class);
         $this->expectExceptionMessage('Algorithm claim should not be none.');
-        $this->expectExceptionCode(11);
+        $this->expectExceptionCode(14);
         $validate->algorithmNotNone();
     }
 
@@ -308,12 +357,12 @@ class ValidateTest extends TestCase
             ->with('none', ['none'])
             ->willReturn(true);
 
-        $parsed = $this->createMock(Parsed::class);
-        $parsed->expects($this->once())
+        $parse = $this->createMock(Parse::class);
+        $parse->expects($this->once())
             ->method('getAlgorithm')
             ->willReturn('None');
 
-        $validate = new Validate($parsed, $encode, $validator);
+        $validate = new Validate($parse, $encode, $validator);
 
         $this->expectException(ValidateException::class);
         $validate->algorithmNotNone();

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace ReallySimpleJWT;
 
+use ReallySimpleJWT\Build;
 use ReallySimpleJWT\Helper\Validator;
+use ReallySimpleJWT\Validate;
 use ReallySimpleJWT\Encoders\EncodeHS256;
-use ReallySimpleJWT\Encoders\EncodeHS256Strong;
+use ReallySimpleJWT\Decode;
+use ReallySimpleJWT\Parse;
+use ReallySimpleJWT\Jwt;
 use ReallySimpleJWT\Exception\TokensException;
 use ReallySimpleJWT\Exception\ValidateException;
-use ReallySimpleJWT\Exception\JwtException;
-use ReallySimpleJWT\Exception\ParsedException;
+use ReallySimpleJWT\Exception\ParseException;
 
 /**
  * Core factory and interface class for creating basic JSON Web Tokens.
@@ -21,23 +24,27 @@ class Tokens
      * Factory method to return an instance of the Build class for creating new
      * JSON Web Tokens.
      */
-    public function builder(string $secret): Build
+    public function builder(): Build
     {
         return new Build(
             'JWT',
             new Validator(),
-            new EncodeHS256Strong($secret)
+            new Secret(),
+            new EncodeHS256()
         );
     }
 
     /**
-     * Factory method to return an instance of the Parse class for
-     * parsing a JWT.
+     * Factory method to return an instance of the Parse class for parsing a JWT
+     * and gaining access to the token's header and payload claims data.
      */
-    public function parser(string $token): Parse
+    public function parser(string $token, string $secret): Parse
     {
         return new Parse(
-            new Jwt($token),
+            new Jwt(
+                $token,
+                $secret
+            ),
             new Decode()
         );
     }
@@ -46,11 +53,13 @@ class Tokens
      * Factory method to return an instance of the Validate class to validate
      * the structure, signature and claims data of a JWT.
      */
-    public function validator(string $token, string $secret = ''): Validate
+    public function validator(string $token, string $secret): Validate
     {
+        $parse = $this->parser($token, $secret);
+
         return new Validate(
-            $this->parser($token)->parse(),
-            new EncodeHS256($secret),
+            $parse,
+            new EncodeHS256(),
             new Validator()
         );
     }
@@ -60,14 +69,10 @@ class Tokens
      *
      * @return mixed[]
      */
-    public function getHeader(string $token): array
+    public function getHeader(string $token, string $secret): array
     {
-        try {
-            $parser = $this->parser($token);
-            return $parser->parse()->getHeader();
-        } catch (JwtException $e) {
-            return [];
-        }
+        $parser = $this->parser($token, $secret);
+        return $parser->parse()->getHeader();
     }
 
     /**
@@ -75,14 +80,10 @@ class Tokens
      *
      * @return mixed[]
      */
-    public function getPayload(string $token): array
+    public function getPayload(string $token, string $secret): array
     {
-        try {
-            $parser = $this->parser($token);
-            return $parser->parse()->getPayload();
-        } catch (JwtException $e) {
-            return [];
-        }
+        $parser = $this->parser($token, $secret);
+        return $parser->parse()->getPayload();
     }
 
     /**
@@ -91,11 +92,12 @@ class Tokens
      *
      * @param string|int $userId
      */
-    public function create(string $userKey, string|int $userId, string $secret, int $expiration, string $issuer): Jwt
+    public function create(string $userKey, $userId, string $secret, int $expiration, string $issuer): Jwt
     {
-        $builder = $this->builder($secret);
+        $builder = $this->builder();
 
         return $builder->setPayloadClaim($userKey, $userId)
+            ->setSecret($secret)
             ->setExpiration($expiration)
             ->setIssuer($issuer)
             ->setIssuedAt(time())
@@ -110,7 +112,7 @@ class Tokens
      */
     public function customPayload(array $payload, string $secret): Jwt
     {
-        $builder = $this->builder($secret);
+        $builder = $this->builder();
 
         foreach ($payload as $key => $value) {
             if (is_int($key)) {
@@ -120,7 +122,8 @@ class Tokens
             $builder->setPayloadClaim($key, $value);
         }
 
-        return $builder->build();
+        return $builder->setSecret($secret)
+            ->build();
     }
 
     /**
@@ -128,14 +131,14 @@ class Tokens
      */
     public function validate(string $token, string $secret): bool
     {
+        $validate = $this->validator($token, $secret);
+
         try {
-            $validate = $this->validator($token, $secret);
-            $validate->algorithmNotNone()
+            $validate->structure()
+                ->algorithmNotNone()
                 ->signature();
             return true;
         } catch (ValidateException $e) {
-            return false;
-        } catch (JwtException $e) {
             return false;
         }
     }
@@ -144,16 +147,16 @@ class Tokens
      * Validate the expiration claim of a token to see if it has expired. Will
      * return false if the expiration (exp) claim is not set.
      */
-    public function validateExpiration(string $token): bool
+    public function validateExpiration(string $token, string $secret): bool
     {
-        $validate = $this->validator($token);
+        $validate = $this->validator($token, $secret);
 
         try {
             $validate->expiration();
             return true;
         } catch (ValidateException $e) {
             return false;
-        } catch (ParsedException $e) {
+        } catch (ParseException $e) {
             return false;
         }
     }
@@ -162,16 +165,16 @@ class Tokens
      * Validate the not before claim of a token to see if it is ready to use.
      * Will return false if the not before (nbf) claim is not set.
      */
-    public function validateNotBefore(string $token): bool
+    public function validateNotBefore(string $token, string $secret): bool
     {
-        $validate = $this->validator($token);
+        $validate = $this->validator($token, $secret);
 
         try {
             $validate->notBefore();
             return true;
         } catch (ValidateException $e) {
             return false;
-        } catch (ParsedException $e) {
+        } catch (ParseException $e) {
             return false;
         }
     }

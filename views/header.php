@@ -14,9 +14,23 @@
                 <a href="/watchlist">Watchlist</a>
             </li>
             <li>
-                <a href="/login">
-                    <span class="material-symbols-outlined">login</span>
-                </a>
+                <?php
+                    if(!isset($_COOKIE["token"])) {
+                        ?>
+                        <a href="/login">
+                            <span class="material-symbols-outlined log_button">
+                                login
+                            </span>
+                        </a>
+                        <?php
+                    } else {
+                        ?>
+                            <span class="material-symbols-outlined log_button">
+                                logout
+                            </span>
+                        <?php
+                    }
+                ?>
             </li>
             <form class="nav__form" method="GET" action="/search/">
                 <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here..." required>
@@ -24,4 +38,5 @@
             </form>
         </ul>
     </nav>
+    <script src="/js/logout.js"></script>
 </header>

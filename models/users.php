@@ -32,15 +32,16 @@
         public function createUser($username, $email, $password) {
             $query = $this->db->prepare("
                 INSERT INTO users
-                (username, email, password)
+                (username, email, password, api_key)
             VALUES
-                (?, ?, ?);
+                (?, ?, ?, ?);
             ");
             
             $query->execute([
                 $username,
                 $email,
-                password_hash($password, PASSWORD_DEFAULT)
+                password_hash($password, PASSWORD_DEFAULT),
+                bin2hex(random_bytes(20))
             ]);
 
             return $this->db->lastInsertId();
@@ -74,6 +75,32 @@
             $query->execute([
                 $id
             ]);
+        }
+
+        public function login($email, $password) {
+
+            $query = $this->db->prepare("
+                SELECT
+                    user_id, username,
+                    password, is_admin
+                FROM users
+                WHERE username = ?
+            ");
+            
+            $query->execute([
+                $email
+            ]);
+            
+            $user = $query->fetch();
+    
+            if(
+                !empty($user) &&
+                password_verify($password, $user["password"])
+            ) {
+                return $user;
+            }
+    
+            return false;
         }
     }
 

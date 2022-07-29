@@ -287,6 +287,10 @@ a {
   cursor: pointer;
 }
 
+.log_button {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1024px) {
   .nav__links {
       width: 40%;
@@ -921,4 +925,26 @@ a {
 .review__success {
   margin: 1em 0;
   font-size: 1.2em;
+}
+
+/* Login styles */
+.login__input {
+  padding: 1em 2em;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+  box-shadow: var(--shadow);
+  margin: 0.5em;
+}
+
+.login__div {
+  display: flex;
+  justify-content: center;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 0;
+  margin: 2em;
 }

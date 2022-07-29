@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace ReallySimpleJWT;
 
 use ReallySimpleJWT\Interfaces\Decode as DecodeInterface;

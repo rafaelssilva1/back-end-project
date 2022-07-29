@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Fixtures;
 
 class Tokens
@@ -21,8 +19,6 @@ class Tokens
     public const SIGNATURE = 'x50kuh6RBKnWmSh2lpTpEZ48ttZgbXdsLPI269tRRXc';
 
     public const SECRET = 'hello123';
-
-    public const SECRET_STRONG = 'hello123!*World456';
 
     public const DECODED_HEADER = ["alg" => "HS256", "typ" => "JWT"];
 

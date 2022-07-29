@@ -1,13 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use ReallySimpleJWT\Validate;
 use ReallySimpleJWT\Parsed;
-use ReallySimpleJWT\Exception\ParsedException;
 use ReallySimpleJWT\Jwt;
+use ReallySimpleJWT\Token;
+use ReallySimpleJWT\Build;
+use ReallySimpleJWT\Encode;
+use ReallySimpleJWT\Secret;
 use Tests\Fixtures\Tokens;
 
 class ParsedTest extends TestCase
@@ -24,68 +26,6 @@ class ParsedTest extends TestCase
         );
 
         $this->assertInstanceOf(Jwt::class, $parsed->getJwt());
-    }
-
-    public function testGetHeaderClaim(): void
-    {
-        $jwt = $this->createMock(Jwt::class);
-
-        $parsed = new Parsed(
-            $jwt,
-            Tokens::DECODED_HEADER,
-            Tokens::DECODED_PAYLOAD,
-            Tokens::SECRET
-        );
-
-        $this->assertSame('HS256', $parsed->getHeaderClaim('alg'));
-    }
-
-    public function testGetHeaderClaimNotSet(): void
-    {
-        $jwt = $this->createMock(Jwt::class);
-
-        $parsed = new Parsed(
-            $jwt,
-            Tokens::DECODED_HEADER,
-            Tokens::DECODED_PAYLOAD,
-            Tokens::SECRET
-        );
-
-        $this->expectException(ParsedException::class);
-        $this->expectExceptionMessage('The header claim alb is not set.');
-        $this->expectExceptionCode(6);
-        $parsed->getHeaderClaim('alb');
-    }
-
-    public function testGetPayloadClaim(): void
-    {
-        $jwt = $this->createMock(Jwt::class);
-
-        $parsed = new Parsed(
-            $jwt,
-            Tokens::DECODED_HEADER,
-            Tokens::DECODED_PAYLOAD,
-            Tokens::SECRET
-        );
-
-        $this->assertSame(1516239022, $parsed->getPayloadClaim('exp'));
-    }
-
-    public function testGetPayloadClaimNotSet(): void
-    {
-        $jwt = $this->createMock(Jwt::class);
-
-        $parsed = new Parsed(
-            $jwt,
-            Tokens::DECODED_HEADER,
-            Tokens::DECODED_PAYLOAD,
-            Tokens::SECRET
-        );
-
-        $this->expectException(ParsedException::class);
-        $this->expectExceptionMessage('The payload claim nbt is not set.');
-        $this->expectExceptionCode(7);
-        $parsed->getPayloadClaim('nbt');
     }
 
     public function testParsedGetHeader(): void
@@ -144,6 +84,20 @@ class ParsedTest extends TestCase
         $this->assertSame('localhost', $parsed->getIssuer());
     }
 
+    public function testGetIssuerNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["typ" => "JWT"],
+            ["iat" => 123],
+            'hello'
+        );
+
+        $this->assertSame('', $parsed->getIssuer());
+    }
+
     public function testGetSubject(): void
     {
         $token = $this->createMock(Jwt::class);
@@ -156,6 +110,20 @@ class ParsedTest extends TestCase
         );
 
         $this->assertSame('payments', $parsed->getSubject());
+    }
+
+    public function testGetSubjectNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["typ" => "JWT"],
+            ["iat" => 123],
+            'hello'
+        );
+
+        $this->assertSame('', $parsed->getSubject());
     }
 
     public function testGetAudience(): void
@@ -187,6 +155,20 @@ class ParsedTest extends TestCase
         $this->assertSame('admins', $parsed->getAudience()[1]);
     }
 
+    public function testGetAudienceNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["typ" => "JWT"],
+            ["iat" => 123],
+            'hello'
+        );
+
+        $this->assertSame('', $parsed->getAudience());
+    }
+
     public function testGetExpiration(): void
     {
         $token = $this->createMock(Jwt::class);
@@ -199,6 +181,20 @@ class ParsedTest extends TestCase
         );
 
         $this->assertSame(123456, $parsed->getExpiration());
+    }
+
+    public function testGetExpirationNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["typ" => "JWT"],
+            ["iat" => 123],
+            'hello'
+        );
+
+        $this->assertSame(0, $parsed->getExpiration());
     }
 
     public function testGetNotBefore(): void
@@ -215,6 +211,20 @@ class ParsedTest extends TestCase
         $this->assertSame(123456, $parsed->getNotBefore());
     }
 
+    public function testGetNotBeforeNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["typ" => "JWT"],
+            ["iat" => 123],
+            'hello'
+        );
+
+        $this->assertSame(0, $parsed->getNotBefore());
+    }
+
     public function testGetIssuedAt(): void
     {
         $token = $this->createMock(Jwt::class);
@@ -229,6 +239,20 @@ class ParsedTest extends TestCase
         $this->assertSame(123456, $parsed->getIssuedAt());
     }
 
+    public function testGetIssuedAtNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["typ" => "JWT"],
+            ["exp" => 123],
+            'hello'
+        );
+
+        $this->assertSame(0, $parsed->getIssuedAt());
+    }
+
     public function testGetJwtId(): void
     {
         $token = $this->createMock(Jwt::class);
@@ -241,6 +265,20 @@ class ParsedTest extends TestCase
         );
 
         $this->assertSame('he6236Yui', $parsed->getJwtId());
+    }
+
+    public function testGetJwtIdNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["typ" => "JWT"],
+            ["iat" => 123],
+            'hello'
+        );
+
+        $this->assertSame('', $parsed->getJwtId());
     }
 
     public function testGetAlgorithm(): void
@@ -271,6 +309,20 @@ class ParsedTest extends TestCase
         $this->assertSame('JWT', $parsed->getType());
     }
 
+    public function testGetTypeNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["cty" => "nested"],
+            ["iat" => 123],
+            'hello'
+        );
+
+        $this->assertSame('', $parsed->getType());
+    }
+
     public function testGetContentType(): void
     {
         $token = $this->createMock(Jwt::class);
@@ -283,6 +335,20 @@ class ParsedTest extends TestCase
         );
 
         $this->assertSame('nested', $parsed->getContentType());
+    }
+
+    public function testGetContentTypeNotSet(): void
+    {
+        $token = $this->createMock(Jwt::class);
+
+        $parsed = new Parsed(
+            $token,
+            ["typ" => "JWT"],
+            ["iat" => 123],
+            'hello'
+        );
+
+        $this->assertSame('', $parsed->getContentType());
     }
 
     public function testGetExpiresIn(): void

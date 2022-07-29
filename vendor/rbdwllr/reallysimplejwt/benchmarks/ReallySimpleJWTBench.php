@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Benchmarks;
 
 use ReallySimpleJWT\Build;
+use ReallySimpleJWT\Validate;
+use ReallySimpleJWT\Secret;
 use ReallySimpleJWT\Parse;
 use ReallySimpleJWT\Jwt;
 use ReallySimpleJWT\Encoders\EncodeHS256;
@@ -22,7 +22,8 @@ class ReallySimpleJWTBench
         $build = new Build(
             'JWT',
             new Validator(),
-            new EncodeHS256('123abcDEF!$£%456')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration = time() + 10;
@@ -31,6 +32,7 @@ class ReallySimpleJWTBench
 
         $build->setContentType('JWT')
             ->setHeaderClaim('info', 'Hello World')
+            ->setSecret('123abcDEF!$£%456')
             ->setIssuer('localhost')
             ->setSubject('users')
             ->setAudience('https://google.com')
@@ -52,7 +54,7 @@ class ReallySimpleJWTBench
         'eyJhdWQiOiJodHRwczovL2dvb2dsZS5jb20iLCJuYW1lIjoiQ2hyaXMiLCJpYXQiOjE1MTYyMzkwMjJ9.' .
         'dA-VMA__ZkvaLjSui-dOgNi23KLU52Y--_dutVvohio';
 
-        $parse = new Parse(new Jwt($token), new Decode());
+        $parse = new Parse(new Jwt($token, '123$car*PARK456'), new Decode());
 
         $parse->parse();
     }
@@ -66,7 +68,8 @@ class ReallySimpleJWTBench
         $build = new Build(
             'JWT',
             new Validator(),
-            new EncodeHS256('123abcDEF!$£%456')
+            new Secret(),
+            new EncodeHS256()
         );
 
         $expiration = time() + 10;
@@ -75,6 +78,7 @@ class ReallySimpleJWTBench
 
         $token = $build->setContentType('JWT')
             ->setHeaderClaim('info', 'Hello World')
+            ->setSecret('123abcDEF!$£%456')
             ->setIssuer('localhost')
             ->setSubject('users')
             ->setAudience('https://google.com')

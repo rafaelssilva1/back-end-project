@@ -1,5 +1,7 @@
 <?php
 
+require("vendor/autoload.php");
+
 define("ENV", parse_ini_file(".env"));
 
 $parts = explode("/", $_SERVER["REQUEST_URI"]);

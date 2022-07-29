@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Integration;
 
 use ReallySimpleJWT\Token;
 use ReallySimpleJWT\Exception\BuildException;
-use ReallySimpleJWT\Exception\EncodeException;
 use ReallySimpleJWT\Exception\TokensException;
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +11,7 @@ class TokenTest extends TestCase
 {
     public function testCreateBadSignature(): void
     {
-        $this->expectException(EncodeException::class);
+        $this->expectException(BuildException::class);
         $this->expectExceptionMessage('Invalid secret.');
         $this->expectExceptionCode(9);
 
@@ -107,7 +104,7 @@ class TokenTest extends TestCase
             'localhost'
         );
 
-        $payload = Token::getPayload($token);
+        $payload = Token::getPayload($token, 'The^Secret123456');
 
         $this->assertContains('LW345', $payload);
         $this->assertContains($expiration, $payload);
@@ -127,7 +124,7 @@ class TokenTest extends TestCase
             'Password$765890',
         );
 
-        $payload = Token::getPayload($token);
+        $payload = Token::getPayload($token, 'Password$765890');
 
         $this->assertSame(
             [
@@ -148,7 +145,7 @@ class TokenTest extends TestCase
             'localhost'
         );
 
-        $header = Token::getHeader($token);
+        $header = Token::getHeader($token, '83$gfT^%hu7821');
 
         $this->assertSame(
             [
@@ -168,7 +165,7 @@ class TokenTest extends TestCase
             'localhost'
         );
 
-        $valid = Token::validateExpiration($token);
+        $valid = Token::validateExpiration($token, 'Expiration*1234');
 
         $this->assertTrue($valid);
     }
@@ -181,7 +178,7 @@ class TokenTest extends TestCase
             'iss' => 'localhost'
         ], 'Expired@12300');
 
-        $valid = Token::validateExpiration($token);
+        $valid = Token::validateExpiration($token, 'Expired@12300');
 
         $this->assertFalse($valid);
     }
@@ -193,7 +190,7 @@ class TokenTest extends TestCase
             'iss' => 'localhost'
         ], 'No*812@Expiration');
 
-        $valid = Token::validateExpiration($token);
+        $valid = Token::validateExpiration($token, 'No*812@Expiration');
 
         $this->assertFalse($valid);
     }
@@ -206,7 +203,7 @@ class TokenTest extends TestCase
             'iss' => 'localhost'
         ], 'Not*123$Before');
 
-        $valid = Token::validateNotBefore($token);
+        $valid = Token::validateNotBefore($token, 'Not*123$Before');
 
         $this->assertTrue($valid);
     }
@@ -219,7 +216,7 @@ class TokenTest extends TestCase
             'iss' => 'localhost'
         ], 'Not*123$Before');
 
-        $valid = Token::validateNotBefore($token);
+        $valid = Token::validateNotBefore($token, 'Not*123$Before');
 
         $this->assertFalse($valid);
     }
@@ -233,7 +230,7 @@ class TokenTest extends TestCase
             'localhost'
         );
 
-        $valid = Token::validateNotBefore($token);
+        $valid = Token::validateNotBefore($token, 'No*Before123!67');
 
         $this->assertFalse($valid);
     }
