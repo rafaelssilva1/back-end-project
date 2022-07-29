@@ -1,4 +1,6 @@
 <?php
+    use ReallySimpleJWT\Token;
+
     class Base {
         public $db;
         public $user;
@@ -22,6 +24,15 @@
             $query->execute();
             
             return $query->fetch();
+        }
+
+        public function checkAuthToken() {    
+            if(isset($_COOKIE["token"])) {
+                $isValid = Token::validate($_COOKIE["token"], ENV["JWT_KEY"]);
+                if($isValid) {
+                    return $userPayload = Token::getPayload($_COOKIE["token"], ENV["JWT_KEY"]);
+                }
+            }
         }
     }
 ?>

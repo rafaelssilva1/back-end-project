@@ -1,7 +1,7 @@
 <?php
 
     class Watchlist extends Base {
-        public function getAllWatchlist() {
+        public function getAllWatchlist($user_id) {
             $query = $this->db->prepare("
                 SELECT movies.id, movies.title, movies.overview, movies.poster_path,
                     CASE
@@ -10,11 +10,14 @@
                     END AS vote_avg
                 FROM movies
                 LEFT JOIN comments ON movies.id = comments.movie_id
-                INNER JOIN watchlist on movies.id = watchlist.movie_id
+                INNER JOIN watchlist ON movies.id = watchlist.movie_id
+                WHERE watchlist.user_id = ?
                 GROUP BY id;
             ");
             
-            $query->execute();
+            $query->execute([
+                $user_id
+            ]);
             
             return $query->fetchAll();
         }

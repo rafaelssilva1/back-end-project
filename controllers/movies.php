@@ -12,6 +12,11 @@
     $disablePrevious = false;
 
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
+        $userPayload = $model->checkAuthToken();
+
+        if(empty($userPayload)) {
+            header("Location: /movies/".$id);
+        }
     
         if(!empty($id)) {
             if($id > $moviesCount["count"]) {
@@ -19,7 +24,7 @@
                 require("views/404.php");
             } else {
                 $movie = $model->getMovieById($id);
-                $heart = $model->searchWatchlist($id, 1); // ATTENTION CHANGE LATER
+                $heart = $model->searchWatchlist($id, $userPayload["user_id"]);
                 $comments = $model->getComments($id);
                 require("views/movieById.php");
             }
@@ -63,62 +68,60 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
         if(isset($_POST["comment_text"]) and isset($_POST["rating"])) {
-            $data = $model->postComments($_POST["movie_id"], 3, "antonio", $_POST["comment_text"], $_POST["rating"]); // ATTENTION CHANGE LATER
+            $userPayload = $model->checkAuthToken();
+
+            if(empty($userPayload)) {
+                header("Location: /movies/".$_POST["movie_id"]);
+            }
+
+            $data = $model->postComments($_POST["movie_id"], $userPayload["user_id"], $userPayload["username"], $_POST["comment_text"], $_POST["rating"]);
             http_response_code(202);
             header("Location: /movies/".$_POST["movie_id"]);
         }
-
+        
         $body = file_get_contents("php://input");
         $data = json_decode($body, true);
-        
+
         if(isset($data["watchlist"])) {
+            $userPayload = $model->checkAuthToken();
+
+            if(empty($userPayload)) {
+                header("Location: /movies/".$id);
+            }
+
             if(
-                empty($data) ||
-                !is_numeric($data["movie_id"]) ||
-                !is_numeric($data["user_id"])
+                empty($data)
             ) {
                 http_response_code(400);
                 echo '{"Message":"Invalid information"}';
                 exit;
             }
-    
-            $saved = $model->searchWatchlist($data["movie_id"], $data["user_id"]);
+
+            $saved = $model->searchWatchlist($data["movie_id"], $userPayload["user_id"]);
     
             if(empty($saved)) {
-                $data = $model->postToWatchlist($data["movie_id"], $data["user_id"]);
+                $data = $model->postToWatchlist($data["movie_id"], $userPayload["user_id"]);
                 http_response_code(202);
                 echo '{"Message":"Movie added to watchlist"}';
-            } else {
-                http_response_code(400);
-                echo '{"Message":"Movie already exists in watchlist"}';
             }
         }
 
     }
 
     if( $_SERVER["REQUEST_METHOD"] === "DELETE" ) {
-        $body = file_get_contents("php://input");
-        $data = json_decode($body, true);
+        if(isset($data["watchlist"])) {
+            $userPayload = $model->checkAuthToken();
 
-        if(
-            empty($data) ||
-            !is_numeric($data["movie_id"]) ||
-            !is_numeric($data["user_id"])
-        ) {
-            http_response_code(400);
-            echo '{"Message":"Invalid information"}';
-            exit;
+            if(empty($userPayload)) {
+                header("Location: /movies/".$id);
+            }
+
+            $saved = $model->searchWatchlist($data["movie_id"], $userPayload["user_id"]);
+
+            if(!empty($saved)) {
+                $data = $model->deleteFromWatchlist($data["movie_id"], $userPayload["user_id"]);
+            }
         }
 
-        $saved = $model->searchWatchlist($data["movie_id"], $data["user_id"]);
-
-        if(!empty($saved)) {
-            $data = $model->deleteFromWatchlist($data["movie_id"], $data["user_id"]);
-            http_response_code(202);
-            echo '{"Message":"Movie deleted to watchlist"}';
-        } else {
-            http_response_code(400);
-            echo '{"Message":"Movie doesnt exist in watchlist"}';
-        }
     }
 ?>
