@@ -29,6 +29,20 @@
             return $query->fetch();
         }
 
+        public function validateUser($username) {
+            $query = $this->db->prepare("
+                SELECT username
+                FROM users
+                WHERE username = ? 
+            ");
+            
+            $query->execute([
+                $username
+            ]);
+        
+            return $query->fetch();
+        }
+
         public function createUser($username, $email, $password) {
             $query = $this->db->prepare("
                 INSERT INTO users

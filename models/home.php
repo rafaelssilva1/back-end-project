@@ -25,7 +25,7 @@
                 LEFT JOIN comments ON movies.id = comments.movie_id
                 GROUP BY id
                 ORDER BY votes_count DESC
-                LIMIT 12;
+                LIMIT 8;
             ");
             
             $query->execute();
@@ -44,7 +44,7 @@
                 LEFT JOIN comments ON movies.id = comments.movie_id
                 GROUP BY id
                 ORDER BY AVG(COALESCE(comments.rating, 0)) DESC
-                LIMIT 12;
+                LIMIT 8;
             ");
             
             $query->execute();
@@ -63,7 +63,7 @@
                 LEFT JOIN comments ON movies.id = comments.movie_id
                 WHERE DATE(movies.release_date) > DATE(NOW())
                 GROUP BY id
-                LIMIT 12;
+                LIMIT 8;
             ");
             
             $query->execute();

@@ -15,17 +15,17 @@
             <div>
                 <h2 class="genres__title">Login</h2>
                 <form class="login__form" method="POST" action="/login/">
-                    <input type="text" name="username" class="login__input" placeholder="Username" min="3" max="32"> 
-                    <input type="password" name="password" class="login__input" placeholder="Password" min="9" max="1000">
+                    <input type="text" name="usernameLogin" class="login__input" placeholder="Username" min="3" max="32"> 
+                    <input type="password" name="passwordLogin" class="login__input" placeholder="Password" min="9" max="1000">
                     <button type="submit" class="button review__submit">Login</button> 
                 </form>
             </div>
             <div>
                 <h2 class="genres__title">Register</h2>
                 <form class="login__form" method="POST" action="/login/">
-                    <input type="text" name="username" class="login__input" placeholder="Username"> 
-                    <input type="email" name="email" class="login__input" placeholder="Email"> 
-                    <input type="password" name="password" class="login__input" placeholder="Password">
+                    <input type="text" name="usernameRegister" class="login__input" placeholder="Username"> 
+                    <input type="email" name="emailRegister" class="login__input" placeholder="Email"> 
+                    <input type="password" name="passwordRegister" class="login__input" placeholder="Password">
                     <button type="submit" class="button review__submit">Register</button> 
                 </form>
             </div>
