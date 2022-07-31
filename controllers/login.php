@@ -1,12 +1,17 @@
 <?php
 
     use ReallySimpleJWT\Token;
-    
+        
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         if(isset($_COOKIE["token"])) {
-            header("Location: /");
+            require("models/movies.php");
+            $model = new Movie();
+            $userPayload = $model->checkAuthToken();
+            $userComments = $model->getCommentsByUser($userPayload["user_id"]);
+            require("views/user-area.php");
+        } else {
+            require("views/login.php");
         }
-        require("views/login.php");
     }
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {

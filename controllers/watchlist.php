@@ -7,7 +7,7 @@
         $userPayload = $model->checkAuthToken();
 
         if(empty($userPayload)) {
-            header("Location: /movies/".$id);
+            header("Location: /movies/");
         }
 
         $watchlist = $model->getAllWatchlist($userPayload["user_id"]);

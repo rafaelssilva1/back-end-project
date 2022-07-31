@@ -13,19 +13,20 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         $userPayload = $model->checkAuthToken();
-
-        if(empty($userPayload)) {
-            header("Location: /movies/".$id);
-        }
     
         if(!empty($id)) {
             if($id > $moviesCount["count"]) {
                 http_response_code(404);
                 require("views/404.php");
             } else {
-                $movie = $model->getMovieById($id);
-                $heart = $model->searchWatchlist($id, $userPayload["user_id"]);
-                $comments = $model->getComments($id);
+                if(!empty($userPayload)) {
+                    $movie = $model->getMovieById($id);
+                    $heart = $model->searchWatchlist($id, $userPayload["user_id"]);
+                    $comments = $model->getComments($id);
+                } else {
+                    $movie = $model->getMovieById($id);
+                    $comments = $model->getComments($id);
+                }
                 require("views/movieById.php");
             }
         } else {
@@ -109,6 +110,9 @@
     }
 
     if( $_SERVER["REQUEST_METHOD"] === "DELETE" ) {
+        $body = file_get_contents("php://input");
+        $data = json_decode($body, true);
+        
         if(isset($data["watchlist"])) {
             $userPayload = $model->checkAuthToken();
 

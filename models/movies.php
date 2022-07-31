@@ -110,6 +110,52 @@
             return $query->fetchAll();
         }
 
+        public function getCommentsByUser($user) {
+            $query = $this->db->prepare("
+                SELECT movies.id, movies.title, comments.username, comments.comment_text, comments.created_at, comments.rating, movies.poster_path
+                FROM comments
+                INNER JOIN movies ON comments.movie_id = movies.id
+                WHERE user_id = ?
+            ");
+            
+            $query->execute([
+                $user
+            ]);
+            
+            return $query->fetchAll();
+        }
+
+        public function getCommentByUserAndMovie($user, $movie_id) {
+            $query = $this->db->prepare("
+                SELECT movies.id, movies.title, comments.username, comments.comment_text, comments.created_at, comments.rating, movies.poster_path
+                FROM comments
+                INNER JOIN movies ON comments.movie_id = movies.id
+                WHERE user_id = ? AND comments.movie_id = ?
+            ");
+            
+            $query->execute([
+                $user,
+                $movie_id
+            ]);
+            
+            return $query->fetch();
+        }
+
+        public function editComment($comment_text, $rating, $user_id, $movie_id) {
+            $query = $this->db->prepare("
+                UPDATE comments
+                SET comment_text = ?, rating = ?
+                WHERE user_id = ? AND movie_id = ?
+            ");
+            
+            return $query->execute([
+                $comment_text,
+                $rating,
+                $user_id,
+                $movie_id
+            ]);
+        }
+
         public function postComments($movie_id, $user_id, $username, $comment_text, $rating) {
             $query = $this->db->prepare("
                 INSERT INTO comments

@@ -31,11 +31,14 @@
             <div class="card__info">
                 <button class="watchlist__button">
                     <span class="material-icons-outlined watchlist__button-btn">
-                        <?php if(empty($heart)) { 
-                            echo "favorite_border";
-                        } else {
-                            echo "favorite";
-                        }; ?>
+                        <?php if(!empty($userPayload)) {
+                            if(empty($heart)) { 
+                                echo "favorite_border";
+                            } else {
+                                echo "favorite";
+                            };
+                        }
+                        ?>
                     </span>
                 </button>
                 <h1 class="card__title"><?php echo $movie["title"] ?></h1>
@@ -104,37 +107,48 @@
                     <?php
                 }
             ?>
-        <div>
-            <form class="review__form" method="POST" action="/movies/">
-                <label for="comment_text">Write your review here:</label>
-                <textarea id="review__textarea" name="comment_text" max="20"></textarea>
-                <div id="character_count"></div>
-                <div class="review__rating">
-                    <p>Leave a rating here:</p>
-                    <input type="radio" id="1" name="rating" value="1" required/>
-                    <label for="1">1</label>
-                    <input type="radio" id="2" name="rating" value="2" />
-                    <label for="2">2</label>
-                    <input type="radio" id="3" name="rating" value="3" />
-                    <label for="3">3</label>
-                    <input type="radio" id="4" name="rating" value="4" />
-                    <label for="4">4</label>
-                    <input type="radio" id="5" name="rating" value="5" />
-                    <label for="5">5</label>
-                    <input type="radio" id="6" name="rating" value="6" />
-                    <label for="6">6</label>
-                    <input type="radio" id="7" name="rating" value="7" />
-                    <label for="7">7</label>
-                    <input type="radio" id="8" name="rating" value="8" />
-                    <label for="8">8</label>
-                    <input type="radio" id="9" name="rating" value="9" />
-                    <label for="9">9</label>
-                    <input type="radio" id="10" name="rating" value="10" />
-                    <label for="10">10</label>
-                </div>
-                <input type="hidden" name="movie_id" value="<?php echo $id ?>">
-                <button type="submit" class="button review__submit">Submit review</button>
-            </form>
+        <div class="reviews__formsection">
+            <?php
+                if(!empty($userPayload)) {
+                    ?>
+                        <form class="review__form" method="POST" action="/movies/">
+                            <label for="comment_text">Write your review here:</label>
+                            <textarea id="review__textarea" name="comment_text"></textarea>
+                            <div id="character_count"></div>
+                            <div class="review__rating">
+                                <p>Leave a rating here:</p>
+                                <input type="radio" id="1" name="rating" value="1" required/>
+                                <label for="1">1</label>
+                                <input type="radio" id="2" name="rating" value="2" />
+                                <label for="2">2</label>
+                                <input type="radio" id="3" name="rating" value="3" />
+                                <label for="3">3</label>
+                                <input type="radio" id="4" name="rating" value="4" />
+                                <label for="4">4</label>
+                                <input type="radio" id="5" name="rating" value="5" />
+                                <label for="5">5</label>
+                                <input type="radio" id="6" name="rating" value="6" />
+                                <label for="6">6</label>
+                                <input type="radio" id="7" name="rating" value="7" />
+                                <label for="7">7</label>
+                                <input type="radio" id="8" name="rating" value="8" />
+                                <label for="8">8</label>
+                                <input type="radio" id="9" name="rating" value="9" />
+                                <label for="9">9</label>
+                                <input type="radio" id="10" name="rating" value="10" />
+                                <label for="10">10</label>
+                            </div>
+                            <input type="hidden" name="movie_id" value="<?php echo $id ?>">
+                            <button type="submit" class="button review__submit">Submit review</button>
+                        </form>
+                    <?php
+                } else {
+                    ?>
+                        <h3>You must be logged in if you want to leave a review!</h3>
+                    <?php
+                }
+            ?>
+            
         </div>
         </div>
     </div>

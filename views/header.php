@@ -17,17 +17,19 @@
                 <?php
                     if(!isset($_COOKIE["token"])) {
                         ?>
-                        <a href="/login">
-                            <span class="material-symbols-outlined log_button">
-                                login
-                            </span>
-                        </a>
+                            <a href="/login">
+                                <span class="material-symbols-outlined">
+                                    login
+                                </span>
+                            </a>
                         <?php
                     } else {
                         ?>
-                            <span class="material-symbols-outlined log_button">
-                                logout
-                            </span>
+                            <a href="/login">
+                                <span class="material-symbols-outlined">
+                                    face
+                                </span>
+                            </a>
                         <?php
                     }
                 ?>
@@ -38,5 +40,4 @@
             </form>
         </ul>
     </nav>
-    <script src="/js/logout.js"></script>
 </header>

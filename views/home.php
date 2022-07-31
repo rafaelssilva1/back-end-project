@@ -182,5 +182,7 @@
     </div>
 
     <script src="/js/home.js"></script>
+
+    <?php require("views/footer.php"); ?>
 </body>
 </html>

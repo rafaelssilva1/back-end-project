@@ -4,18 +4,20 @@
     $model = new User();
 
     if($_SERVER["REQUEST_METHOD"] === "GET") {
-        if(!empty($id)) {
-            $data = $model->getUser($id);
-    
-            if(empty($data)) {
-                http_response_code(404);
-                echo '{"Message": "Not found"}';
-                exit;
+        $userPayload = $model->checkAuthToken();
+
+        if($userPayload["is_admin"] === 1) {
+            if(!empty($id)) {
+                $data = $model->getUser($id);
+        
+                if(empty($data)) {
+                    http_response_code(404);
+                    exit;
+                }
+            } else {
+                $data = $model->getUsers();
             }
-        } else {
-            $data = $model->getUsers();
         }
-        echo json_encode($data);
     }
 
     else if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
@@ -31,15 +33,10 @@
             !filter_var($data["email"], FILTER_VALIDATE_EMAIL)
         ) {
             http_response_code(400);
-            echo '{"Message":"Invalid information"}';
             exit;
         }
 
         $createUser = $model->createUser($data["username"], $data["email"], $data["password"]);
-
-        unset($data["password"]);
-        echo json_encode($data);
-
     }
 
     else if( $_SERVER["REQUEST_METHOD"] === "PUT" ) {
