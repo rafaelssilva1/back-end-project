@@ -46,16 +46,15 @@
         public function createUser($username, $email, $password) {
             $query = $this->db->prepare("
                 INSERT INTO users
-                (username, email, password, api_key)
+                (username, email, password)
             VALUES
-                (?, ?, ?, ?);
+                (?, ?, ?);
             ");
             
             $query->execute([
                 $username,
                 $email,
-                password_hash($password, PASSWORD_DEFAULT),
-                bin2hex(random_bytes(20))
+                password_hash($password, PASSWORD_DEFAULT)
             ]);
 
             return $this->db->lastInsertId();

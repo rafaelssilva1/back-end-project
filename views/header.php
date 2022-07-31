@@ -18,16 +18,16 @@
                     if(!isset($_COOKIE["token"])) {
                         ?>
                             <a href="/login">
-                                <span class="material-symbols-outlined">
-                                    login
+                                <span >
+                                    Login
                                 </span>
                             </a>
                         <?php
                     } else {
                         ?>
                             <a href="/login">
-                                <span class="material-symbols-outlined">
-                                    face
+                                <span>
+                                    My Account
                                 </span>
                             </a>
                         <?php

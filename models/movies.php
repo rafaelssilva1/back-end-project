@@ -173,6 +173,27 @@
             ]);
             
         }
+
+        public function createMovie($title, $overview, $release_date, $duration, $genres_id, $trailer_link, $backdrop_path, $poster_path) {
+            $query = $this->db->prepare("
+                INSERT INTO movies
+                    (title, overview, release_date, duration, genres_id, trailer_link, backdrop_path, poster_path)
+                VALUES
+                    (?, ?, ?, ?, ?, ?, ?, ?);
+            ");
+            
+            return $query->execute([
+                $title,
+                $overview,
+                $release_date,
+                $duration,
+                $genres_id,
+                $trailer_link,
+                $backdrop_path,
+                $poster_path
+            ]);
+            
+        }
     }
 
 ?>

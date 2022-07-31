@@ -896,6 +896,7 @@ a {
   display: flex;
   flex-direction: column;
   padding: 1em 0;
+  gap: 0.5em;
 }
 
 #review__textarea, #review__user {
@@ -1014,4 +1015,25 @@ a {
   box-shadow: var(--shadow);
   background-color: white;
   height: 500px;
+}
+
+/* Admin area styles */
+.admin__input {
+  padding: 1em 0.5em;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+  box-shadow: var(--shadow);
+  font-family: var(--main-font);
+}
+
+.admin__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.admin__grid > * {
+  display: flex;
+  flex-direction: column;
 }

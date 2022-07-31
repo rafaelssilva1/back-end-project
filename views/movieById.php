@@ -114,7 +114,6 @@
                         <form class="review__form" method="POST" action="/movies/">
                             <label for="comment_text">Write your review here:</label>
                             <textarea id="review__textarea" name="comment_text"></textarea>
-                            <div id="character_count"></div>
                             <div class="review__rating">
                                 <p>Leave a rating here:</p>
                                 <input type="radio" id="1" name="rating" value="1" required/>

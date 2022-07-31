@@ -14,7 +14,7 @@
 
     <div class="container card">
         <div class="movieslideshow__header">
-            <h2>Edit your comment:</h2>
+            <h2><?php echo $userComment["title"]; ?></h2>
             <div class="movieslideshow__bar"></div>
         </div>
         <div class="reviews__formsection">
@@ -22,8 +22,8 @@
                 if(!empty($userPayload)) {
                     ?>
                         <form class="review__form" method="POST" action="/edit/<?php echo $id; ?>">
+                            <label for="comment_text">Edit your review:</label>
                             <textarea id="review__textarea" name="comment_text"><?php echo $userComment["comment_text"]; ?></textarea>
-                            <div id="character_count"></div>
                             <div class="review__rating">
                                 <p>Update your rating here:</p>
                                 <input type="radio" id="1" name="rating" value="1" <?php if($userComment["rating"] == 1) { echo "checked"; } ?> required/>
@@ -47,7 +47,6 @@
                                 <input type="radio" id="10" name="rating" value="10" <?php if($userComment["rating"] == 10) { echo "checked"; } ?>/>
                                 <label for="10">10</label>
                             </div>
-                            <input type="hidden" name="movie_id" value="<?php echo $id ?>">
                             <button type="submit" class="button review__submit">Submit review</button>
                         </form>
                     <?php
