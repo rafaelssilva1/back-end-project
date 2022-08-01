@@ -7,8 +7,12 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         $userPayload = $model->checkAuthToken();
-        $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
-        require("views/edit.php");
+        if(!empty($id)) {
+            $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
+            require("views/edit.php");
+        } else {
+            header("Location: /login/");
+        }
     }
 
     if( $_SERVER["REQUEST_METHOD"] === "POST" ) {

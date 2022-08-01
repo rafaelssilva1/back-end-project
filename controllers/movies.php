@@ -24,6 +24,7 @@
                     $movie = $model->getMovieById($id);
                     $heart = $model->searchWatchlist($id, $userPayload["user_id"]);
                     $comments = $model->getComments($id);
+                    $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
                 } else {
                     $movie = $model->getMovieById($id);
                     $comments = $model->getComments($id);
