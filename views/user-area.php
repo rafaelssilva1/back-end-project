@@ -18,36 +18,45 @@
         </div>
         <div class="movieslideshow__grid">
             <?php
-                foreach ($userComments as $key => $value) {
-                    echo ('
-                        <article class="movieslideshow__article">
-                                <div class="userarea__link">
-                                    <picture class="movie__picture">
-                                        <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$userComments[$key]["poster_path"].'" />
-                                    </picture>
-                                    <div class="movie__info">
-                                        <h2 class="movie__title">'.$userComments[$key]["title"].'</h2>
-                                        <div class="movie__vote">
-                                            <span>'.$userComments[$key]["rating"].'</span>
-                                            <span class="material-icons-outlined">
-                                                star
-                                            </span>
+                if(!empty($userComments)) {
+                    foreach ($userComments as $key => $value) {
+                        echo ('
+                            <article class="movieslideshow__article">
+                                    <div class="userarea__link">
+                                        <picture class="movie__picture">
+                                            <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$userComments[$key]["poster_path"].'" />
+                                        </picture>
+                                        <div class="movie__info">
+                                            <h2 class="movie__title">'.$userComments[$key]["title"].'</h2>
+                                            <div class="movie__vote">
+                                                <span>'.$userComments[$key]["rating"].'</span>
+                                                <span class="material-icons-outlined">
+                                                    star
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <a href="/edit/'.$userComments[$key]["id"].'">
+                                                <button class="usearea__button">
+                                                    Edit
+                                                </button>
+                                            </a>
+                                            <a href="/movies/'.$userComments[$key]["id"].'">
+                                                <button class="usearea__button">
+                                                    Movie details
+                                                </button>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div>
-                                        <a href="/edit/'.$userComments[$key]["id"].'">
-                                            <button class="usearea__button">
-                                                Edit
-                                            </button>
-                                        </a>
-                                        <a href="/movies/'.$userComments[$key]["id"].'">
-                                            <button class="usearea__button">
-                                                Movie details
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
-                        </article>
+                            </article>
+                        ');
+                    }
+                } else {
+                    echo ('
+                        <div class="">
+                            <p class="reviews__noreviews">You haven not submitted a review yet.</p>
+                            <a href="/movies/"><button class="button">Find a movie here.</button></a>
+                        </div>
                     ');
                 }
             ?>
