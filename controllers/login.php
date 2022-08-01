@@ -27,30 +27,34 @@
                 mb_strlen($_POST["passwordLogin"]) > 1000
             ) {
                 http_response_code(405);
-                echo '{"Message":"Method not allowed"}';
+                $_SESSION['message'] = "The username or password is incorrect. Please try again.";
+                require("views/login.php");
+                die();
             }
 
             $user = $model->login($_POST["usernameLogin"], $_POST["passwordLogin"]);
             
             if(empty($user)) {
                 http_response_code(401);
-                die('{"message":"Authentication failed"}');
+                $_SESSION['message'] = "The username or password is incorrect. Please try again.";
+                require("views/login.php");
+            } else {
+                $payload = [
+                    'iat' => time(),
+                    'exp' => time() + (60 * 60 * 24),
+                    'user_id' => $user["user_id"],
+                    'username' => $user["username"],
+                    'is_admin' => $user["is_admin"]
+                ];
+                $secret = ENV["JWT_KEY"];
+        
+                $token = Token::customPayload($payload, $secret);
+    
+                setcookie("token", $token, time() + (60 * 60 * 24), "/");
+    
+                header("Location: /");
             }
 
-            $payload = [
-                'iat' => time(),
-                'exp' => time() + (60 * 60 * 24),
-                'user_id' => $user["user_id"],
-                'username' => $user["username"],
-                'is_admin' => $user["is_admin"]
-            ];
-            $secret = ENV["JWT_KEY"];
-    
-            $token = Token::customPayload($payload, $secret);
-
-            setcookie("token", $token, time() + (60 * 60 * 24), "/");
-
-            header("Location: /");
         }
 
         if(isset($_POST["usernameRegister"]) and isset($_POST["passwordRegister"]) and isset($_POST["emailRegister"])) {
@@ -63,7 +67,9 @@
                 !filter_var($_POST["emailRegister"], FILTER_VALIDATE_EMAIL)
             ) {
                 http_response_code(405);
-                echo '{"Message":"Method not allowed"}';
+                $_SESSION['message'] = "The username must have more than 3 characters and the password more than 8.";
+                require("views/login.php");
+                die();
             }
 
             $validateUser = $model->validateUser($_POST["usernameRegister"]);
@@ -74,7 +80,9 @@
 
                 if(empty($login)) {
                     http_response_code(401);
-                    die('{"message":"Authentication failed"}');
+                    $_SESSION['message'] = "An authentication error has occurred. Please try again or contact us info@".ENV["DB_HOST"]."";
+                    require("views/login.php");
+                    die();
                 }
     
                 $payload = [
@@ -106,7 +114,12 @@
                 mb_strlen($_POST["passwordUpdate"]) > 1000
             ) {
                 http_response_code(405);
-                echo '{"Message":"Method not allowed"}';
+                $_SESSION['message'] = "Password must have more than 8 characters. Please try again.";
+                require("models/movies.php");
+                $movieMethod = new Movie();
+                $userComments = $movieMethod->getCommentsByUser($userPayload["user_id"]);
+                require("views/user-area.php");
+                die($_SESSION['message'] = "Password must have more than 8 characters. Please try again.");
             }
 
             $validateUser = $model->validateUser($userPayload["username"]);
@@ -117,23 +130,25 @@
 
                 if(empty($login)) {
                     http_response_code(401);
-                    die('{"message":"Authentication failed"}');
-                }
-    
-                $payload = [
-                    'iat' => time(),
-                    'exp' => time() + (60 * 60 * 24),
-                    'user_id' => $login["user_id"],
-                    'username' => $login["username"],
-                    'is_admin' => $login["is_admin"]
-                ];
-                $secret = ENV["JWT_KEY"];
+                    $_SESSION['message'] = "Password must have more than 8 characters. Please try again.";
+                    require("views/user-area.php");
+                    die();
+                } else {
+                    $payload = [
+                        'iat' => time(),
+                        'exp' => time() + (60 * 60 * 24),
+                        'user_id' => $login["user_id"],
+                        'username' => $login["username"],
+                        'is_admin' => $login["is_admin"]
+                    ];
+                    $secret = ENV["JWT_KEY"];
+            
+                    $token = Token::customPayload($payload, $secret);
         
-                $token = Token::customPayload($payload, $secret);
-    
-                setcookie("token", $token, time() + (60 * 60 * 24), "/");
-    
-                header("Location: /");
+                    setcookie("token", $token, time() + (60 * 60 * 24), "/");
+        
+                    header("Location: /");
+                }
             } else {
                 header("Location: /login/");
             }

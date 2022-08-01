@@ -72,6 +72,7 @@
                 <button type="submit" class="button review__submit">Change Password</button> 
             </form>
         </div>
+        <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
         <button class="button log_button">Log Out</button>
     </div>
   

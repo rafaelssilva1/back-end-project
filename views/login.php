@@ -30,6 +30,7 @@
                 </form>
             </div>
         </div>
+        <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
     </div>
   
     <?php include("views/footer.php"); ?>

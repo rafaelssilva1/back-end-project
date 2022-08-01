@@ -958,6 +958,10 @@ a {
   margin: 2em;
 }
 
+.login__message {
+  text-align: center;
+}
+
 /* User area styles */
 .userarea__link {
   display: flex;

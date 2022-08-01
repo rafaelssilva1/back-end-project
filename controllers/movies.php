@@ -77,6 +77,7 @@
             }
 
             $data = $model->postComments($_POST["movie_id"], $userPayload["user_id"], $userPayload["username"], $_POST["comment_text"], $_POST["rating"]);
+
             http_response_code(202);
             header("Location: /movies/".$_POST["movie_id"]);
         }
@@ -95,7 +96,6 @@
                 empty($data)
             ) {
                 http_response_code(400);
-                echo '{"Message":"Invalid information"}';
                 exit;
             }
 
@@ -104,7 +104,6 @@
             if(empty($saved)) {
                 $data = $model->postToWatchlist($data["movie_id"], $userPayload["user_id"]);
                 http_response_code(202);
-                echo '{"Message":"Movie added to watchlist"}';
             }
         }
 
