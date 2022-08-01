@@ -4,6 +4,8 @@
     $model = new Search();
     
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
+        $userPayload = $model->checkAuthToken();
+
         if(isset($_GET["filter"])) {
             $movies = $model->searchMovies($_GET["filter"]);
             shuffle($movies);

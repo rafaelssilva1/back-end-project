@@ -30,12 +30,12 @@
         if(!$userPayload["is_admin"]) {
             header("Location: /login/");
         }
-        if(empty($id) and isset($_POST["title"]) and isset($_POST["overview"]) and isset($_POST["release_date"]) and isset($_POST["duration"]) and isset($_POST["genres_id"]) and isset($_POST["trailer_link"]) and isset($_POST["backdrop_path"]) and isset($_POST["poster_path"])) {
+        if(isset($_POST["id"]) and isset($_POST["title"]) and isset($_POST["overview"]) and isset($_POST["release_date"]) and isset($_POST["duration"]) and isset($_POST["genres_id"]) and isset($_POST["trailer_link"]) and isset($_POST["backdrop_path"]) and isset($_POST["poster_path"])) {
+            $updateMovie = $model->editMovie($_POST["title"], $_POST["overview"], $_POST["release_date"], $_POST["duration"], $_POST["genres_id"], $_POST["trailer_link"], $_POST["backdrop_path"], $_POST["poster_path"], $_POST["id"]);
+            header("Location: /movies/".$_POST["id"]);            
+        } else {
             $createMovie = $model->createMovie($_POST["title"], $_POST["overview"], $_POST["release_date"], $_POST["duration"], $_POST["genres_id"], $_POST["trailer_link"], $_POST["backdrop_path"], $_POST["poster_path"]);
             header("Location: /admin/");
-        } else {
-            $updateMovie = $model->editMovie($_POST["title"], $_POST["overview"], $_POST["release_date"], $_POST["duration"], $_POST["genres_id"], $_POST["trailer_link"], $_POST["backdrop_path"], $_POST["poster_path"], $id);
-            header("Location: /movies/".$id);
         }
     }
 

@@ -73,6 +73,7 @@
                     <label for="poster_path"><b>Poster image path:</b></label>
                     <input type="text" class="admin__input" name="poster_path" placeholder="/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg" required value="<?php if($id) { echo $movie["poster_path"];} ?>"></input>
                 </div>
+                <input type="hidden" name="id" value="<?php echo $id ?>"></input>
             </div>
 
             <button type="submit" class="button review__submit">

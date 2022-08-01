@@ -81,8 +81,8 @@
                                             <?php echo $comments[$key]['rating'] ?>
                                         <span class="reviews__icon material-icons-outlined">star</span>
                                         </div>
-                                        <div class="reviews__truncate">
-                                            <p class="reviews__content"><?php echo $comments[$key]['comment_text'] ?></p>
+                                        <div class="reviews__truncate reviews__content">
+                                            <p><?php echo $comments[$key]['comment_text'] ?></p>
                                         </div>
                                         <?php
                                             if(strlen($comments[$key]['comment_text']) > 400) {
@@ -158,16 +158,18 @@
     </div>
 
     <?php
-        if($userPayload["is_admin"]) {
-            ?>
-                <a href="/admin/<?php echo $id ?>">
-                    <div class="admin__button">
-                        <span class="material-symbols-outlined">
-                            edit
-                        </span>
-                    </div>
-                </a>
-            <?php
+        if(isset($userPayload["is_admin"])) {
+           if($userPayload["is_admin"]) {
+                ?>
+                    <a href="/admin/<?php echo $id ?>">
+                        <div class="admin__button">
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+                        </div>
+                    </a>
+                <?php
+           }
         }
     ?>
 
