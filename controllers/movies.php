@@ -13,9 +13,10 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         $userPayload = $model->checkAuthToken();
+        $movie = $model->getMovieById($id);
     
         if(!empty($id)) {
-            if($id > $moviesCount["count"]) {
+            if(empty($movie["id"])) {
                 http_response_code(404);
                 require("views/404.php");
             } else {
