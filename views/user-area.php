@@ -11,7 +11,11 @@
     <?php include("views/header.php"); ?>
 
     <div class="container">
-        <h1>My Reviews</h1>
+        <h1 class="watchlist__title">Howdy, <?php echo $userPayload["username"] ?>!</h1>
+        <div class="movieslideshow__header">
+            <h2>My reviews</h2>
+            <div class="movieslideshow__bar"></div>
+        </div>
         <div class="movieslideshow__grid">
             <?php
                 foreach ($userComments as $key => $value) {
@@ -58,7 +62,16 @@
                 keyboard_arrow_right
             </span>
         </button>
-
+        <div class="movieslideshow__header">
+            <h2>Change password</h2>
+            <div class="movieslideshow__bar"></div>
+        </div>
+        <div>
+            <form class="login__form" method="POST" action="/login/">
+                <input type="password" name="passwordUpdate" class="login__input" placeholder="New password" min="9" max="1000">
+                <button type="submit" class="button review__submit">Change Password</button> 
+            </form>
+        </div>
         <button class="button log_button">Log Out</button>
     </div>
   

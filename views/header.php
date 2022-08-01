@@ -34,6 +34,20 @@
                     }
                 ?>
             </li>
+            <?php
+                if(isset($_COOKIE["token"]) and $userPayload["is_admin"]) {
+                    ?>
+                        <li>
+                            <a href="/admin/">
+                                <span >
+                                    Admin Area
+                                </span>
+                            </a>
+                        </li>
+                    <?php
+                }
+                ?>
+            
             <form class="nav__form" method="GET" action="/search/">
                 <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here..." required>
                 <button type="submit" class="nav__button"><span class="material-symbols-outlined">search</span></button>

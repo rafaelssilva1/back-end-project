@@ -34,18 +34,29 @@
                     <label for="genres_id"><b>Genre:</b></label>
                     <select name="genres_id" class="admin__input" required>
                     <?php
-                        foreach ($genres as $key => $value) {
-                            ?>
-                                <option
-                                    value="<?php echo $genres[$key]["id"]; ?>"
-                                    <?php
-                                        if($genres[$key]["id"] == $movie["genres_id"]) {
-                                            echo 'selected = "selected"';
-                                        };
-                                    ?>>
-                                    <?php echo $genres[$key]["name"]; ?>
-                                </option>
-                            <?php
+                        if($movie) {
+                            foreach ($genres as $key => $value) {
+                                ?>
+                                    <option
+                                        value="<?php echo $genres[$key]["id"]; ?>"
+                                        <?php
+                                            if($genres[$key]["id"] == $movie["genres_id"]) {
+                                                echo 'selected = "selected"';
+                                            };
+                                        ?>>
+                                        <?php echo $genres[$key]["name"]; ?>
+                                    </option>
+                                <?php
+                            }
+                        } else {
+                            foreach ($genres as $key => $value) {
+                                ?>
+                                    <option
+                                        value="<?php echo $genres[$key]["id"]; ?>">
+                                        <?php echo $genres[$key]["name"]; ?>
+                                    </option>
+                                <?php
+                            }
                         }
                     ?>
                     </select>

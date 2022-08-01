@@ -289,6 +289,9 @@ a {
 
 .log_button {
   cursor: pointer;
+  position: fixed;
+  top: 50%;
+  right: 0;
 }
 
 @media screen and (max-width: 1024px) {
@@ -751,6 +754,7 @@ a {
 
 .watchlist__title {
   padding: 1em;
+  text-align: center;
 }
 
 .watchlist__notfound {

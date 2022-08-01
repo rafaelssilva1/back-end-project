@@ -60,21 +60,17 @@
             return $this->db->lastInsertId();
         }
 
-        public function updateUser($username, $email, $password, $id) {
+        public function updateUser($username, $password) {
             $query = $this->db->prepare("
                 UPDATE users
                 SET
-                    username = ?,
-                    email = ?,
                     password = ?
-                WHERE user_id = ?
+                WHERE username = ?
             ");
 
             return $query->execute([
-                $username,
-                $email,
                 password_hash($password, PASSWORD_DEFAULT),
-                $id
+                $username
             ]);
             
         }

@@ -97,5 +97,47 @@
 
         }
         
+        if(isset($_POST["passwordUpdate"])) {
+            $userPayload = $model->checkAuthToken();
+
+            if (
+                empty($_POST) or
+                mb_strlen($_POST["passwordUpdate"]) < 8 or
+                mb_strlen($_POST["passwordUpdate"]) > 1000
+            ) {
+                http_response_code(405);
+                echo '{"Message":"Method not allowed"}';
+            }
+
+            $validateUser = $model->validateUser($userPayload["username"]);
+
+            if(!empty($validateUser)) {
+                $updateUser = $model->updateUser($userPayload["username"], $_POST["passwordUpdate"]);
+                $login = $model->login($userPayload["username"], $_POST["passwordUpdate"]);
+
+                if(empty($login)) {
+                    http_response_code(401);
+                    die('{"message":"Authentication failed"}');
+                }
+    
+                $payload = [
+                    'iat' => time(),
+                    'exp' => time() + (60 * 60 * 24),
+                    'user_id' => $login["user_id"],
+                    'username' => $login["username"],
+                    'is_admin' => $login["is_admin"]
+                ];
+                $secret = ENV["JWT_KEY"];
+        
+                $token = Token::customPayload($payload, $secret);
+    
+                setcookie("token", $token, time() + (60 * 60 * 24), "/");
+    
+                header("Location: /");
+            } else {
+                header("Location: /login/");
+            }
+
+        }
     }
 ?>
