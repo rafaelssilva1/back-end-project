@@ -63,14 +63,12 @@ deleteOwnBtn.addEventListener("click", () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ownAccount: true})
             };
-
-            console.log(requestOptions);
             
             fetch(`/users`, requestOptions)
                 .then(response => response.json());
 
-            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             alert("Account deleted");            
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             window.location.href = "/";
         } catch (error) {
             console.log(error);

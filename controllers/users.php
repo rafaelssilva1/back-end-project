@@ -35,8 +35,6 @@
         } else if(isset($data["ownAccount"])) {
             $deleteUser = $model->deleteUser($userPayload["user_id"]);
 
-            var_dump($userPayload["user_id"]);
-
             if(!$deleteUser) {
                 http_response_code(202);
             } else {
