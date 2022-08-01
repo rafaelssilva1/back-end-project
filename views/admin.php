@@ -85,8 +85,36 @@
                 ?>
             </button>
         </form>
+        <div class="movieslideshow__header">
+            <h2>Manage Users</h2>
+            <div class="movieslideshow__bar"></div>
+        </div>
+        <div class="movieslideshow__grid">
+                <?php
+                    foreach ($users as $key => $value) {
+                        if($userPayload["user_id"] != $users[$key]["user_id"]) {
+                        ?>
+                            <div class="movieslideshow__article movie__info">
+                                <span class="admin__username"><?php echo $users[$key]["user_id"]; ?></span> |
+                                <span class="admin__username"><?php echo $users[$key]["username"]; ?></span>
+                                <br>
+                                <button class="delete_btn admin__userbutton">Delete user</button>
+                                <button class="make_admin_btn admin__userbutton"><?php
+                                if($users[$key]["is_admin"]) {
+                                    echo("Remove Admin");
+                                } else {
+                                    echo("Make Admin");
+                                } ?></button>
+                            </div>
+                        <?php
+                        }
+                    }
+                ?>
+            </div>
     </div>
 
     <?php include("views/footer.php"); ?>
+
+    <script src="/js/users.js"></script>
 </body>
 </html>

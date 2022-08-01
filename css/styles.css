@@ -1055,6 +1055,22 @@ a {
   padding: 1em;
 }
 
+.admin__userbutton {
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  padding: 0.3em 0;
+  cursor: pointer;
+  font-family: var(--main-font);
+  text-align: center;
+}
+
+.admin__username {
+  font-size: 1em;
+  text-align: center;
+  font-weight: 700;
+}
+
 @media screen and (max-width: 1200px) {
   .admin__grid {
     display: grid;

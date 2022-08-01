@@ -3,11 +3,11 @@
     class User extends Base {        
         public function getUsers() {
             $query = $this->db->prepare("
-                SELECT username, email, password
+                SELECT user_id, username, email, password, is_admin
                 FROM users
             ");
             
-            $query->execute([]);
+            $query->execute();
 
             return $query->fetchAll();
         }
@@ -84,6 +84,20 @@
             $query->execute([
                 $id
             ]);
+        }
+
+        public function updatePrivileges($user_id) {
+            $query = $this->db->prepare("
+                UPDATE users
+                SET
+                    is_admin = NOT is_admin
+                WHERE user_id = ?
+            ");
+
+            return $query->execute([
+                $user_id
+            ]);
+            
         }
 
         public function login($email, $password) {

@@ -82,6 +82,15 @@
             </form>
         </div>
         <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
+
+        <div class="movieslideshow__header">
+            <h2>Delete account</h2>
+            <div class="movieslideshow__bar"></div>
+        </div>
+        <div>
+            <button class="button delete_ownaccount">Delete Account</button>
+        </div>
+
         <button class="button log_button">Log Out</button>
     </div>
   
@@ -89,5 +98,6 @@
 
     <script src="/js/home.js"></script>
     <script src="/js/logout.js"></script>
+    <script src="/js/users.js"></script>
 </body>
 </html>

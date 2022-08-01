@@ -4,6 +4,8 @@
 
     require("models/movies.php");
     $model = new Movie();
+    require("models/users.php");
+    $modelUser = new User();
 
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         $userPayload = $model->checkAuthToken();
@@ -17,6 +19,8 @@
         if(!empty($id)) {
             $movie = $model->getMovieById($id);
         }
+
+        $users = $modelUser->getUsers();
 
         require("views/admin.php");
     }
