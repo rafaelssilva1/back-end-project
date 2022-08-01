@@ -22,9 +22,20 @@
             return $query->fetchAll();
         }
 
+        public function getMovies() {
+            $query = $this->db->prepare("
+                SELECT id, title, poster_path
+                FROM movies
+            ");
+            
+            $query->execute();
+            
+            return $query->fetchAll();
+        }
+
         public function getMovieById($id) {
             $query = $this->db->prepare("
-                SELECT id, title, overview, poster_path, release_date, duration, trailer_link,
+                SELECT id, title, overview, poster_path, backdrop_path, release_date, duration, trailer_link, genres_id,
                     CASE
                         WHEN ROUND(AVG(comments.rating), 1) IS NULL THEN 'N/A'
                         ELSE  ROUND(AVG(comments.rating), 1)
@@ -192,7 +203,26 @@
                 $backdrop_path,
                 $poster_path
             ]);
+        }
+
+        public function editMovie($title, $overview, $release_date, $duration, $genres_id, $trailer_link, $backdrop_path, $poster_path, $id) {
+            $query = $this->db->prepare("
+                UPDATE movies
+                SET title = ?, overview = ?, release_date = ?, duration = ?, genres_id = ?, trailer_link = ?, backdrop_path = ?, poster_path = ?
+                WHERE movie_id = ?
+            ");
             
+            return $query->execute([
+                $title,
+                $overview,
+                $release_date,
+                $duration,
+                $genres_id,
+                $trailer_link,
+                $backdrop_path,
+                $poster_path,
+                $id
+            ]);
         }
     }
 

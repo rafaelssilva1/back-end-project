@@ -152,6 +152,20 @@
         </div>
     </div>
 
+    <?php
+        if($userPayload["is_admin"]) {
+            ?>
+                <a href="/admin/<?php echo $id ?>">
+                    <div class="admin__button">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </div>
+                </a>
+            <?php
+        }
+    ?>
+
     <?php include("views/footer.php"); ?>
 
     <script src="/js/index.js"></script>
