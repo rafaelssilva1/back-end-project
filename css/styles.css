@@ -787,10 +787,15 @@ a {
 }
 
 .reviews__content {
+  font-size: 0.9em;
   margin-top: 0.25em;
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
+}
+
+.reviews__article:nth-child(2) {
+  font-size: 0.9em;
 }
 
 .reviews__noreviews {

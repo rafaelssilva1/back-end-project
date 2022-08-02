@@ -109,8 +109,9 @@
 
         public function getComments($id) {
             $query = $this->db->prepare("
-                SELECT username, comment_text, created_at, rating
+                SELECT users.username, comment_text, created_at, rating
                 FROM comments
+                INNER JOIN users ON comments.user_id = users.user_id
                 WHERE movie_id = ?
             ");
             
@@ -123,10 +124,11 @@
 
         public function getCommentsByUser($user) {
             $query = $this->db->prepare("
-                SELECT movies.id, movies.title, comments.username, comments.comment_text, comments.created_at, comments.rating, movies.poster_path
+                SELECT movies.id, movies.title, users.username, comments.comment_text, comments.created_at, comments.rating, movies.poster_path
                 FROM comments
                 INNER JOIN movies ON comments.movie_id = movies.id
-                WHERE user_id = ?
+                INNER JOIN users ON comments.user_id = users.user_id
+                WHERE comments.user_id = ?
             ");
             
             $query->execute([
@@ -138,10 +140,11 @@
 
         public function getCommentByUserAndMovie($user, $movie_id) {
             $query = $this->db->prepare("
-                SELECT movies.id, movies.title, comments.username, comments.comment_text, comments.created_at, comments.rating, movies.poster_path
+                SELECT movies.id, movies.title, users.username, comments.comment_text, comments.created_at, comments.rating, movies.poster_path
                 FROM comments
                 INNER JOIN movies ON comments.movie_id = movies.id
-                WHERE user_id = ? AND comments.movie_id = ?
+                INNER JOIN users ON comments.user_id = users.user_id
+                WHERE comments.user_id = ? AND comments.movie_id = ?
             ");
             
             $query->execute([
@@ -205,11 +208,11 @@
             ]);
         }
 
-        public function editMovie($title, $overview, $release_date, $duration, $genres_id, $trailer_link, $backdrop_path, $poster_path, $id) {
+        public function editMovie($title, $overview, $release_date, $duration, $genres_id, $trailer_link, $backdrop_path, $poster_path, $movie_id) {
             $query = $this->db->prepare("
                 UPDATE movies
                 SET title = ?, overview = ?, release_date = ?, duration = ?, genres_id = ?, trailer_link = ?, backdrop_path = ?, poster_path = ?
-                WHERE movie_id = ?
+                WHERE id = ?
             ");
             
             return $query->execute([
@@ -221,7 +224,7 @@
                 $trailer_link,
                 $backdrop_path,
                 $poster_path,
-                $id
+                $movie_id
             ]);
         }
     }

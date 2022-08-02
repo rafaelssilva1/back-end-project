@@ -43,11 +43,11 @@ const reviewsBtns = document.querySelectorAll(".reviews__button");
 
 reviewsBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
-        if(e.target.previousElementSibling.firstElementChild.hasAttribute("class", "reviews__content")) {
-            e.target.previousElementSibling.firstElementChild.removeAttribute("class", "reviews__content");
+        if(e.target.previousElementSibling.hasAttribute("class", "reviews__content")) {
+            e.target.previousElementSibling.removeAttribute("class", "reviews__content");
             e.target.textContent = "Show less";
         } else {
-            e.target.previousElementSibling.firstElementChild.setAttribute("class", "reviews__content");
+            e.target.previousElementSibling.setAttribute("class", "reviews__truncate reviews__content");
             e.target.textContent = "Show more";
         }
     });
