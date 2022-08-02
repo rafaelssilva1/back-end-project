@@ -126,6 +126,12 @@
             if(!empty($saved)) {
                 $data = $model->deleteFromWatchlist($data["movie_id"], $userPayload["user_id"]);
             }
+        } else if(isset($data["deleteMovie"])) {
+            $searchMovie = $model->getMovieById($data["movie_id"]);
+
+            if(!empty($searchMovie)) {
+                $data = $model->deleteMovie($data["movie_id"]);
+            }
         }
 
     }

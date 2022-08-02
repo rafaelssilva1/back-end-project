@@ -8,8 +8,6 @@
 
         $updatePrivileges = $model->updatePrivileges($data["user_id"]);
 
-        var_dump($updatePrivileges);
-
         if(!$updatePrivileges) {
             http_response_code(202);
         } else {

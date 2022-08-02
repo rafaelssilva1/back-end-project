@@ -53,6 +53,19 @@
             return $query->fetch();
         }
 
+        public function deleteMovie($movie_id) {
+            $query = $this->db->prepare("
+                DELETE FROM movies
+                WHERE id = ?
+            ");
+            
+            return $query->execute([
+                $movie_id
+            ]);
+            
+        }
+
+
         public function getGenres() {
             $query = $this->db->prepare("
                 SELECT id, name
