@@ -3,12 +3,17 @@
     $model = new User();
 
     if( $_SERVER["REQUEST_METHOD"] === "PUT" ) {
+        $userPayload = $model->checkAuthToken();
+
         $body = file_get_contents("php://input");
         $data = json_decode($body, true);
 
-        $updatePrivileges = $model->updatePrivileges($data["user_id"]);
+        if(!$userPayload["is_admin"]) {
+            http_response_code(403);
+            exit();
+        }
 
-        var_dump($updatePrivileges);
+        $updatePrivileges = $model->updatePrivileges($data["user_id"]);
 
         if(!$updatePrivileges) {
             http_response_code(202);
