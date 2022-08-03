@@ -87,7 +87,7 @@
             </button>
         </form>
         <div class="movieslideshow__header">
-            <h2>Delete Movie</h2>
+            <h2>Manage Movies</h2>
             <div class="movieslideshow__bar"></div>
         </div>
         <div class="movieslideshow__grid">
@@ -101,6 +101,10 @@
                                 </picture>
                                 <div class="movie__info">
                                     <h2 class="movie__title"><?php echo $getMovies[$key]["title"]; ?></h2>
+                                    <p class="movie__title">
+                                        <b>Vote average:</b> <?php echo $getMovies[$key]["vote_avg"]; ?>
+                                    </p>
+                                    <p class="movie__title"><b>Vote count:</b> <?php echo $getMovies[$key]["vote_count"]; ?></p>
                                 </div>
                                 <button class="admin__userbutton">
                                     <a href="/admin/<?php echo $getMovies[$key]["id"]; ?>">Edit movie</a>

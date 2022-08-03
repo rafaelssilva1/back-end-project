@@ -24,8 +24,15 @@
 
         public function getMovies() {
             $query = $this->db->prepare("
-                SELECT id, title, poster_path
+                SELECT id, title, poster_path, 
+                    CASE
+                        WHEN ROUND(AVG(comments.rating), 1) IS NULL THEN 'N/A'
+                        ELSE  ROUND(AVG(comments.rating), 1)
+                    END AS vote_avg,
+                    COUNT(comments.rating) AS vote_count
                 FROM movies
+                LEFT JOIN comments ON movies.id = comments.movie_id
+                GROUP BY id
             ");
             
             $query->execute();

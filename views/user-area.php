@@ -28,6 +28,7 @@
                                         </picture>
                                         <div class="movie__info">
                                             <h2 class="movie__title">'.$userComments[$key]["title"].'</h2>
+                                            <span>Your rating: </span>
                                             <div class="movie__vote">
                                                 <span>'.$userComments[$key]["rating"].'</span>
                                                 <span class="material-icons-outlined">
