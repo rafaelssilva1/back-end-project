@@ -3,10 +3,11 @@
     use ReallySimpleJWT\Token;
         
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
-        if(isset($_COOKIE["token"])) {
-            require("models/movies.php");
-            $model = new Movie();
-            $userPayload = $model->checkAuthToken();
+        require("models/movies.php");
+        $model = new Movie();
+
+        $userPayload = $model->checkAuthToken();
+        if(isset($userPayload)) {
             $userComments = $model->getCommentsByUser($userPayload["user_id"]);
             require("views/user-area.php");
         } else {
@@ -72,9 +73,10 @@
                 die();
             }
 
-            $validateUser = $model->validateUser($_POST["usernameRegister"]);
+            $validateUsername = $model->validateUsername($_POST["usernameRegister"]);
+            $validateEmail = $model->validateEmail($_POST["emailRegister"]);
 
-            if(empty($validateUser)) {
+            if(empty($validateUsername) and empty($validateEmail)) {
                 $createUser = $model->createUser($_POST["usernameRegister"], $_POST["emailRegister"], $_POST["passwordRegister"]);
                 $login = $model->login($_POST["usernameRegister"], $_POST["passwordRegister"]);
 
@@ -100,13 +102,20 @@
     
                 header("Location: /");
             } else {
-                header("Location: /login/");
+                $_SESSION['message'] = "The username or email already exists. Please try again.";
+                require("views/login.php");
+                die();
             }
 
         }
         
         if(isset($_POST["passwordUpdate"])) {
             $userPayload = $model->checkAuthToken();
+
+            if(!isset($userPayload)) {
+                http_response_code(403);
+                header("Location: /login/");
+            }
 
             if (
                 empty($_POST) or
@@ -115,42 +124,38 @@
             ) {
                 http_response_code(405);
                 $_SESSION['message'] = "Password must have more than 8 characters. Please try again.";
+
                 require("models/movies.php");
                 $movieMethod = new Movie();
+                
                 $userComments = $movieMethod->getCommentsByUser($userPayload["user_id"]);
                 require("views/user-area.php");
-                die($_SESSION['message'] = "Password must have more than 8 characters. Please try again.");
+                die();
             }
 
-            $validateUser = $model->validateUser($userPayload["username"]);
+            $updateUser = $model->updateUser($userPayload["username"], $_POST["passwordUpdate"]);
+            $login = $model->login($userPayload["username"], $_POST["passwordUpdate"]);
 
-            if(!empty($validateUser)) {
-                $updateUser = $model->updateUser($userPayload["username"], $_POST["passwordUpdate"]);
-                $login = $model->login($userPayload["username"], $_POST["passwordUpdate"]);
-
-                if(empty($login)) {
-                    http_response_code(401);
-                    $_SESSION['message'] = "Password must have more than 8 characters. Please try again.";
-                    require("views/user-area.php");
-                    die();
-                } else {
-                    $payload = [
-                        'iat' => time(),
-                        'exp' => time() + (60 * 60 * 24),
-                        'user_id' => $login["user_id"],
-                        'username' => $login["username"],
-                        'is_admin' => $login["is_admin"]
-                    ];
-                    $secret = ENV["JWT_KEY"];
-            
-                    $token = Token::customPayload($payload, $secret);
-        
-                    setcookie("token", $token, time() + (60 * 60 * 24), "/");
-        
-                    header("Location: /");
-                }
+            if(empty($login)) {
+                http_response_code(401);
+                $_SESSION['message'] = "Password must have more than 8 characters. Please try again.";
+                require("views/user-area.php");
+                die();
             } else {
-                header("Location: /login/");
+                $payload = [
+                    'iat' => time(),
+                    'exp' => time() + (60 * 60 * 24),
+                    'user_id' => $login["user_id"],
+                    'username' => $login["username"],
+                    'is_admin' => $login["is_admin"]
+                ];
+                $secret = ENV["JWT_KEY"];
+        
+                $token = Token::customPayload($payload, $secret);
+    
+                setcookie("token", $token, time() + (60 * 60 * 24), "/");
+    
+                header("Location: /");
             }
 
         }

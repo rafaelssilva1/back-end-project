@@ -27,6 +27,7 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
         $userPayload = $model->checkAuthToken();
+        
         if(!$userPayload["is_admin"]) {
             header("Location: /login/");
         }

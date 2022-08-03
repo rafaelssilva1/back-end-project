@@ -29,7 +29,7 @@
             return $query->fetch();
         }
 
-        public function validateUser($username) {
+        public function validateUsername($username) {
             $query = $this->db->prepare("
                 SELECT username
                 FROM users
@@ -38,6 +38,20 @@
             
             $query->execute([
                 $username
+            ]);
+        
+            return $query->fetch();
+        }
+
+        public function validateEmail($email) {
+            $query = $this->db->prepare("
+                SELECT email
+                FROM users
+                WHERE email = ? 
+            ");
+            
+            $query->execute([
+                $email
             ]);
         
             return $query->fetch();
