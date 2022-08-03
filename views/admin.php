@@ -87,31 +87,57 @@
             </button>
         </form>
         <div class="movieslideshow__header">
+            <h2>Delete Movie</h2>
+            <div class="movieslideshow__bar"></div>
+        </div>
+        <div class="movieslideshow__grid">
+            <?php
+                foreach ($getMovies as $key => $value) {
+                    ?>
+                        <article class="movieslideshow__article">
+                            <div class="userarea__link">
+                                <picture class="movie__picture">
+                                    <img class="movie__image" src="https://image.tmdb.org/t/p/w342<?php echo $getMovies[$key]["poster_path"]; ?>" />
+                                </picture>
+                                <div class="movie__info">
+                                    <h2 class="movie__title"><?php echo $getMovies[$key]["title"]; ?></h2>
+                                </div>
+                                <button class="admin__userbutton">
+                                    <a href="/admin/<?php echo $getMovies[$key]["id"]; ?>">Edit movie</a>
+                                </button>
+                                <button class="deleteMovie_btn admin__userbutton" data-id="<?php echo $getMovies[$key]["id"]; ?>">Delete movie</button>
+                            </div>
+                        </article>
+                    <?php
+                }
+            ?>
+        </div>
+        <div class="movieslideshow__header">
             <h2>Manage Users</h2>
             <div class="movieslideshow__bar"></div>
         </div>
         <div class="movieslideshow__grid">
-                <?php
-                    foreach ($users as $key => $value) {
-                        if($userPayload["user_id"] != $users[$key]["user_id"]) {
-                        ?>
-                            <div class="movieslideshow__article movie__info">
-                                <span class="admin__username"><?php echo $users[$key]["user_id"]; ?></span> |
-                                <span class="admin__username"><?php echo $users[$key]["username"]; ?></span>
-                                <br>
-                                <button class="delete_btn admin__userbutton">Delete user</button>
-                                <button class="make_admin_btn admin__userbutton"><?php
-                                if($users[$key]["is_admin"]) {
-                                    echo("Remove Admin");
-                                } else {
-                                    echo("Make Admin");
-                                } ?></button>
-                            </div>
-                        <?php
-                        }
+            <?php
+                foreach ($users as $key => $value) {
+                    if($userPayload["user_id"] != $users[$key]["user_id"]) {
+                    ?>
+                        <div class="movieslideshow__article movie__info">
+                            <span class="admin__username"><?php echo $users[$key]["user_id"]; ?></span> |
+                            <span class="admin__username"><?php echo $users[$key]["username"]; ?></span>
+                            <br>
+                            <button class="delete_btn admin__userbutton">Delete user</button>
+                            <button class="make_admin_btn admin__userbutton"><?php
+                            if($users[$key]["is_admin"]) {
+                                echo("Remove Admin");
+                            } else {
+                                echo("Make Admin");
+                            } ?></button>
+                        </div>
+                    <?php
                     }
-                ?>
-            </div>
+                }
+            ?>
+        </div>
     </div>
 
     <?php include("views/footer.php"); ?>

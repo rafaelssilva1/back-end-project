@@ -8,11 +8,6 @@
         $body = file_get_contents("php://input");
         $data = json_decode($body, true);
 
-        if(!$userPayload["is_admin"]) {
-            http_response_code(403);
-            exit();
-        }
-
         $updatePrivileges = $model->updatePrivileges($data["user_id"]);
 
         if(!$updatePrivileges) {

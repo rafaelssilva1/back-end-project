@@ -1,5 +1,6 @@
 const deleteBtns = document.querySelectorAll(".delete_btn");
 const adminBtns = document.querySelectorAll(".make_admin_btn");
+const deleteMovieBtns = document.querySelectorAll(".deleteMovie_btn");
 const deleteOwnBtn = document.querySelector(".delete_ownaccount");
 
 deleteBtns.forEach(btn => {
@@ -31,8 +32,6 @@ adminBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
         let isExecuted = confirm("Are you sure you want to proceed?");
 
-        console.log(btn.parentElement.firstElementChild.innerText);
-
         if(isExecuted) {
             try {
                 const requestOptions = {
@@ -45,6 +44,30 @@ adminBtns.forEach(btn => {
                     .then(response => response.json());
 
                 alert("User privileges updated");
+                location.reload();
+            } catch (error) {
+                console.log(error);
+            }
+        };
+    });
+});
+
+deleteMovieBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        let isExecuted = confirm("Are you sure you want to proceed?");
+
+        if(isExecuted) {
+            try {
+                const requestOptions = {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ movie_id: parseInt(btn.getAttribute("data-id")), deleteMovie: true})
+                };
+                
+                fetch(`/movies`, requestOptions)
+                    .then(response => response.json());
+
+                alert("Movie deleted");
                 location.reload();
             } catch (error) {
                 console.log(error);
