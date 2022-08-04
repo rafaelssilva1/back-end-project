@@ -24,7 +24,7 @@
                 FROM movies
                 LEFT JOIN comments ON movies.id = comments.movie_id
                 GROUP BY id
-                ORDER BY votes_count DESC
+                ORDER BY votes_count DESC, votes_avg DESC
                 LIMIT 8;
             ");
             

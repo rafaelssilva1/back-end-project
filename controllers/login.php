@@ -1,6 +1,23 @@
 <?php
 
     use ReallySimpleJWT\Token;
+
+    function generateToken($user) {
+        $payload = [
+            'iat' => time(),
+            'exp' => time() + (60 * 60 * 2),
+            'user_id' => $user["user_id"],
+            'username' => $user["username"],
+            'is_admin' => $user["is_admin"]
+        ];
+        $secret = ENV["JWT_KEY"];
+
+        $token = Token::customPayload($payload, $secret);
+
+        setcookie("token", $token, time() + (60 * 60 * 2), "/");
+    
+        header("Location: /");
+    }
         
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         require("models/movies.php");
@@ -40,20 +57,9 @@
                 $_SESSION['message'] = "The username or password is incorrect. Please try again.";
                 require("views/login.php");
             } else {
-                $payload = [
-                    'iat' => time(),
-                    'exp' => time() + (60 * 60 * 24),
-                    'user_id' => $user["user_id"],
-                    'username' => $user["username"],
-                    'is_admin' => $user["is_admin"]
-                ];
-                $secret = ENV["JWT_KEY"];
-        
-                $token = Token::customPayload($payload, $secret);
-    
-                setcookie("token", $token, time() + (60 * 60 * 24), "/");
-    
-                header("Location: /");
+                
+                generateToken($user);
+                
             }
 
         }
@@ -87,20 +93,8 @@
                     die();
                 }
     
-                $payload = [
-                    'iat' => time(),
-                    'exp' => time() + (60 * 60 * 24),
-                    'user_id' => $login["user_id"],
-                    'username' => $login["username"],
-                    'is_admin' => $login["is_admin"]
-                ];
-                $secret = ENV["JWT_KEY"];
-        
-                $token = Token::customPayload($payload, $secret);
-    
-                setcookie("token", $token, time() + (60 * 60 * 24), "/");
-    
-                header("Location: /");
+                generateToken($user);
+
             } else {
                 $_SESSION['message'] = "The username or email already exists. Please try again.";
                 require("views/login.php");
@@ -142,20 +136,9 @@
                 require("views/user-area.php");
                 die();
             } else {
-                $payload = [
-                    'iat' => time(),
-                    'exp' => time() + (60 * 60 * 24),
-                    'user_id' => $login["user_id"],
-                    'username' => $login["username"],
-                    'is_admin' => $login["is_admin"]
-                ];
-                $secret = ENV["JWT_KEY"];
-        
-                $token = Token::customPayload($payload, $secret);
-    
-                setcookie("token", $token, time() + (60 * 60 * 24), "/");
-    
-                header("Location: /");
+
+                generateToken($user);
+
             }
 
         }
