@@ -84,6 +84,17 @@
             return $query->fetchAll();
         }
 
+        public function getGenresCount() {
+            $query = $this->db->prepare("
+                SELECT COUNT(*)
+                FROM genres
+            ");
+            
+            $query->execute();
+            
+            return $query->fetchAll();
+        }
+
         public function postToWatchlist($movie_id, $user_id) {
             $query = $this->db->prepare("
                 INSERT INTO watchlist

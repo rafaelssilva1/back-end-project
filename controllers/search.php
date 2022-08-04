@@ -10,14 +10,26 @@
 
         if(isset($_GET["filter"])) {
             $movies = $model->searchMovies($_GET["filter"]);
-            shuffle($movies);
+
+            if(!$movies) {
+                http_response_code(500);
+            } else {
+                shuffle($movies);
+            }
+
             require("views/search.php");
         }
 
         if(isset($_GET["genres"])) {
             $genres = $modelMovie->getGenres();
             $movies = $model->searchByGenre($_GET["genres"]);
-            shuffle($movies);
+
+            if(!$genres or !$movies) {
+                http_response_code(500);
+            } else {
+                shuffle($movies);
+            }
+
             require("views/search.php");
         }
     }

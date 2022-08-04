@@ -970,6 +970,7 @@ a {
 
 .login__message {
   text-align: center;
+  font-weight: 700;
 }
 
 /* User area styles */

@@ -47,12 +47,15 @@
                                 <input type="radio" id="10" name="rating" value="10" <?php if($userComment["rating"] == 10) { echo "checked"; } ?>/>
                                 <label for="10">10</label>
                             </div>
-                            <button type="submit" class="button review__submit">Submit review</button>
+                            <button type="submit" class="button review__submit"><?php if(!$id) { echo "Submit review";} else { echo "Update review"; } ?></button>
+                            
+                            <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
+
                         </form>
                     <?php
                 } else {
                     ?>
-                        <h3>You must be logged in if you want to leave a review!</h3>
+                        <h3>You must be logged in if you want to edit your reviews</h3>
                     <?php
                 }
             ?>

@@ -24,8 +24,38 @@
         }
 
         $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
-        $editComment = $model->editComment($_POST["comment_text"], $_POST["rating"], $userPayload["user_id"], $id);
-        header("Location: /movies/".$id);
+
+        if(!$userComment) {
+            $_SESSION['message'] = "An error has occurred. Please try again.";
+            http_response_code(500);
+            require("views/edit.php");
+        } else {
+            if (
+                empty($_POST) or
+                mb_strlen($_POST["comment_text"]) < 0 or
+                mb_strlen($_POST["comment_text"]) > 65535 or
+                intval($_POST["rating"]) < 1 or
+                intval($_POST["rating"]) > 10
+            ) {
+                http_response_code(405);
+                header("Location: /movies/".$id);
+            }
+
+            $editComment = $model->editComment($_POST["comment_text"], $_POST["rating"], $userPayload["user_id"], $id);
+
+            if(!$editComment) {
+                $_SESSION['message'] = "An error has occurred. Please try again.";
+                $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
+                http_response_code(500);
+                require("views/edit.php");
+            } else {
+                $_SESSION['message'] = "Review edited successfully.";
+                $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
+                http_response_code(500);
+                require("views/edit.php");
+            }
+        }
+
     }
 
 ?>

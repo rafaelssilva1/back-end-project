@@ -11,7 +11,12 @@
         }
 
         $watchlist = $model->getAllWatchlist($userPayload["user_id"]);
-        shuffle($watchlist);
+
+        if(!$watchlist) {
+            http_response_code(500);
+        } else {
+            shuffle($watchlist);
+        }
         require("views/watchlist.php");
     }
 ?>

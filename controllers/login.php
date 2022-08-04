@@ -42,7 +42,7 @@
                 mb_strlen($_POST["usernameLogin"]) < 3 or
                 mb_strlen($_POST["usernameLogin"]) > 32 or
                 mb_strlen($_POST["passwordLogin"]) < 8 or
-                mb_strlen($_POST["passwordLogin"]) > 1000
+                mb_strlen($_POST["passwordLogin"]) > 124
             ) {
                 http_response_code(405);
                 $_SESSION['message'] = "The username or password is incorrect. Please try again.";
@@ -70,7 +70,7 @@
                 mb_strlen($_POST["usernameRegister"]) < 3 or
                 mb_strlen($_POST["usernameRegister"]) > 32 or
                 mb_strlen($_POST["passwordRegister"]) < 8 or
-                mb_strlen($_POST["passwordRegister"]) > 1000 or
+                mb_strlen($_POST["passwordRegister"]) > 124 or
                 !filter_var($_POST["emailRegister"], FILTER_VALIDATE_EMAIL)
             ) {
                 http_response_code(405);
@@ -114,7 +114,7 @@
             if (
                 empty($_POST) or
                 mb_strlen($_POST["passwordUpdate"]) < 8 or
-                mb_strlen($_POST["passwordUpdate"]) > 1000
+                mb_strlen($_POST["passwordUpdate"]) > 124
             ) {
                 http_response_code(405);
                 $_SESSION['message'] = "Password must have more than 8 characters. Please try again.";

@@ -85,6 +85,7 @@
                     }
                 ?>
             </button>
+            <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
         </form>
         <div class="movieslideshow__header">
             <h2>Manage Movies</h2>

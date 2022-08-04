@@ -77,6 +77,17 @@
                 header("Location: /movies/".$_POST["movie_id"]);
             }
 
+            if (
+                empty($_POST) or
+                mb_strlen($_POST["comment_text"]) < 0 or
+                mb_strlen($_POST["comment_text"]) > 65535 or
+                intval($_POST["rating"]) < 1 or
+                intval($_POST["rating"]) > 10
+            ) {
+                http_response_code(405);
+                header("Location: /movies/".$id);
+            }
+
             $data = $model->postComments($_POST["movie_id"], $userPayload["user_id"], $_POST["comment_text"], $_POST["rating"]);
 
             http_response_code(202);

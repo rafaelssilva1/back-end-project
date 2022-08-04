@@ -20,7 +20,7 @@
                 ?>
                     <h1 class="genres__title">Search a movie in any genre!</h1>
 
-                    <?php require("views/genres.php"); ?>
+                    <?php if(isset($_GET["genres"])) { require("views/genres.php"); } ?>
                     
                     <div class="movie__grid">
                         <?php
