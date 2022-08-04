@@ -190,18 +190,17 @@
             ]);
         }
 
-        public function postComments($movie_id, $user_id, $username, $comment_text, $rating) {
+        public function postComments($movie_id, $user_id, $comment_text, $rating) {
             $query = $this->db->prepare("
                 INSERT INTO comments
-                    (movie_id, user_id, username, comment_text, rating)
+                    (movie_id, user_id, comment_text, rating)
                 VALUES
-                    (?, ?, ?, ?, ?);
+                    (?, ?, ?, ?);
             ");
             
             $query->execute([
                 $movie_id,
                 $user_id,
-                $username,
                 $comment_text,
                 $rating
             ]);

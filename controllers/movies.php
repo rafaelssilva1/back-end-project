@@ -77,7 +77,7 @@
                 header("Location: /movies/".$_POST["movie_id"]);
             }
 
-            $data = $model->postComments($_POST["movie_id"], $userPayload["user_id"], $userPayload["username"], $_POST["comment_text"], $_POST["rating"]);
+            $data = $model->postComments($_POST["movie_id"], $userPayload["user_id"], $_POST["comment_text"], $_POST["rating"]);
 
             http_response_code(202);
             header("Location: /movies/".$_POST["movie_id"]);
