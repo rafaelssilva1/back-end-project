@@ -6,17 +6,16 @@
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         $userPayload = $model->checkAuthToken();
 
-        if(empty($userPayload)) {
-            header("Location: /movies/");
+        if(!empty($userPayload)) {
+            $watchlist = $model->getAllWatchlist($userPayload["user_id"]);
+
+            if(!$watchlist) {
+                http_response_code(500);
+            } else {
+                shuffle($watchlist);
+            }
         }
 
-        $watchlist = $model->getAllWatchlist($userPayload["user_id"]);
-
-        if(!$watchlist) {
-            http_response_code(500);
-        } else {
-            shuffle($watchlist);
-        }
         require("views/watchlist.php");
     }
 ?>

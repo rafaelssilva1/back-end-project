@@ -27,6 +27,7 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
         $userPayload = $model->checkAuthToken();
+        $genresCount = $model->getGenresCount();
         
         if(!$userPayload["is_admin"]) {
             header("Location: /login/");
@@ -39,11 +40,11 @@
                 mb_strlen($_POST["title"]) > 64 or
                 mb_strlen($_POST["overview"]) < 0 or
                 mb_strlen($_POST["overview"]) > 65535 or
-                !checkdate($date[0], $date[1], $date[2]) or
+                !checkdate($date[1], $date[2], $date[0]) or
                 intval($_POST["duration"]) < 1 or
                 intval($_POST["duration"]) > 65535 or
                 intval($_POST["genres_id"]) < 1 or
-                intval($_POST["genres_id"]) > $genres->getGenresCount() or
+                intval($_POST["genres_id"]) > $genresCount or
                 mb_strlen($_POST["trailer_link"]) != 11 or
                 mb_strlen($_POST["backdrop_path"]) < 0 or
                 mb_strlen($_POST["backdrop_path"]) > 240 or
@@ -81,11 +82,11 @@
                 mb_strlen($_POST["title"]) > 64 or
                 mb_strlen($_POST["overview"]) < 0 or
                 mb_strlen($_POST["overview"]) > 65535 or
-                !checkdate($date[0], $date[1], $date[2]) or
+                !checkdate($date[1], $date[2], $date[0]) or
                 intval($_POST["duration"]) < 1 or
                 intval($_POST["duration"]) > 65535 or
                 intval($_POST["genres_id"]) < 1 or
-                intval($_POST["genres_id"]) > $genres->getGenresCount() or
+                intval($_POST["genres_id"]) > $genresCount or
                 mb_strlen($_POST["trailer_link"]) != 11 or
                 mb_strlen($_POST["backdrop_path"]) < 0 or
                 mb_strlen($_POST["backdrop_path"]) > 240 or

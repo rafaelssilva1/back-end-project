@@ -11,7 +11,7 @@
     <?php include("views/header.php"); ?>
 
     <div class="container watchlist padding-bottom">
-        <h1 class="watchlist__title">Howdy, <?php echo $userPayload["username"] ?>!</h1>
+        <h1 class="watchlist__title">Howdy, <?php if(isset($userPayload["username"])) { echo $userPayload["username"]; } else { echo "stranger"; } ?>!</h1>
         <?php
             if(!empty($watchlist)) {
                 ?>
