@@ -46,12 +46,23 @@
                         </li>
                     <?php
                 }
-                ?>
+            ?>
             
             <form class="nav__form" method="GET" action="/search/">
                 <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here..." required>
                 <button type="submit" class="nav__button"><span class="material-symbols-outlined">search</span></button>
             </form>
         </ul>
+        <div class="nav__hamburguer">
+            <span class="material-symbols-outlined">menu</span>
+        </div>
     </nav>
+    <script>
+        hamburguerBtn = document.querySelector(".nav__hamburguer");
+        linksBtn = document.querySelector(".nav__links");
+        
+        hamburguerBtn.addEventListener("click", () => {
+            linksBtn.classList.toggle("active");
+        });
+    </script>
 </header>

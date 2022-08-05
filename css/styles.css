@@ -296,7 +296,29 @@ a {
 
 @media screen and (max-width: 1024px) {
   .nav__links {
-      width: 40%;
+    position: absolute;
+    left: 0vh;
+    top: 15vh;
+    padding: 2%;
+    display: block;
+    background-color: var(--color-yellow);
+    border: none;
+    width: 100%;
+    transform: translateY(-300%);
+    -webkit-transform: translateY(-300%);
+    -moz-transform: translateY(-300%);
+    -ms-transform: translateY(-300%);
+    -o-transform: translateY(-300%);
+    transition: transform 0.5s ease-in;
+    -webkit-transition: transform 0.5s ease-in;
+    -moz-transition: transform 0.5s ease-in;
+    -ms-transition: transform 0.5s ease-in;
+    -o-transition: transform 0.5s ease-in;
+    z-index: 10;
+  }
+
+  .nav__links li {
+    margin: 1.5em 0;
   }
 
   .nav__logo {
@@ -311,7 +333,19 @@ a {
   .nav__input {
       margin-left: 2em;
   }
+
+  .nav__hamburguer {
+    display: block; 
+  }
   
+}
+
+.active {
+  transform: translateY(0%);
+  -webkit-transform: translateY(0%);
+  -moz-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  -o-transform: translateY(0%);
 }
 
 /* Movie card styles */
