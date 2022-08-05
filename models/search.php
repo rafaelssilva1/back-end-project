@@ -34,7 +34,8 @@
                 LEFT JOIN comments ON movies.id = comments.movie_id
                 INNER JOIN genres ON movies.genres_id = genres.id
                 WHERE movies.genres_id = ?
-                GROUP BY id;
+                GROUP BY id
+                LIMIT 12;
             ");
             
             $query->execute([

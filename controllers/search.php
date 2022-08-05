@@ -12,7 +12,7 @@
             $movies = $model->searchMovies($_GET["filter"]);
 
             if(!$movies) {
-                http_response_code(500);
+                $_SESSION["message"] = "No results were found. Try another search.";
             } else {
                 shuffle($movies);
             }
@@ -25,7 +25,7 @@
             $movies = $model->searchByGenre($_GET["genres"]);
 
             if(!$genres or !$movies) {
-                http_response_code(500);
+                $_SESSION["message"] = "There are no movies in this category.";
             } else {
                 shuffle($movies);
             }

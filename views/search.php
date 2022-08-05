@@ -14,7 +14,7 @@
         <?php
             if(empty($movies)) {
                 ?>
-                    <h2 class="genres__title">Oops, the page you were looking for was not found...</h2>
+                    <h2 class="genres__title"><?php if(isset($_SESSION["message"])) { echo $_SESSION["message"]; } ?></h2>
                 <?php
             } else {
                 ?>
