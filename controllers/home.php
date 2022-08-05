@@ -15,4 +15,8 @@
         require("views/home.php");
     }
 
+    else {
+        http_response_code(405);
+    }
+
 ?>

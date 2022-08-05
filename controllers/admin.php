@@ -25,7 +25,7 @@
         require("views/admin.php");
     }
 
-    if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
+    else if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
         $userPayload = $model->checkAuthToken();
         $genresCount = $model->getGenresCount();
         
@@ -116,6 +116,10 @@
                 require("views/admin.php");
             }
         }
+    }
+
+    else {
+        http_response_code(405);
     }
 
 ?>

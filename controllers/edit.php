@@ -15,11 +15,11 @@
         }
     }
 
-    if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
+    else if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
         $userPayload = $model->checkAuthToken();
 
         if(!isset($userPayload)) {
-            http_response_code(403);
+            http_response_code(401);
             header("Location: /login/");
         }
 
@@ -37,7 +37,7 @@
                 intval($_POST["rating"]) < 1 or
                 intval($_POST["rating"]) > 10
             ) {
-                http_response_code(405);
+                http_response_code(400);
                 header("Location: /movies/".$id);
             }
 
@@ -51,11 +51,15 @@
             } else {
                 $_SESSION['message'] = "Review edited successfully.";
                 $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
-                http_response_code(500);
+                http_response_code(202);
                 require("views/edit.php");
             }
         }
 
+    }
+
+    else {
+        http_response_code(405);
     }
 
 ?>

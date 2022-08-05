@@ -12,4 +12,8 @@
         require("views/movie-night-ideas.php");
     }
 
+    else {
+        http_response_code(405);
+    }
+
 ?>

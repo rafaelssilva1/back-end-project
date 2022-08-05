@@ -69,7 +69,7 @@
         }
     }
 
-    if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
+    else if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
         if(isset($_POST["comment_text"]) and isset($_POST["rating"])) {
             $userPayload = $model->checkAuthToken();
 
@@ -84,7 +84,7 @@
                 intval($_POST["rating"]) < 1 or
                 intval($_POST["rating"]) > 10
             ) {
-                http_response_code(405);
+                http_response_code(400);
                 header("Location: /movies/".$id);
             }
 
@@ -121,7 +121,7 @@
 
     }
 
-    if( $_SERVER["REQUEST_METHOD"] === "DELETE" ) {
+    else if( $_SERVER["REQUEST_METHOD"] === "DELETE" ) {
         $body = file_get_contents("php://input");
         $data = json_decode($body, true);
         
@@ -145,5 +145,9 @@
             }
         }
 
+    }
+
+    else {
+        http_response_code(405);
     }
 ?>
