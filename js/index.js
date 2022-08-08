@@ -55,7 +55,7 @@ reviewsBtns.forEach(btn => {
 
 tinymce.init({
     selector: 'textarea',
-    plugins: 'advcode casechange export formatpainter linkchecker autolink lists checklist permanentpen powerpaste table advtable tableofcontents tinycomments',
+    plugins: 'autolink lists table',
     toolbar: 'undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
     menubar: false,
     content_style: '@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap");',

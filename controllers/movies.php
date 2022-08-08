@@ -34,7 +34,6 @@
         } else {
             if(!isset($_GET["page"])) {
                 $movies = $model->getAll($offset);
-                shuffle($movies);
                 $genres = $model->getGenres();
                 $disablePrevious = true;
                 require("views/movies.php");
@@ -51,7 +50,6 @@
                     $offset = $offset * ($page - 2);
                     $maxOffset = $offset + $targetOffset; 
                     $movies = $model->getAll($offset);
-                    shuffle($movies);
                     $genres = $model->getGenres();
                     $disableNext = true;
                     require("views/movies.php");
@@ -61,7 +59,6 @@
                     $offset = $offset * ($page - 2);
                     $maxOffset = $offset + $targetOffset; 
                     $movies = $model->getAll($offset);
-                    shuffle($movies);
                     $genres = $model->getGenres();
                     require("views/movies.php");
                 }

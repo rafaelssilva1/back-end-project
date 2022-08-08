@@ -26,6 +26,20 @@
             return $query->fetch();
         }
 
+        public function getMoviesCountByGenre($id) {
+            $query = $this->db->prepare("
+                SELECT COUNT(*) as count
+                FROM movies
+                WHERE genres_id = ?
+            ");
+            
+            $query->execute([
+                $id
+            ]);
+            
+            return $query->fetch();
+        }
+
         public function checkAuthToken() {    
             if(isset($_COOKIE["token"])) {
                 $isValid = Token::validate($_COOKIE["token"], ENV["JWT_KEY"]);

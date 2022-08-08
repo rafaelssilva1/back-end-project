@@ -49,7 +49,14 @@
         <?php
             if(!$disablePrevious and !($_GET["page"] <= 1)) {
                 ?>
-                    <form clas="genres__button" method="GET">
+                    <form class="genres__button" method="GET" action="/movies">
+                        <?php 
+                            if(isset($_GET["genres"])) {
+                                ?>
+                                    <input type="hidden" name="genres" value="<?php echo $_GET["genres"] ?>">
+                                <?php
+                            }
+                        ?>
                         <input type="hidden" name="page" value="<?php echo $_GET["page"] - 1 ?>">
                         <input type="submit" value="Previous Page" class="button">
                     </form>
@@ -60,7 +67,14 @@
         <?php
             if(!$disableNext) {
                 ?>
-                    <form clas="genres__button" method="GET" action="/movies">
+                    <form class="genres__button" method="GET" action="/movies">
+                        <?php 
+                            if(isset($_GET["genres"])) {
+                                ?>
+                                    <input type="hidden" name="genres" value="<?php echo $_GET["genres"] ?>">
+                                <?php
+                            }
+                        ?>
                         <input type="hidden" name="page" value="<?php echo $page ?>">
                         <input type="submit" value="Next Page" class="button">
                     </form>
