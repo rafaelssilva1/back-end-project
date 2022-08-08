@@ -124,7 +124,6 @@
         <div class="movieslideshow__grid">
             <?php
                 foreach ($users as $key => $value) {
-                    if($userPayload["user_id"] != $users[$key]["user_id"]) {
                     ?>
                         <div class="movieslideshow__article movie__info">
                             <span class="admin__username"><?php echo $users[$key]["user_id"]; ?></span> |
@@ -139,7 +138,6 @@
                             } ?></button>
                         </div>
                     <?php
-                    }
                 }
             ?>
         </div>
