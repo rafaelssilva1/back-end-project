@@ -35,6 +35,8 @@ html, body{
 
 body {
   font-family: var(--main-font);
+  position: relative;
+  min-height: 100vh;
 }
 
 *, *:before, *:after {
@@ -59,6 +61,11 @@ a {
   max-width: 70%;
   height: auto;
   margin: 1em auto;
+  padding-bottom: 2.5rem;
+}
+
+.padding-bottom {
+  padding-bottom: 6em;
 }
 
 .hide {
@@ -205,18 +212,21 @@ a {
 /* Footer styles */
 
 .footer {
-    margin-top: 2em;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 2em;
-    background-color: var(--color-black);
-    color: var(--color-white);
+  position: absolute;
+  bottom: 0;
+  margin-top: 2em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2em;
+  background-color: var(--color-black);
+  color: var(--color-white);
 }
 
 /* Header styles */
 .header {
   background-color: var(--color-yellow);
+  margin-top: 1em;
 }
 
 .nav {
@@ -573,8 +583,9 @@ a {
 
 /* Hero styles */
 .heroContainer {
-  height: 80vh;
+  height: 90vh;
   position: relative;
+  margin-top: -1em;
 }
 
 .hero {

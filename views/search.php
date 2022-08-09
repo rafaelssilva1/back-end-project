@@ -12,7 +12,7 @@
 
     <div class="container">
         <?php
-            if(empty($moviesByGenre)) {
+            if(empty($movies)) {
                 ?>
                     <h2 class="genres__title"><?php if(isset($_SESSION["message"])) { echo $_SESSION["message"]; } ?></h2>
                 <?php
@@ -24,24 +24,24 @@
                     
                     <div class="movie__grid">
                         <?php
-                            foreach ($moviesByGenre as $key => $value) {
+                            foreach ($movies as $key => $value) {
                                 echo ('
-                                    <article class="movie__article" data-movie="'. $moviesByGenre[$key]["id"] .'" >
-                                        <a href="/movies/'. $moviesByGenre[$key]["id"] .'">
+                                    <article class="movie__article" data-movie="'. $movies[$key]["id"] .'" >
+                                        <a href="/movies/'. $movies[$key]["id"] .'">
                                             <div class="movie__link">
                                                 <picture class="movie__picture">
-                                                    <img class="movie__image" src="https://image.tmdb.org/t/p/w342'. $moviesByGenre[$key]["poster_path"] .'" />        
+                                                    <img class="movie__image" src="https://image.tmdb.org/t/p/w342'. $movies[$key]["poster_path"] .'" />        
                                                 </picture>
                                                 <div class="movie__info">
-                                                    <h2 class="movie__title">'. $moviesByGenre[$key]["title"] .'</h2>
+                                                    <h2 class="movie__title">'. $movies[$key]["title"] .'</h2>
                                                     <div class="movie__vote">
-                                                        <span>'. $moviesByGenre[$key]["vote_avg"]  .'</span>
+                                                        <span>'. $movies[$key]["vote_avg"]  .'</span>
                                                         <span class="material-symbols-outlined">
                                                             star
                                                         </span>
                                                     </div>
                                                     <div class="movie__truncate">
-                                                        <p class="movie__description">'. $moviesByGenre[$key]["overview"] .'</p>
+                                                        <p class="movie__description">'. $movies[$key]["overview"] .'</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -54,38 +54,37 @@
                 <?php
             }
         ?>
-    </div>
-
-    <div class="container button_div">
-        <?php
-            if(isset($_GET["page"])) {
-                if(!$disablePrevious and !($_GET["page"] <= 1)) {
-                    ?>
-                        <form class="genres__button" method="GET" action="/search/"> 
-                            <input type="hidden" name="genres" value="<?php echo $_GET["genres"] ?>">
-                            <input type="hidden" name="page" value="<?php if(isset($_GET["page"])) { echo $_GET["page"] - 1; } ?>">
-                            <input type="submit" value="Previous Page" class="button">
-                        </form>
-                    <?php
-                }
-            }
-        ?>
-
-        <?php
-            if(!empty($moviesByGenre)) {
-                if($moviesCount["count"] > 12) {
-                    if(!$disableNext) {
+        <div class="container button_div">
+            <?php
+                if(isset($_GET["page"])) {
+                    if(!$disablePrevious and !($_GET["page"] <= 1)) {
                         ?>
-                            <form class="genres__button" method="GET" action="/search/">
-                                <input type="hidden" name="genres" value="<?php echo $_GET["genres"] ?>">
-                                <input type="hidden" name="page" value="<?php echo $page ?>">
-                                <input type="submit" value="Next Page" class="button">
+                            <form class="genres__button" method="GET" action="/search/"> 
+                                <input type="hidden" name="<?php if(isset($_GET["filter"])) { echo "filter"; } else { echo "genres"; } ?>" value="<?php if(isset($_GET["filter"])) { echo $_GET["filter"]; } else { echo $_GET["genres"]; } ?>">
+                                <input type="hidden" name="page" value="<?php if(isset($_GET["page"])) { echo $_GET["page"] - 1; } ?>">
+                                <input type="submit" value="Previous Page" class="button">
                             </form>
                         <?php
                     }
                 }
-            }
-        ?>
+            ?>
+
+            <?php
+                if(!empty($movies)) {
+                    if($moviesCount["count"] > 12) {
+                        if(!$disableNext) {
+                            ?>
+                                <form class="genres__button" method="GET" action="/search/">
+                                    <input type="hidden" name="<?php if(isset($_GET["filter"])) { echo "filter"; } else { echo "genres"; } ?>" value="<?php if(isset($_GET["filter"])) { echo $_GET["filter"]; } else { echo $_GET["genres"]; } ?>">
+                                    <input type="hidden" name="page" value="<?php echo $page ?>">
+                                    <input type="submit" value="Next Page" class="button">
+                                </form>
+                            <?php
+                        }
+                    }
+                }
+            ?>
+        </div>
     </div>
     
     <?php include("views/footer.php"); ?>

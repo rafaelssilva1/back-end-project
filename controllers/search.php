@@ -9,28 +9,55 @@
     $offset = 0;
     $maxOffset = 0;
     $targetOffset = 12;
-    $moviesCount = $model->getMoviesCountByGenre($_GET["genres"]);
+    if(isset($_GET["genres"])) {
+        $moviesCount = $model->getMoviesCountByGenre($_GET["genres"]); 
+    } else {
+        $moviesCount = $model->countMoviesFromSearch($_GET["filter"]);
+    }
     $disableNext = false;
     $disablePrevious = false;
     
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         $userPayload = $model->checkAuthToken();
 
-        if(isset($_GET["filter"])) {
-            $moviesByGenre = $model->searchMovies($_GET["filter"]);
+        if(!isset($_GET["page"]) and isset($_GET["filter"])) {
+            $movies = $model->searchMovies($_GET["filter"], $offset);
 
-            if(!$moviesByGenre) {
+            if(!$movies) {
                 $_SESSION["message"] = "No results were found. Try another search.";
             }
 
             require("views/search.php");
+        } else if(isset($_GET["page"]) and isset($_GET["filter"])) {
+            if($_GET["page"] <= 0) {
+                $_GET["page"] = 1;
+            }
+            if($_GET["page"] > ceil($moviesCount["count"] / $targetOffset)) {
+                $_GET["page"]  = ceil($moviesCount["count"] / $targetOffset);
+            }
+            if(ceil($moviesCount["count"] / $targetOffset) == ($_GET["page"])) {
+                $page = $_GET["page"] + 1;
+                $offset = $offset + $targetOffset;
+                $offset = $offset * ($page - 2);
+                $maxOffset = $offset + $targetOffset; 
+                $movies = $model->searchMovies($_GET["filter"], $offset);
+                $disableNext = true;
+                require("views/search.php");
+            } else {
+                $page = $_GET["page"] + 1;
+                $offset = $offset + $targetOffset;
+                $offset = $offset * ($page - 2);
+                $maxOffset = $offset + $targetOffset; 
+                $movies = $model->searchMovies($_GET["filter"], $offset);
+                require("views/search.php");
+            }
         }
 
         if(!isset($_GET["page"]) and isset($_GET["genres"])) {
             $genres = $modelMovie->getGenres();
-            $moviesByGenre = $model->getMoviesByGenre($offset, $_GET["genres"]);
+            $movies = $model->getMoviesByGenre($offset, $_GET["genres"]);
 
-            if(!$moviesByGenre) {
+            if(!$movies) {
                 $_SESSION["message"] = "There are no movies in this category.";
             }
 
@@ -47,7 +74,7 @@
                 $offset = $offset + $targetOffset;
                 $offset = $offset * ($page - 2);
                 $maxOffset = $offset + $targetOffset; 
-                $moviesByGenre = $model->getMoviesByGenre($offset, $_GET["genres"]);
+                $movies = $model->getMoviesByGenre($offset, $_GET["genres"]);
                 $genres = $modelMovie->getGenres();
                 $disableNext = true;
                 require("views/search.php");
@@ -56,7 +83,7 @@
                 $offset = $offset + $targetOffset;
                 $offset = $offset * ($page - 2);
                 $maxOffset = $offset + $targetOffset; 
-                $moviesByGenre = $model->getMoviesByGenre($offset, $_GET["genres"]);
+                $movies = $model->getMoviesByGenre($offset, $_GET["genres"]);
                 $genres = $modelMovie->getGenres();
                 require("views/search.php");
             }

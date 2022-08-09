@@ -10,7 +10,7 @@
 <body>
     <?php include("views/header.php"); ?>
 
-    <div class="container">
+    <div class="container padding-bottom">
         <h1 class="watchlist__title">Howdy, <?php echo $userPayload["username"] ?>!</h1>
         <div class="movieslideshow__header">
             <h2>My reviews</h2>

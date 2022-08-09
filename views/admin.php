@@ -11,7 +11,7 @@
 <body>
     <?php include("views/header.php"); ?>
 
-    <div class="container">
+    <div class="container padding-bottom">
         <div class="movieslideshow__header">
             <h2>Create Movie</h2>
             <div class="movieslideshow__bar"></div>

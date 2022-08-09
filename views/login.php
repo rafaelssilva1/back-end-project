@@ -10,7 +10,7 @@
 <body>
     <?php include("views/header.php"); ?>
 
-    <div class="container">
+    <div class="container padding-bottom">
         <div class="login__div">
             <div>
                 <h2 class="genres__title">Login</h2>
