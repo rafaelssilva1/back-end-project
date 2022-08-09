@@ -70,17 +70,19 @@
                 }
             }
         ?>
-        
+
         <?php
             if(!empty($moviesByGenre)) {
-                if(!$disableNext) {
-                    ?>
-                        <form class="genres__button" method="GET" action="/search/">
-                            <input type="hidden" name="genres" value="<?php echo $_GET["genres"] ?>">
-                            <input type="hidden" name="page" value="<?php echo $page ?>">
-                            <input type="submit" value="Next Page" class="button">
-                        </form>
-                    <?php
+                if($moviesCount["count"] > 12) {
+                    if(!$disableNext) {
+                        ?>
+                            <form class="genres__button" method="GET" action="/search/">
+                                <input type="hidden" name="genres" value="<?php echo $_GET["genres"] ?>">
+                                <input type="hidden" name="page" value="<?php echo $page ?>">
+                                <input type="submit" value="Next Page" class="button">
+                            </form>
+                        <?php
+                    }
                 }
             }
         ?>
