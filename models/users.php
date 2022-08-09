@@ -12,23 +12,6 @@
             return $query->fetchAll();
         }
 
-        public function getUser($id) {
-            if(!empty($id)) {
-                $query = $this->db->prepare("
-                SELECT username, email, password
-                FROM users
-                WHERE user_id = ?
-            ");
-            
-            $query->execute([
-                $id
-            ]);
-        
-            }
-
-            return $query->fetch();
-        }
-
         public function validateUsername($username) {
             $query = $this->db->prepare("
                 SELECT username
@@ -74,12 +57,12 @@
             return $this->db->lastInsertId();
         }
 
-        public function updateUser($username, $password) {
+        public function updateUser($user_id, $password) {
             $query = $this->db->prepare("
                 UPDATE users
                 SET
                     password = ?
-                WHERE username = ?
+                WHERE user_id = ?
             ");
 
             return $query->execute([

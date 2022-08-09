@@ -128,7 +128,7 @@
                 die();
             }
 
-            $updateUser = $model->updateUser($userPayload["username"], $_POST["passwordUpdate"]);
+            $updateUser = $model->updateUser($userPayload["user_id"], $_POST["passwordUpdate"]);
             $login = $model->login($userPayload["username"], $_POST["passwordUpdate"]);
 
             if(empty($login)) {

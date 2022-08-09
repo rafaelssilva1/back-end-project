@@ -113,12 +113,6 @@
                     if(!empty($userPayload)) {
                         ?>
                             <form class="review__form" method="POST" action="/movies/">
-                            <?php
-          require_once('recaptchalib.php');
-          $publickey = "your_public_key"; // you got this from the signup page
-          echo recaptcha_get_html($publickey);
-        ?>
-
                                 <label for="comment_text">Write your review here:</label>
                                 <textarea id="review__textarea" name="comment_text"></textarea>
                                 <div class="review__rating">
