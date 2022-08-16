@@ -57,9 +57,7 @@
                 $_SESSION['message'] = "The username or password is incorrect. Please try again.";
                 require("views/login.php");
             } else {
-                
                 generateToken($user);
-                
             }
 
         }
@@ -91,9 +89,9 @@
                     $_SESSION['message'] = "An authentication error has occurred. Please try again or contact us info@".ENV["DB_HOST"]."";
                     require("views/login.php");
                     die();
+                } else {
+                    generateToken($login);
                 }
-    
-                generateToken($user);
 
             } else {
                 http_response_code(400);

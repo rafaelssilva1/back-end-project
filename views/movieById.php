@@ -25,7 +25,7 @@
         <div class="card__div">
             <div class="card__imagediv">
                 <picture class="card__picture">
-                    <img class="card__image" src="https://image.tmdb.org/t/p/w342<?php echo $movie["poster_path"] ?>" />
+                    <img class="card__image" src="/uploads/poster_path/<?php echo $movie["poster_path"] ?>" />
                 </picture>
             </div>
             <div class="card__info">
@@ -44,7 +44,7 @@
                 <h1 class="card__title"><?php echo $movie["title"] ?></h1>
                 <div class="movie__vote">
                     <span id="vote_detail"><?php echo $movie["vote_avg"] ?></span>
-                    <span class="material-symbols-outlined">
+                    <span class="material-icons-outlined">
                         star
                     </span>
                 </div>
@@ -162,7 +162,7 @@
                 ?>
                     <a href="/admin/<?php echo $id ?>">
                         <div class="admin__button">
-                            <span class="material-symbols-outlined">
+                            <span class="material-icons-outlined">
                                 edit
                             </span>
                         </div>

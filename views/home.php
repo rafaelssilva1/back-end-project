@@ -14,7 +14,7 @@
         <?php
             foreach ($heroMovies as $key => $value) {
                 echo ('
-                    <div class="hero" style="background:url(https://image.tmdb.org/t/p/w1280'.$heroMovies[$key]["backdrop_path"].'); background-position: center; background-repeat: no-repeat; background-size: cover;">
+                    <div class="hero" style="background:url(/uploads/backdrop_path/'.$heroMovies[$key]["backdrop_path"].'); background-position: center; background-repeat: no-repeat; background-size: cover;">
                         <div class="hero__text">
                             <h2 class="hero__title">'.$heroMovies[$key]["title"].'</h2>
                             <p class="hero__description">'.$heroMovies[$key]["overview"].'</p>
@@ -57,7 +57,7 @@
                                 <a href="/movies/'.$popularMovies[$key]["id"].'">
                                     <div class="movie__link">
                                         <picture class="movie__picture">
-                                            <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$popularMovies[$key]["poster_path"].'" />
+                                            <img class="movie__image" src="/uploads/poster_path/'.$popularMovies[$key]["poster_path"].'" />
                                         </picture>
                                         <div class="movie__info">
                                             <h2 class="movie__title">'.$popularMovies[$key]["title"].'</h2>
@@ -102,7 +102,7 @@
                                 <a href="/movies/'.$topRatedMovies[$key]["id"].'">
                                     <div class="movie__link">
                                         <picture class="movie__picture">
-                                            <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$topRatedMovies[$key]["poster_path"].'" />
+                                            <img class="movie__image" src="/uploads/poster_path/'.$topRatedMovies[$key]["poster_path"].'" />
                                         </picture>
                                         <div class="movie__info">
                                             <h2 class="movie__title">'.$topRatedMovies[$key]["title"].'</h2>
@@ -147,7 +147,7 @@
                                 <a href="/movies/'.$upcomingMovies[$key]["id"].'">
                                     <div class="movie__link">
                                         <picture class="movie__picture">
-                                            <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$upcomingMovies[$key]["poster_path"].'" />
+                                            <img class="movie__image" src="/uploads/poster_path/'.$upcomingMovies[$key]["poster_path"].'" />
                                         </picture>
                                         <div class="movie__info">
                                             <h2 class="movie__title">'.$upcomingMovies[$key]["title"].'</h2>

@@ -24,7 +24,7 @@
                             <article class="movieslideshow__article">
                                     <div class="userarea__link">
                                         <picture class="movie__picture">
-                                            <img class="movie__image" src="https://image.tmdb.org/t/p/w342'.$userComments[$key]["poster_path"].'" />
+                                            <img class="movie__image" src="/uploads/poster_path/'.$userComments[$key]["poster_path"].'" />
                                         </picture>
                                         <div class="movie__info">
                                             <h2 class="movie__title">'.$userComments[$key]["title"].'</h2>

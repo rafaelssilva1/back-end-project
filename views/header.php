@@ -35,7 +35,7 @@
                 ?>
             </li>
             <?php
-                if(isset($_COOKIE["token"]) and $userPayload["is_admin"]) {
+                if(isset($_COOKIE["token"]) and $userPayload["is_admin"] == 1) {
                     ?>
                         <li>
                             <a href="/admin/">
@@ -50,11 +50,11 @@
             
             <form class="nav__form" method="GET" action="/search/">
                 <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here..." required>
-                <button type="submit" class="nav__button"><span class="material-symbols-outlined">search</span></button>
+                <button type="submit" class="nav__button"><span class="material-icons-outlined">search</span></button>
             </form>
         </ul>
         <div class="nav__hamburguer">
-            <span class="material-symbols-outlined">menu</span>
+            <span class="material-icons-outlined">menu</span>
         </div>
     </nav>
     <script>

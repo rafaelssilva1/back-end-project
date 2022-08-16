@@ -143,7 +143,7 @@ a {
     width: 35px;
 }
 
-.movie__vote > .material-symbols-outlined {
+.movie__vote > .material-icons-outlined {
     font-size: 1em;
     color: var(--color-black);
 }
@@ -162,10 +162,6 @@ a {
 }
 
 @media screen and (max-width: 1200px) {
-  .movie__grid {
-      grid-template-columns: repeat(3, 1fr);
-  }
-
   .genres__result {
       width: 100%;
       position: initial;
@@ -192,7 +188,7 @@ a {
 
 @media screen and (max-width: 768px) {
   .movie__grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1, 1fr);
   }
 
   .movie__link {
@@ -269,7 +265,7 @@ a {
   cursor: pointer;
 }
 
-.nav__hamburguer > .material-symbols-outlined{
+.nav__hamburguer > .material-icons-outlined{
   font-size: 2em;
   font-weight: 700;
   cursor: pointer;
@@ -487,6 +483,7 @@ a {
 .button_div {
   display: flex;
   justify-content: center;
+  gap: 5em;
 }
 
 .button:hover {
@@ -779,7 +776,6 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2em;
   text-align: center;
 }
 

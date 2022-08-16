@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <title>Movie Not Found</title>
+    <title>Movie Night Ideas</title>
 </head>
 <body>
     <?php require("views/header.php"); ?>
 
-    <div class="container random">
+    <div class="container random padding-bottom">
         <div class="container card">
             <div class="card__div" key={el.id}>
                 <div class="card__imagediv">
                     <picture class="card__picture">
-                        <img class="card__image" src='https://image.tmdb.org/t/p/w342/<?php echo $random["poster_path"] ?>' />
+                        <img class="card__image" src='/uploads/poster_path/<?php echo $random["poster_path"] ?>' />
                     </picture>
                 </div>
                 <div class="card__info">

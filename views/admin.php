@@ -16,7 +16,7 @@
             <h2>Create Movie</h2>
             <div class="movieslideshow__bar"></div>
         </div>
-        <form class="review__form" method="POST" action="/admin/">
+        <form class="review__form" method="POST" action="/admin/" enctype="multipart/form-data">
             <label for="title"><b>Title:</b></label>
             <input type="text" class="admin__input" name="title" required value="<?php if($id) { echo $movie["title"];} ?>"></input>
             <label for="overview"><b>Overview:</b></label>
@@ -34,7 +34,7 @@
                     <label for="genres_id"><b>Genre:</b></label>
                     <select name="genres_id" class="admin__input" required>
                     <?php
-                        if($movie) {
+                        if(!empty($movie)) {
                             foreach ($genres as $key => $value) {
                                 ?>
                                     <option
@@ -67,11 +67,11 @@
                 </div>
                 <div>
                     <label for="backdrop_path"><b>Backdrop image path:</b></label>
-                    <input type="text" class="admin__input" name="backdrop_path" placeholder="/mTupUmnuwwAyA0CNqpwaZn5mqjk.jpg" required value="<?php if($id) { echo $movie["backdrop_path"];} ?>"></input>
+                    <input type="file" class="admin__input" name="backdrop_path" placeholder="/mTupUmnuwwAyA0CNqpwaZn5mqjk.jpg" required value="<?php if($id) { echo $movie["backdrop_path"];} ?>"></input>
                 </div>
                 <div>
                     <label for="poster_path"><b>Poster image path:</b></label>
-                    <input type="text" class="admin__input" name="poster_path" placeholder="/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg" required value="<?php if($id) { echo $movie["poster_path"];} ?>"></input>
+                    <input type="file" class="admin__input" name="poster_path" placeholder="/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg" required value="<?php if($id) { echo $movie["poster_path"];} ?>"></input>
                 </div>
                 <input type="hidden" name="id" value="<?php echo $id ?>"></input>
             </div>
@@ -98,7 +98,7 @@
                         <article class="movieslideshow__article">
                             <div class="userarea__link">
                                 <picture class="movie__picture">
-                                    <img class="movie__image" src="https://image.tmdb.org/t/p/w342<?php echo $getMovies[$key]["poster_path"]; ?>" />
+                                    <img class="movie__image" src="/uploads/poster_path/<?php echo $getMovies[$key]["poster_path"]; ?>" />
                                 </picture>
                                 <div class="movie__info">
                                     <h2 class="movie__title"><?php echo $getMovies[$key]["title"]; ?></h2>
@@ -117,6 +117,7 @@
                 }
             ?>
         </div>
+
         <div class="movieslideshow__header">
             <h2>Manage Users</h2>
             <div class="movieslideshow__bar"></div>
