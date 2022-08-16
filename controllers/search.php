@@ -21,6 +21,14 @@
         $userPayload = $model->checkAuthToken();
 
         if(!isset($_GET["page"]) and isset($_GET["filter"])) {
+            if (
+                mb_strlen($_GET["filter"]) < 0 or
+                mb_strlen($_GET["filter"]) > 65535
+            ) {
+                http_response_code(400);
+                die();
+            }
+            
             $movies = $model->searchMovies($_GET["filter"], $offset);
 
             if(!$movies) {

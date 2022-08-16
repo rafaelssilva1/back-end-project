@@ -165,7 +165,7 @@
                 SELECT users.username, comment_text, created_at, rating
                 FROM comments
                 INNER JOIN users ON comments.user_id = users.user_id
-                WHERE movie_id = ?
+                WHERE movie_id = ? 
             ");
             
             $query->execute([
