@@ -50,6 +50,7 @@
                     ?>
                         <div class="watchlist__notfound">
                             <h2>Here you can save any movie you want to see later!</h2>
+                            <h3>(you must be logged in to do it)</h3>
                             <a href="/movies">
                                 <button class="button">Explore movies</button>
                             </a>

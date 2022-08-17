@@ -72,6 +72,12 @@ a {
   display: none;
 }
 
+@media screen and (max-width: 480px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
 /* Movie results styles*/
 .movie {
     
@@ -134,7 +140,7 @@ a {
     align-items: center;
     justify-content: center;
     border-radius: 2em;
-    max-width: 30%;
+    max-width: 40%;
     padding: 0.2em 0.5em;
     background-color: var(--color-yellow);
 }
@@ -197,6 +203,12 @@ a {
 
   .genre__button {
       width: 50%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .movie__grid {
+      grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -296,9 +308,6 @@ a {
 
 .log_button {
   cursor: pointer;
-  position: fixed;
-  top: 50%;
-  right: 0;
 }
 
 @media screen and (max-width: 1024px) {
@@ -417,6 +426,7 @@ a {
 
 .card__truncate {
   max-width: 80%;
+  margin-bottom: 1em;
 }
 
 .card__overview {
@@ -513,6 +523,15 @@ a {
 @media screen and (max-width: 480px) {
   .genres__button {
       width: 50%;
+      display: flex;
+      justify-content: center;
+  }
+  .button_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: initial;
   }
 }
 
@@ -988,9 +1007,15 @@ a {
   font-size: 1.2em;
 }
 
+.review__button_div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 @media screen and (max-width: 768px) {
   .review__submit {
-    width: 100%;
+    width: 60%;
     margin: 2em 0;
   }
 }
@@ -1021,6 +1046,13 @@ a {
   text-align: center;
   font-weight: 700;
 }
+
+@media screen and (max-width: 480px) {
+  .login__div {
+    flex-direction: column;
+  }
+}
+
 
 /* User area styles */
 .userarea__link {
@@ -1130,6 +1162,15 @@ a {
   font-size: 1em;
   text-align: center;
   font-weight: 700;
+}
+
+.delete_ownaccount {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.delete_ownaccount_div {
+  text-align: right;
 }
 
 @media screen and (max-width: 1200px) {

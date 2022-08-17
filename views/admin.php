@@ -76,15 +76,20 @@
                 <input type="hidden" name="id" value="<?php echo $id ?>"></input>
             </div>
 
-            <button type="submit" class="button review__submit">
-                <?php
-                    if(empty($id)) {
-                        echo "Create Movie";
-                    } else {
-                        echo "Update Movie";
-                    }
-                ?>
-            </button>
+            <div class="review__button_div">
+                <button type="submit" class="button review__submit">
+                    <?php
+                        if(empty($id)) {
+                            echo "Create Movie";
+                        } else {
+                            echo "Update Movie";
+                        }
+                    ?>
+                </button>
+                <a href="/admin/">
+                    Cancel
+                </a>
+            </div>
             <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
         </form>
         <div class="movieslideshow__header">

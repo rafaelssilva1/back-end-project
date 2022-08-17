@@ -30,6 +30,19 @@
             </div>
             <div class="card__info">
                 <button class="watchlist__button">
+                    <?php
+                        if(isset($userPayload["is_admin"])) {
+                        if($userPayload["is_admin"]) {
+                            ?>
+                                <a href="/admin/<?php echo $id ?>">
+                                    <span class="material-icons-outlined">
+                                        edit
+                                    </span>
+                                </a>
+                            <?php
+                        }
+                        }
+                    ?>
                     <span class="material-icons-outlined watchlist__button-btn">
                         <?php if(!empty($userPayload)) {
                             if(empty($heart)) { 
@@ -59,7 +72,7 @@
         </div>
     </div>
 
-    <div class="container relative">
+    <div class="container relative padding-bottom">
         <div class="movieslideshow__header">
             <h2>Honest Reviews</h2>
             <div class="movieslideshow__bar"></div>
@@ -155,22 +168,6 @@
             
         </div>
     </div>
-
-    <?php
-        if(isset($userPayload["is_admin"])) {
-           if($userPayload["is_admin"]) {
-                ?>
-                    <a href="/admin/<?php echo $id ?>">
-                        <div class="admin__button">
-                            <span class="material-icons-outlined">
-                                edit
-                            </span>
-                        </div>
-                    </a>
-                <?php
-           }
-        }
-    ?>
 
     <?php include("views/footer.php"); ?>
 
