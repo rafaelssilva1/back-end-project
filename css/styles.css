@@ -222,7 +222,7 @@ a {
 /* Header styles */
 .header {
   background-color: var(--color-yellow);
-  margin-top: 1em;
+  margin-top: -1em;
 }
 
 .nav {
@@ -232,6 +232,7 @@ a {
   min-height: 15vh;
   background-color: var(--color-yellow);
   z-index: 100;
+  padding-top: 2em;
 }
 
 .nav__logo {
