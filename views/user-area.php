@@ -55,7 +55,7 @@
                 } else {
                     echo ('
                         <div class="">
-                            <p class="reviews__noreviews">You haven not submitted a review yet.</p>
+                            <p class="reviews__noreviews">You have not submitted a review yet.</p>
                             <a href="/movies/"><button class="button">Find a movie here.</button></a>
                         </div>
                     ');

@@ -40,7 +40,7 @@ adminBtns.forEach(btn => {
                     body: JSON.stringify({ user_id: parseInt(btn.parentElement.firstElementChild.innerText)})
                 };
                 
-                fetch(`/users`, requestOptions)
+                fetch("/users", requestOptions)
                     .then(response => response.json());
 
                 alert("User privileges updated");

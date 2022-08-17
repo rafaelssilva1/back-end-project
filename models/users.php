@@ -67,7 +67,7 @@
 
             return $query->execute([
                 password_hash($password, PASSWORD_DEFAULT),
-                $username
+                $user_id
             ]);
             
         }

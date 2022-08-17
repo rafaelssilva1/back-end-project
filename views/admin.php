@@ -11,6 +11,8 @@
 <body>
     <?php include("views/header.php"); ?>
 
+    <?php var_dump($data); ?>
+
     <div class="container padding-bottom">
         <div class="movieslideshow__header">
             <h2>Create Movie</h2>

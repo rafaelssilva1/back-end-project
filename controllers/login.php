@@ -135,9 +135,7 @@
                 require("views/user-area.php");
                 die();
             } else {
-
-                generateToken($user);
-
+                generateToken($login);
             }
 
         }

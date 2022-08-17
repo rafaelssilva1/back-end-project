@@ -10,7 +10,7 @@
 <body>
     <?php include("views/header.php"); ?>
 
-    <div class="container">
+    <div class="container padding-bottom">
         <?php
             if(empty($movies)) {
                 ?>
