@@ -46,14 +46,19 @@
                         </li>
                     <?php
                 }
+
+                if(isset($_COOKIE["token"])) {
+                    ?>
+                        <li>
+                            <a class="log_button">
+                                <span class="material-icons-outlined">
+                                    exit_to_app
+                                </span>
+                            </a>
+                        </li>
+                    <?php
+                }
             ?>
-            <li>
-                <a class="log_button">
-                    <span class="material-icons-outlined">
-                        exit_to_app
-                    </span>
-                </a>
-            </li>
             
             <form class="nav__form" method="GET" action="/search/">
                 <input class="nav__input" type="text" name="filter" id="filter" placeholder="Find a movie here..." required>
@@ -72,5 +77,6 @@
             linksBtn.classList.toggle("active");
         });
     </script>
-
+    <script src="/js/logout.js"></script>
+    
 </header>

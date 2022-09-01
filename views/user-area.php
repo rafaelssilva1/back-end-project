@@ -94,7 +94,6 @@
     <?php include("views/footer.php"); ?>
 
     <script src="/js/home.js"></script>
-    <script src="/js/logout.js"></script>
     <script src="/js/users.js"></script>
 </body>
 </html>

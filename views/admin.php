@@ -67,11 +67,11 @@
                 </div>
                 <div>
                     <label for="backdrop_path"><b>Backdrop image path:</b></label>
-                    <input type="file" class="admin__input" name="backdrop_path" placeholder="/mTupUmnuwwAyA0CNqpwaZn5mqjk.jpg" required value="<?php if($id) { echo $movie["backdrop_path"];} ?>"></input>
+                    <input type="file" class="admin__input" name="backdrop_path" placeholder="/mTupUmnuwwAyA0CNqpwaZn5mqjk.jpg" value="<?php if($id) { echo $movie["backdrop_path"];} ?>"></input>
                 </div>
                 <div>
                     <label for="poster_path"><b>Poster image path:</b></label>
-                    <input type="file" class="admin__input" name="poster_path" placeholder="/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg" required value="<?php if($id) { echo $movie["poster_path"];} ?>"></input>
+                    <input type="file" class="admin__input" name="poster_path" placeholder="/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg" value="<?php if($id) { echo $movie["poster_path"];} ?>"></input>
                 </div>
                 <input type="hidden" name="id" value="<?php echo $id ?>"></input>
             </div>
