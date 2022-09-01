@@ -29,20 +29,20 @@
                 </picture>
             </div>
             <div class="card__info">
-                <button class="watchlist__button">
-                    <?php
-                        if(isset($userPayload["is_admin"])) {
+                <?php
+                    if(isset($userPayload["is_admin"])) {
                         if($userPayload["is_admin"]) {
-                            ?>
-                                <a href="/admin/<?php echo $id ?>">
-                                    <span class="material-icons-outlined">
-                                        edit
-                                    </span>
-                                </a>
-                            <?php
-                        }
-                        }
-                    ?>
+                        ?>
+                            <a href="/admin/<?php echo $id ?>" class="adminedit__button">
+                                <span class="material-icons-outlined">
+                                    edit
+                                </span>
+                            </a>
+                        <?php
+                    }
+                    }
+                ?>
+                <button class="watchlist__button">
                     <span class="material-icons-outlined watchlist__button-btn">
                         <?php if(!empty($userPayload)) {
                             if(empty($heart)) { 

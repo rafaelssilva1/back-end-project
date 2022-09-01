@@ -13,25 +13,31 @@
     
     <div class="container padding-bottom">
         <div class="movieslideshow__header">
-            <h2>Create Movie</h2>
+            <?php
+                if(empty($id)) {
+                    echo "<h2>Create Movie</h2>";
+                } else {
+                    echo "<h2>Update Movie</h2>";
+                }
+            ?>
             <div class="movieslideshow__bar"></div>
         </div>
         <form class="review__form" method="POST" action="/admin/" enctype="multipart/form-data">
-            <label for="title"><b>Title:</b></label>
-            <input type="text" class="admin__input" name="title" required value="<?php if($id) { echo $movie["title"];} ?>"></input>
-            <label for="overview"><b>Overview:</b></label>
+            <label for="title">Title:</label>
+            <input type="text" class="admin__input" name="title" required value="<?php if($id) { echo $movie["title"];} ?>">
+            <label for="overview">Overview:</label>
             <textarea id="review__textarea" name="overview" required><?php if($id) { echo $movie["overview"];} ?></textarea>
             <div class="admin__grid">
                 <div>
-                    <label for="release_date"><b>Release Date:</b></label>
-                    <input type="date" class="admin__input" name="release_date" required value="<?php if($id) { echo $movie["release_date"];} ?>"></input>
+                    <label for="release_date">Release Date:</label>
+                    <input type="date" class="admin__input" name="release_date" required value="<?php if($id) { echo $movie["release_date"];} ?>">
                 </div>
                 <div>
-                    <label for="duration"><b>Duration:</b></label>
-                    <input type="number" class="admin__input" name="duration" min="1" required value="<?php if($id) { echo $movie["duration"];} ?>"></input>
+                    <label for="duration">Duration:</label>
+                    <input type="number" class="admin__input" name="duration" min="1" required value="<?php if($id) { echo $movie["duration"];} ?>">
                 </div>
                 <div>
-                    <label for="genres_id"><b>Genre:</b></label>
+                    <label for="genres_id">Genre:</label>
                     <select name="genres_id" class="admin__input" required>
                     <?php
                         if(!empty($movie)) {
@@ -62,18 +68,18 @@
                     </select>
                 </div>
                 <div>
-                    <label for="trailer_link"><b>Youtube trailer link:</b></label>
-                    <input type="text" class="admin__input" name="trailer_link" placeholder="oZ6iiRrz1SY" value="<?php if($id) { echo $movie["trailer_link"];} ?>"></input>
+                    <label for="trailer_link">Youtube trailer link:</label>
+                    <input type="text" class="admin__input" name="trailer_link" placeholder="oZ6iiRrz1SY" value="<?php if($id) { echo $movie["trailer_link"];} ?>">
                 </div>
                 <div>
-                    <label for="backdrop_path"><b>Backdrop image path:</b></label>
-                    <input type="file" class="admin__input" name="backdrop_path" placeholder="/mTupUmnuwwAyA0CNqpwaZn5mqjk.jpg" value="<?php if($id) { echo $movie["backdrop_path"];} ?>"></input>
+                    <label for="backdrop_path">Backdrop image path:</label>
+                    <input type="file" class="admin__input" name="backdrop_path" placeholder="/mTupUmnuwwAyA0CNqpwaZn5mqjk.jpg" <?php if(empty($id)) { echo "required"; } ?> value="<?php if($id) { echo $movie["backdrop_path"];} ?>">
                 </div>
                 <div>
-                    <label for="poster_path"><b>Poster image path:</b></label>
-                    <input type="file" class="admin__input" name="poster_path" placeholder="/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg" value="<?php if($id) { echo $movie["poster_path"];} ?>"></input>
+                    <label for="poster_path">Poster image path:</label>
+                    <input type="file" class="admin__input" name="poster_path" placeholder="/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg" <?php if(empty($id)) { echo "required"; } ?> value="<?php if($id) { echo $movie["poster_path"];} ?>">
                 </div>
-                <input type="hidden" name="id" value="<?php echo $id ?>"></input>
+                <input type="hidden" name="id" value="<?php echo $id ?>">
             </div>
 
             <div class="review__button_div">
@@ -108,9 +114,9 @@
                                 <div class="movie__info">
                                     <h2 class="movie__title"><?php echo $getMovies[$key]["title"]; ?></h2>
                                     <p class="movie__title">
-                                        <b>Vote average:</b> <?php echo $getMovies[$key]["vote_avg"]; ?>
+                                        Vote average: <?php echo $getMovies[$key]["vote_avg"]; ?>
                                     </p>
-                                    <p class="movie__title"><b>Vote count:</b> <?php echo $getMovies[$key]["vote_count"]; ?></p>
+                                    <p class="movie__title">Vote count: <?php echo $getMovies[$key]["vote_count"]; ?></p>
                                 </div>
                                 <button class="admin__userbutton">
                                     <a href="/admin/<?php echo $getMovies[$key]["id"]; ?>">Edit movie</a>

@@ -841,6 +841,15 @@ a {
   cursor: pointer;
 }
 
+.adminedit__button {
+  position: absolute;
+  top: 1.75em;
+  right: 4em;
+  background-color: var(--color-white);
+  border: none;
+  cursor: pointer;
+}
+
 .watchlist__button > .material-icons-outlined {
   font-size: 2em;
 }
@@ -972,6 +981,10 @@ a {
   flex-direction: column;
   padding: 1em 0;
   gap: 0.5em;
+}
+
+.review__form label {
+  font-weight: bold;
 }
 
 #review__textarea, #review__user {

@@ -263,7 +263,10 @@
         public function editMovie($title, $overview, $release_date, $duration, $genres_id, $trailer_link, $backdrop_path, $poster_path, $movie_id) {
             $query = $this->db->prepare("
                 UPDATE movies
-                SET title = ?, overview = ?, release_date = ?, duration = ?, genres_id = ?, trailer_link = ?, backdrop_path = ?, poster_path = ?
+                SET
+                    title = ?, overview = ?, release_date = ?, duration = ?, genres_id = ?, trailer_link = ?,
+                    backdrop_path = (CASE WHEN ? <> '' THEN ? ELSE backdrop_path END),
+                    poster_path = (CASE WHEN ? <> '' THEN ? ELSE poster_path END)
                 WHERE id = ?
             ");
             
@@ -275,6 +278,8 @@
                 $genres_id,
                 $trailer_link,
                 $backdrop_path,
+                $backdrop_path,
+                $poster_path,
                 $poster_path,
                 $movie_id
             ]);
