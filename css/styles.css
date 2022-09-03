@@ -229,6 +229,7 @@ a {
   padding: 2em;
   background-color: var(--color-black);
   color: var(--color-white);
+  text-align: center;
 }
 
 /* Header styles */
@@ -782,6 +783,7 @@ a {
   align-items: center;
   justify-content: center;
   max-width: 50%;
+  height: 80vh;
 }
 
 @media screen and (max-width: 1024px) {

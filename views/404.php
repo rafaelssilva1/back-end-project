@@ -8,7 +8,6 @@
     <title>Movie Not Found</title>
 </head>
 <body>
-    <?php require("views/header.php"); ?>
 
     <div class="container notfound">
         <h1>Oops, the page you were looking for was not found...</h1>
