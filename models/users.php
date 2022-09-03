@@ -12,6 +12,37 @@
             return $query->fetchAll();
         }
 
+        public function getUser($id) {
+            $query = $this->db->prepare("
+                SELECT user_id, username, email
+                FROM users
+                WHERE user_id = ?
+            ");
+            
+            $query->execute([
+                $id
+            ]);
+
+            return $query->fetch();
+        }
+
+        public function editUser($username, $email, $id) {
+            $query = $this->db->prepare("
+                UPDATE users
+                SET
+                    username = ?, email  = ?
+                WHERE user_id = ?
+            ");
+            
+            $query->execute([
+                $username,
+                $email,
+                $id
+            ]);
+
+            return $query->fetch();
+        }
+
         public function validateUsername($username) {
             $query = $this->db->prepare("
                 SELECT username
@@ -43,10 +74,10 @@
         public function createUser($username, $email, $password) {
             $query = $this->db->prepare("
                 INSERT INTO users
-                (username, email, password)
-            VALUES
-                (?, ?, ?);
-            ");
+                    (username, email, password)
+                VALUES
+                    (?, ?, ?);
+                ");
             
             $query->execute([
                 $username,

@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdn.tiny.cloud/1/<?php echo (ENV["TINYMCE_KEY"]); ?>/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <title>Admin Area</title>
+    <title>Update Movie</title>
 </head>
 <body>
     <?php include("views/header.php"); ?>
     
     <div class="container padding-bottom">
         <div class="movieslideshow__header">
-            <h2>Create Movie</h2>
+            <h2>Update Movie</h2>
             <div class="movieslideshow__bar"></div>
         </div>
         <form class="review__form" method="POST" action="/admin/" enctype="multipart/form-data">
@@ -73,12 +73,13 @@
                     <label for="poster_path">Poster image path:</label>
                     <input type="file" class="admin__input" name="poster_path" placeholder="/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg" <?php if(empty($id)) { echo "required"; } ?> value="<?php if($id) { echo $movie["poster_path"];} ?>">
                 </div>
-                <input type="hidden" name="id" value="<?php echo $id ?>">
+                <input type="hidden" name="id" value="<?php echo $id2 ?>">
+                <input type="hidden" name="type" value="<?php echo $id ?>">
             </div>
 
             <div class="review__button_div">
                 <button type="submit" class="button review__submit">
-                    Create Movie
+                    Update Movie
                 </button>
                 <a href="/admin/">
                     Cancel
@@ -86,76 +87,9 @@
             </div>
             <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
         </form>
-        <div class="movieslideshow__header">
-            <h2>Manage Movies</h2>
-            <div class="movieslideshow__bar"></div>
-        </div>
-        <div class="movieslideshow__grid">
-            <?php
-                foreach ($getMovies as $key => $value) {
-                    ?>
-                        <article class="movieslideshow__article">
-                            <div class="userarea__link">
-                                <picture class="movie__picture">
-                                    <img class="movie__image" src="/uploads/poster_path/<?php echo $getMovies[$key]["poster_path"]; ?>" />
-                                </picture>
-                                <div class="movie__info">
-                                    <h2 class="movie__title"><?php echo $getMovies[$key]["title"]; ?></h2>
-                                    <p class="movie__title">
-                                        Vote average: <?php echo $getMovies[$key]["vote_avg"]; ?>
-                                    </p>
-                                    <p class="movie__title">Vote count: <?php echo $getMovies[$key]["vote_count"]; ?></p>
-                                </div>
-                                <button class="admin__userbutton">
-                                    <a href="/admin/movies/<?php echo $getMovies[$key]["id"]; ?>">Edit movie</a>
-                                </button>
-                                <button class="deleteMovie_btn admin__userbutton" data-id="<?php echo $getMovies[$key]["id"]; ?>">Delete movie</button>
-                            </div>
-                        </article>
-                    <?php
-                }
-            ?>
-        </div>
 
-        <div class="movieslideshow__header">
-            <h2>Manage Users</h2>
-            <div class="movieslideshow__bar"></div>
-        </div>
-        <div class="movieslideshow__grid">
-            <?php
-                foreach ($users as $key => $value) {
-                    ?>
-                        <div class="movieslideshow__article movie__info">
-                            <span class="admin__username"><?php echo $users[$key]["user_id"]; ?></span> |
-                            <span class="admin__username"><?php echo $users[$key]["username"]; ?></span>
-                            <br>
-                            <button class="admin__userbutton">
-                                <a href="/admin/users/<?php echo $users[$key]["user_id"]; ?>">
-                                    <span class="material-icons-outlined">
-                                        edit
-                                    </span>
-                                </a>
-                            </button>
-                            <button class="delete_btn admin__userbutton">
-                                <span class="material-icons-outlined">
-                                    delete
-                                </span>
-                            </button>
-                            <button class="make_admin_btn admin__userbutton"><?php
-                            if($users[$key]["is_admin"]) {
-                                echo("Remove Admin");
-                            } else {
-                                echo("Make Admin");
-                            } ?></button>
-                        </div>
-                    <?php
-                }
-            ?>
-        </div>
     </div>
-
     <?php include("views/footer.php"); ?>
 
-    <script src="/js/users.js"></script>
 </body>
 </html>

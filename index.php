@@ -10,7 +10,9 @@ $resource = $parts[1] ;
 
 $id = $parts[2] ?? "";
 
-$controllers = ["movies", "movie-night-ideas", "watchlist", "search", "login", "edit", "admin", "users"];
+$id2 = $parts[3] ?? "";
+
+$controllers = ["movies", "movie-night-ideas", "watchlist", "search", "login", "edit", "admin"];
 
 require_once("models/base.php");
 

@@ -7,6 +7,8 @@
     require("models/users.php");
     $modelUser = new User();
 
+    $array = ["movies", "users"];
+
     function validateFile($file, $folder) {
         $fileName = $file["name"];
         $fileTmpName = $file["tmp_name"];
@@ -44,15 +46,29 @@
         if(!$userPayload["is_admin"]) {
             header("Location: /login/");
         }
-        $genres = $model->getGenres();
-        $getMovies = $model->getMovies();
 
-        if(!empty($id)) {
-            $movie = $model->getMovieById($id);
+        $genres = $model->getGenres();
+
+        if(!empty($id2) and $id == "movies") {
+            $movie = $model->getMovieById($id2);
+            $users = $modelUser->getUsers();
+
+            require("views/editmovies.php");
+
+            exit();
         }
 
-        $users = $modelUser->getUsers();
+        if(!empty($id2) and $id == "users") {
+            $user = $modelUser->getUser($id2);
 
+            require("views/editusers.php");
+
+            exit();
+        }
+
+        $getMovies = $model->getMovies();
+        $users = $modelUser->getUsers();
+        
         require("views/admin.php");
     }
 
@@ -63,7 +79,7 @@
         if(!$userPayload["is_admin"]) {
             header("Location: /login/");
         }
-        if(isset($_POST["id"]) and isset($_POST["title"]) and isset($_POST["overview"]) and isset($_POST["release_date"]) and isset($_POST["duration"]) and isset($_POST["genres_id"]) and isset($_POST["trailer_link"])) {
+        if(isset($_POST["type"]) and $_POST["type"] == "movies" and isset($_POST["id"]) and isset($_POST["title"]) and isset($_POST["overview"]) and isset($_POST["release_date"]) and isset($_POST["duration"]) and isset($_POST["genres_id"]) and isset($_POST["trailer_link"])) {
             $date = explode('-', $_POST["release_date"]);
             if (
                 empty($_POST) or
@@ -101,6 +117,35 @@
                 $users = $modelUser->getUsers();
                 require("views/admin.php");
             }
+
+        } else if (isset($_POST["type"]) and $_POST["type"] == "users" and isset($_POST["username"]) and isset($_POST["email"])) {
+            if (
+                empty($_POST) or
+                mb_strlen($_POST["username"]) < 3 or
+                mb_strlen($_POST["username"]) > 32 or
+                !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)
+            ) {
+                http_response_code(400);
+                $_SESSION['message'] = "You have entered invalid information. Please try again.";
+                require("views/editusers.php");
+                die();
+            }
+
+            $editUser = $modelUser->editUser($_POST["username"], $_POST["email"], $_POST["id"]);
+
+            if($editUser) {
+                $_SESSION['message'] = "An error has occurred. Please try again.";
+                http_response_code(500);
+                $getMovies = $model->getMovies();
+                $users = $modelUser->getUsers();
+                require("views/admin.php");
+            } else {
+                $_SESSION['message'] = "User edited successfully.";
+                http_response_code(202);
+                $getMovies = $model->getMovies();
+                $users = $modelUser->getUsers();
+                require("views/admin.php");
+            }   
 
         } else {
             if (
