@@ -12,7 +12,7 @@
 <body>
     <?php include("views/header.php"); ?>
 
-    <div class="container card">
+    <div class="container card padding-bottom">
         <div class="movieslideshow__header">
             <h2><?php echo $userComment["title"]; ?></h2>
             <div class="movieslideshow__bar"></div>

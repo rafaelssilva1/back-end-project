@@ -32,13 +32,14 @@
         } else {
             if (
                 empty($_POST) or
-                mb_strlen($_POST["comment_text"]) < 0 or
+                mb_strlen($_POST["comment_text"]) < 1 or
                 mb_strlen($_POST["comment_text"]) > 65535 or
                 intval($_POST["rating"]) < 1 or
                 intval($_POST["rating"]) > 10
             ) {
                 http_response_code(400);
-                header("Location: /movies/".$id);
+                $message = "Comments must be longer than one character.";
+                require("views/edit.php");
             }
 
             $editComment = $model->editComment($_POST["comment_text"], $_POST["rating"], $userPayload["user_id"], $id);
