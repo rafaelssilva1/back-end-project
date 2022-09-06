@@ -30,13 +30,13 @@
 
                     return $fileNewName;
                 } else {
-                    $_SESSION["message"] = "Your file is too big.";
+                    $message = "Your file is too big.";
                 }
             } else {
-                $_SESSION["message"] = "There was an error uploading your file";
+                $message = "There was an error uploading your file";
             }
         } else {
-            $_SESSION["message"] = "You cannot upload files of this type.";
+            $message = "You cannot upload files of this type.";
         }
     }
     
@@ -95,7 +95,7 @@
                 mb_strlen($_POST["trailer_link"]) != 11
             ) {
                 http_response_code(400);
-                $_SESSION['message'] = "You have entered invalid information. Please try again.";
+                $message = "You have entered invalid information. Please try again.";
                 $getMovies = $model->getMovies();
                 $users = $modelUser->getUsers();
                 require("views/admin.php");
@@ -105,13 +105,13 @@
             $updateMovie = $model->editMovie($_POST["title"], $_POST["overview"], $_POST["release_date"], $_POST["duration"], $_POST["genres_id"], $_POST["trailer_link"], validateFile($_FILES["backdrop_path"], "backdrop_path"), validateFile($_FILES["poster_path"], "poster_path"), $_POST["id"]);
 
             if(!$updateMovie) {
-                $_SESSION['message'] = "An error has occurred. Please try again.";
+                $message = "An error has occurred. Please try again.";
                 http_response_code(500);
                 $getMovies = $model->getMovies();
                 $users = $modelUser->getUsers();
                 require("views/admin.php");
             } else {
-                $_SESSION['message'] = "Movie edited successfully.";
+                $message = "Movie edited successfully.";
                 http_response_code(202);
                 $getMovies = $model->getMovies();
                 $users = $modelUser->getUsers();
@@ -126,7 +126,7 @@
                 !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)
             ) {
                 http_response_code(400);
-                $_SESSION['message'] = "You have entered invalid information. Please try again.";
+                $message = "You have entered invalid information. Please try again.";
                 require("views/editusers.php");
                 die();
             }
@@ -134,13 +134,13 @@
             $editUser = $modelUser->editUser($_POST["username"], $_POST["email"], $_POST["id"]);
 
             if($editUser) {
-                $_SESSION['message'] = "An error has occurred. Please try again.";
+                $message = "An error has occurred. Please try again.";
                 http_response_code(500);
                 $getMovies = $model->getMovies();
                 $users = $modelUser->getUsers();
                 require("views/admin.php");
             } else {
-                $_SESSION['message'] = "User edited successfully.";
+                $message = "User edited successfully.";
                 http_response_code(202);
                 $getMovies = $model->getMovies();
                 $users = $modelUser->getUsers();
@@ -152,7 +152,7 @@
                 empty($_POST)
             ) {
                 http_response_code(400);
-                $_SESSION['message'] = "You have entered invalid information. Please try again.";
+                $message = "You have entered invalid information. Please try again.";
                 $getMovies = $model->getMovies();
                 $users = $modelUser->getUsers();
                 require("views/admin.php");
@@ -162,7 +162,7 @@
             $createMovie = $model->createMovie($_POST["title"], $_POST["overview"], $_POST["release_date"], $_POST["duration"], $_POST["genres_id"], $_POST["trailer_link"], validateFile($_FILES["backdrop_path"], "backdrop_path"), validateFile($_FILES["poster_path"], "poster_path"));
             
             if(!$createMovie) {
-                $_SESSION['message'] = "An error has occurred. Please try again.";
+                $message = "An error has occurred. Please try again.";
                 http_response_code(500);
                 $getMovies = $model->getMovies();
                 $users = $modelUser->getUsers();

@@ -32,7 +32,7 @@
             $movies = $model->searchMovies($_GET["filter"], $offset);
 
             if(!$movies) {
-                $_SESSION["message"] = "No results were found. Try another search.";
+                $message = "No results were found. Try another search.";
             }
 
             require("views/search.php");
@@ -66,7 +66,7 @@
             $movies = $model->getMoviesByGenre($offset, $_GET["genres"]);
 
             if(!$movies) {
-                $_SESSION["message"] = "There are no movies in this category.";
+                $message = "There are no movies in this category.";
             }
 
             require("views/search.php");

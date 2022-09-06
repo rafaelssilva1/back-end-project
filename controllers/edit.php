@@ -26,7 +26,7 @@
         $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
 
         if(!$userComment) {
-            $_SESSION['message'] = "An error has occurred. Please try again.";
+            $message = "An error has occurred. Please try again.";
             http_response_code(500);
             require("views/edit.php");
         } else {
@@ -44,12 +44,12 @@
             $editComment = $model->editComment($_POST["comment_text"], $_POST["rating"], $userPayload["user_id"], $id);
 
             if(!$editComment) {
-                $_SESSION['message'] = "An error has occurred. Please try again.";
+                $message = "An error has occurred. Please try again.";
                 $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
                 http_response_code(500);
                 require("views/edit.php");
             } else {
-                $_SESSION['message'] = "Review edited successfully.";
+                $message = "Review edited successfully.";
                 $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
                 http_response_code(202);
                 require("views/edit.php");

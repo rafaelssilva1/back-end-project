@@ -82,7 +82,7 @@
                 <button type="submit" class="button review__submit">Change Password</button> 
             </form>
         </div>
-        <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
+        <?php if(isset($message)) { echo '<p class="login__message">'.$message.'</p>'; } ?>
 
         
         <div class="delete_ownaccount_div">

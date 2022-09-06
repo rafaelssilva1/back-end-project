@@ -84,7 +84,7 @@
                     Cancel
                 </a>
             </div>
-            <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
+            <?php if(isset($message)) { echo '<p class="login__message">'.$message.'</p>'; } ?>
         </form>
         <div class="movieslideshow__header">
             <h2>Manage Movies</h2>

@@ -154,7 +154,7 @@
                                 <input type="hidden" name="movie_id" value="<?php echo $id ?>">
                                 <button type="submit" class="button review__submit">Submit review</button>
                             </form>
-                            <?php if(isset($_SESSION["message"])) { echo '<p class="login__message">'.$_SESSION['message'].'</p>'; } ?>
+                            <?php if(isset($message)) { echo '<p class="login__message">'.$message.'</p>'; } ?>
                         <?php
                     } else {
                         ?>
