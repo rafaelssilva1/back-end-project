@@ -7,21 +7,20 @@
 
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         $userPayload = $model->checkAuthToken();
-        if(!empty($id)) {
-            $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
-            require("views/edit.php");
-        } else {
-            header("Location: /login/");
-        }
-    }
-
-    else if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
-        $userPayload = $model->checkAuthToken();
 
         if(!isset($userPayload)) {
             http_response_code(401);
             header("Location: /login/");
         }
+
+        if(!empty($id)) {
+            $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
+            require("views/edit.php");
+        }
+    }
+
+    else if( $_SERVER["REQUEST_METHOD"] === "POST" ) {
+        $userPayload = $model->checkAuthToken();
 
         $userComment = $model->getCommentByUserAndMovie($userPayload["user_id"], $id);
 

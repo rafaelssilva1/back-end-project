@@ -9,21 +9,25 @@
     $offset = 0;
     $maxOffset = 0;
     $targetOffset = 12;
-    if(isset($_GET["genres"])) {
-        $moviesCount = $model->getMoviesCountByGenre($_GET["genres"]); 
-    } else {
-        $moviesCount = $model->countMoviesFromSearch($_GET["filter"]);
-    }
     $disableNext = false;
     $disablePrevious = false;
     
     if( $_SERVER["REQUEST_METHOD"] === "GET" ) {
         $userPayload = $model->checkAuthToken();
 
+        if(isset($_GET["genres"])) {
+            $moviesCount = $model->getMoviesCountByGenre($_GET["genres"]); 
+        }
+        if(isset($_GET["filter"])) {
+            $moviesCount = $model->countMoviesFromSearch($_GET["filter"]);
+        } else {
+            require("views/404.php");
+        }
+
         if(!isset($_GET["page"]) and isset($_GET["filter"])) {
             if (
                 mb_strlen($_GET["filter"]) < 0 or
-                mb_strlen($_GET["filter"]) > 65535
+                mb_strlen($_GET["filter"]) > 255
             ) {
                 http_response_code(400);
                 die();
