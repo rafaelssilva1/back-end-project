@@ -20,8 +20,11 @@
         }
         if(isset($_GET["filter"])) {
             $moviesCount = $model->countMoviesFromSearch($_GET["filter"]);
-        } else {
+        }
+        if(empty($id)) {
+            http_response_code(404);
             require("views/404.php");
+            die();
         }
 
         if(!isset($_GET["page"]) and isset($_GET["filter"])) {
